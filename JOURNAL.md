@@ -103,3 +103,10 @@ observed); graph recovery cannot assume API JSON is a complete database backup.
 
 Tests remain research experiments: every transaction rolls back, permissions and
 concurrent recovery were not qualified. No production recovery endpoint was added.
+
+Completed the accidental-deletion runbook, comparison of eligible and restricted
+prior work, and proposed recovery-plugin boundary. Recommend same-ID restoration
+with conflict refusal using NetBox internals, retaining REST recreation and backup
+extraction as explicitly classified fallbacks. The full graph, permissions,
+concurrency and durability qualification remains work for the next implementation;
+this research does not claim those guarantees. No restricted code was adopted.

@@ -20,3 +20,7 @@ The patched SDK is the leading broad integration candidate from these bounded te
 This is a tested research prototype, not a production service. Graph restoration, transactional command receipts, scalable independently administered archival storage, and reliable model behavior remain explicit follow-on work. The original approval-oriented research remains available as historical context; the implemented spikes follow the later trusted-write requirement.
 
 The primary lab UI is at `http://127.0.0.1:18780/` while running. Username: `spike-admin`; its generated password is in ignored `.lab/secrets.json` under `admin_password`. Run `python3 lab/lab.py stop` to stop lab services while preserving data. Existing unrelated Podman workloads are untouched.
+
+## Deletion recovery follow-up
+
+[Accidental deletion research and plugin recommendation](research/deletion-recovery.md), with a [14-test NetBox 4.7.1 spike](spikes/deletion-recovery/README.md), investigates original-ID restoration, cascades, relationships, and existing tools.
