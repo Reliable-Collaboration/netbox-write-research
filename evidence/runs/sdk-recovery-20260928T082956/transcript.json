@@ -1,0 +1,527 @@
+[
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "method": "initialize",
+      "params": {
+        "protocolVersion": "2024-11-05",
+        "capabilities": {},
+        "clientInfo": {
+          "name": "nbai-spike",
+          "version": "0.1"
+        }
+      }
+    },
+    "response": {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "result": {
+        "protocolVersion": "2024-11-05",
+        "capabilities": {
+          "experimental": {},
+          "prompts": {
+            "listChanged": false
+          },
+          "resources": {
+            "subscribe": false,
+            "listChanged": false
+          },
+          "tools": {
+            "listChanged": false
+          }
+        },
+        "serverInfo": {
+          "name": "netbox-sdk",
+          "version": "1.30.0"
+        },
+        "instructions": "Inspect groups, resources, and operations before calling NetBox. Preview every write with dry_run before enabling and executing mutations."
+      }
+    },
+    "seconds": 1.1212980769996648
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 2,
+      "method": "tools/call",
+      "params": {
+        "name": "patch",
+        "arguments": {
+          "group": "dcim",
+          "resource": "devices",
+          "payload": {
+            "description": "SDK recovery B",
+            "changelog_message": "nbai:4536d8b1-b0fd-42da-8f51-4da0c1f5c70d"
+          },
+          "id": 2
+        }
+      }
+    },
+    "response": {
+      "jsonrpc": "2.0",
+      "id": 2,
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"status\": 200,\n  \"headers\": {\n    \"Content-Type\": \"application/json\",\n    \"Etag\": \"W/\\\"2026-09-28T13:29:57.824604+00:00\\\"\",\n    \"Vary\": \"HX-Request, Accept-Language, Cookie, origin\",\n    \"Allow\": \"GET, PUT, PATCH, DELETE, HEAD, OPTIONS\",\n    \"x-request-id\": \"b23c94c3-531e-4007-b047-a9998b041056\",\n    \"api-version\": \"4.6\",\n    \"x-content-type-options\": \"nosniff\",\n    \"referrer-policy\": \"same-origin\",\n    \"cross-origin-opener-policy\": \"same-origin\",\n    \"x-frame-options\": \"SAMEORIGIN\",\n    \"Content-Length\": \"1749\",\n    \"Content-Language\": \"en\",\n    \"Server\": \"granian\",\n    \"Date\": \"Mon, 28 Sep 2026 13:29:57 GMT\"\n  },\n  \"body\": {\n    \"id\": 2,\n    \"url\": \"http://nbai-spike-netbox:8080/api/dcim/devices/2/\",\n    \"display_url\": \"http://nbai-spike-netbox:8080/dcim/devices/2/\",\n    \"display\": \"spike-sdk\",\n    \"name\": \"spike-sdk\",\n    \"device_type\": {\n      \"id\": 1,\n      \"url\": \"http://nbai-spike-netbox:8080/api/dcim/device-types/1/\",\n      \"display\": \"Spike Model\",\n      \"manufacturer\": {\n        \"id\": 1,\n        \"url\": \"http://nbai-spike-netbox:8080/api/dcim/manufacturers/1/\",\n        \"display\": \"Spike Maker\",\n        \"name\": \"Spike Maker\",\n        \"slug\": \"spike-maker\",\n        \"description\": \"\"\n      },\n      \"model\": \"Spike Model\",\n      \"slug\": \"spike-model\",\n      \"description\": \"\",\n      \"device_count\": 5\n    },\n    \"role\": {\n      \"id\": 1,\n      \"url\": \"http://nbai-spike-netbox:8080/api/dcim/device-roles/1/\",\n      \"display\": \"Spike Role\",\n      \"name\": \"Spike Role\",\n      \"slug\": \"spike-role\",\n      \"description\": \"\",\n      \"device_count\": 0,\n      \"virtualmachine_count\": 0,\n      \"_depth\": 0\n    },\n    \"tenant\": null,\n    \"platform\": null,\n    \"serial\": \"\",\n    \"asset_tag\": null,\n    \"site\": {\n      \"id\": 1,\n      \"url\": \"http://nbai-spike-netbox:8080/api/dcim/sites/1/\",\n      \"display\": \"Spike Site\",\n      \"name\": \"Spike Site\",\n      \"slug\": \"spike-site\",\n      \"description\": \"\"\n    },\n    \"location\": null,\n    \"rack\": null,\n    \"position\": null,\n    \"face\": null,\n    \"latitude\": null,\n    \"longitude\": null,\n    \"parent_device\": null,\n    \"status\": {\n      \"value\": \"active\",\n      \"label\": \"Active\"\n    },\n    \"airflow\": null,\n    \"primary_ip\": null,\n    \"primary_ip4\": null,\n    \"primary_ip6\": null,\n    \"oob_ip\": null,\n    \"cluster\": null,\n    \"virtual_chassis\": null,\n    \"vc_position\": null,\n    \"vc_priority\": null,\n    \"description\": \"SDK recovery B\",\n    \"owner\": null,\n    \"comments\": \"\",\n    \"config_template\": null,\n    \"config_context\": {},\n    \"local_context_data\": null,\n    \"tags\": [],\n    \"custom_fields\": {\n      \"spike_flag\": null\n    },\n    \"created\": \"2026-09-28T13:16:40.108494Z\",\n    \"last_updated\": \"2026-09-28T13:29:57.824604Z\",\n    \"console_port_count\": 0,\n    \"console_server_port_count\": 0,\n    \"power_port_count\": 0,\n    \"power_outlet_count\": 0,\n    \"interface_count\": 0,\n    \"front_port_count\": 0,\n    \"rear_port_count\": 0,\n    \"device_bay_count\": 0,\n    \"module_bay_count\": 0,\n    \"inventory_item_count\": 0\n  }\n}"
+          }
+        ],
+        "structuredContent": {
+          "status": 200,
+          "headers": {
+            "content-type": "application/json",
+            "etag": "W/\"2026-09-28T13:29:57.824604+00:00\"",
+            "vary": "HX-Request, Accept-Language, Cookie, origin",
+            "allow": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS",
+            "x-request-id": "b23c94c3-531e-4007-b047-a9998b041056",
+            "api-version": "4.6",
+            "x-content-type-options": "nosniff",
+            "referrer-policy": "same-origin",
+            "cross-origin-opener-policy": "same-origin",
+            "x-frame-options": "SAMEORIGIN",
+            "content-length": "1749",
+            "content-language": "en",
+            "server": "granian",
+            "date": "Mon, 28 Sep 2026 13:29:57 GMT"
+          },
+          "body": {
+            "id": 2,
+            "url": "http://nbai-spike-netbox:8080/api/dcim/devices/2/",
+            "display_url": "http://nbai-spike-netbox:8080/dcim/devices/2/",
+            "display": "spike-sdk",
+            "name": "spike-sdk",
+            "device_type": {
+              "id": 1,
+              "url": "http://nbai-spike-netbox:8080/api/dcim/device-types/1/",
+              "display": "Spike Model",
+              "manufacturer": {
+                "id": 1,
+                "url": "http://nbai-spike-netbox:8080/api/dcim/manufacturers/1/",
+                "display": "Spike Maker",
+                "name": "Spike Maker",
+                "slug": "spike-maker",
+                "description": ""
+              },
+              "model": "Spike Model",
+              "slug": "spike-model",
+              "description": "",
+              "device_count": 5
+            },
+            "role": {
+              "id": 1,
+              "url": "http://nbai-spike-netbox:8080/api/dcim/device-roles/1/",
+              "display": "Spike Role",
+              "name": "Spike Role",
+              "slug": "spike-role",
+              "description": "",
+              "device_count": 0,
+              "virtualmachine_count": 0,
+              "_depth": 0
+            },
+            "tenant": null,
+            "platform": null,
+            "serial": "",
+            "asset_tag": null,
+            "site": {
+              "id": 1,
+              "url": "http://nbai-spike-netbox:8080/api/dcim/sites/1/",
+              "display": "Spike Site",
+              "name": "Spike Site",
+              "slug": "spike-site",
+              "description": ""
+            },
+            "location": null,
+            "rack": null,
+            "position": null,
+            "face": null,
+            "latitude": null,
+            "longitude": null,
+            "parent_device": null,
+            "status": {
+              "value": "active",
+              "label": "Active"
+            },
+            "airflow": null,
+            "primary_ip": null,
+            "primary_ip4": null,
+            "primary_ip6": null,
+            "oob_ip": null,
+            "cluster": null,
+            "virtual_chassis": null,
+            "vc_position": null,
+            "vc_priority": null,
+            "description": "SDK recovery B",
+            "owner": null,
+            "comments": "",
+            "config_template": null,
+            "config_context": {},
+            "local_context_data": null,
+            "tags": [],
+            "custom_fields": {
+              "spike_flag": null
+            },
+            "created": "2026-09-28T13:16:40.108494Z",
+            "last_updated": "2026-09-28T13:29:57.824604Z",
+            "console_port_count": 0,
+            "console_server_port_count": 0,
+            "power_port_count": 0,
+            "power_outlet_count": 0,
+            "interface_count": 0,
+            "front_port_count": 0,
+            "rear_port_count": 0,
+            "device_bay_count": 0,
+            "module_bay_count": 0,
+            "inventory_item_count": 0
+          }
+        },
+        "isError": false
+      }
+    },
+    "seconds": 0.4558794479999051
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 3,
+      "method": "tools/call",
+      "params": {
+        "name": "patch",
+        "arguments": {
+          "group": "dcim",
+          "resource": "devices",
+          "payload": {
+            "description": "SDK recovery A",
+            "changelog_message": "nbai:52cfec6f-84fb-4df4-b646-f75cd2002e70"
+          },
+          "id": 2,
+          "header": [
+            "If-Match: W/\"2026-09-28T13:29:58.129901+00:00\""
+          ]
+        }
+      }
+    },
+    "response": {
+      "jsonrpc": "2.0",
+      "id": 3,
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"status\": 200,\n  \"headers\": {\n    \"Content-Type\": \"application/json\",\n    \"Etag\": \"W/\\\"2026-09-28T13:29:58.664157+00:00\\\"\",\n    \"Vary\": \"HX-Request, Accept-Language, Cookie, origin\",\n    \"Allow\": \"GET, PUT, PATCH, DELETE, HEAD, OPTIONS\",\n    \"x-request-id\": \"623547ed-2129-4dd1-ac07-160d831b1ef3\",\n    \"api-version\": \"4.6\",\n    \"x-content-type-options\": \"nosniff\",\n    \"referrer-policy\": \"same-origin\",\n    \"cross-origin-opener-policy\": \"same-origin\",\n    \"x-frame-options\": \"SAMEORIGIN\",\n    \"Content-Length\": \"1768\",\n    \"Content-Language\": \"en\",\n    \"Server\": \"granian\",\n    \"Date\": \"Mon, 28 Sep 2026 13:29:58 GMT\"\n  },\n  \"body\": {\n    \"id\": 2,\n    \"url\": \"http://nbai-spike-netbox:8080/api/dcim/devices/2/\",\n    \"display_url\": \"http://nbai-spike-netbox:8080/dcim/devices/2/\",\n    \"display\": \"spike-sdk\",\n    \"name\": \"spike-sdk\",\n    \"device_type\": {\n      \"id\": 1,\n      \"url\": \"http://nbai-spike-netbox:8080/api/dcim/device-types/1/\",\n      \"display\": \"Spike Model\",\n      \"manufacturer\": {\n        \"id\": 1,\n        \"url\": \"http://nbai-spike-netbox:8080/api/dcim/manufacturers/1/\",\n        \"display\": \"Spike Maker\",\n        \"name\": \"Spike Maker\",\n        \"slug\": \"spike-maker\",\n        \"description\": \"\"\n      },\n      \"model\": \"Spike Model\",\n      \"slug\": \"spike-model\",\n      \"description\": \"\",\n      \"device_count\": 5\n    },\n    \"role\": {\n      \"id\": 1,\n      \"url\": \"http://nbai-spike-netbox:8080/api/dcim/device-roles/1/\",\n      \"display\": \"Spike Role\",\n      \"name\": \"Spike Role\",\n      \"slug\": \"spike-role\",\n      \"description\": \"\",\n      \"device_count\": 0,\n      \"virtualmachine_count\": 0,\n      \"_depth\": 0\n    },\n    \"tenant\": null,\n    \"platform\": null,\n    \"serial\": \"external-new-serial\",\n    \"asset_tag\": null,\n    \"site\": {\n      \"id\": 1,\n      \"url\": \"http://nbai-spike-netbox:8080/api/dcim/sites/1/\",\n      \"display\": \"Spike Site\",\n      \"name\": \"Spike Site\",\n      \"slug\": \"spike-site\",\n      \"description\": \"\"\n    },\n    \"location\": null,\n    \"rack\": null,\n    \"position\": null,\n    \"face\": null,\n    \"latitude\": null,\n    \"longitude\": null,\n    \"parent_device\": null,\n    \"status\": {\n      \"value\": \"active\",\n      \"label\": \"Active\"\n    },\n    \"airflow\": null,\n    \"primary_ip\": null,\n    \"primary_ip4\": null,\n    \"primary_ip6\": null,\n    \"oob_ip\": null,\n    \"cluster\": null,\n    \"virtual_chassis\": null,\n    \"vc_position\": null,\n    \"vc_priority\": null,\n    \"description\": \"SDK recovery A\",\n    \"owner\": null,\n    \"comments\": \"\",\n    \"config_template\": null,\n    \"config_context\": {},\n    \"local_context_data\": null,\n    \"tags\": [],\n    \"custom_fields\": {\n      \"spike_flag\": null\n    },\n    \"created\": \"2026-09-28T13:16:40.108494Z\",\n    \"last_updated\": \"2026-09-28T13:29:58.664157Z\",\n    \"console_port_count\": 0,\n    \"console_server_port_count\": 0,\n    \"power_port_count\": 0,\n    \"power_outlet_count\": 0,\n    \"interface_count\": 0,\n    \"front_port_count\": 0,\n    \"rear_port_count\": 0,\n    \"device_bay_count\": 0,\n    \"module_bay_count\": 0,\n    \"inventory_item_count\": 0\n  }\n}"
+          }
+        ],
+        "structuredContent": {
+          "status": 200,
+          "headers": {
+            "content-type": "application/json",
+            "etag": "W/\"2026-09-28T13:29:58.664157+00:00\"",
+            "vary": "HX-Request, Accept-Language, Cookie, origin",
+            "allow": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS",
+            "x-request-id": "623547ed-2129-4dd1-ac07-160d831b1ef3",
+            "api-version": "4.6",
+            "x-content-type-options": "nosniff",
+            "referrer-policy": "same-origin",
+            "cross-origin-opener-policy": "same-origin",
+            "x-frame-options": "SAMEORIGIN",
+            "content-length": "1768",
+            "content-language": "en",
+            "server": "granian",
+            "date": "Mon, 28 Sep 2026 13:29:58 GMT"
+          },
+          "body": {
+            "id": 2,
+            "url": "http://nbai-spike-netbox:8080/api/dcim/devices/2/",
+            "display_url": "http://nbai-spike-netbox:8080/dcim/devices/2/",
+            "display": "spike-sdk",
+            "name": "spike-sdk",
+            "device_type": {
+              "id": 1,
+              "url": "http://nbai-spike-netbox:8080/api/dcim/device-types/1/",
+              "display": "Spike Model",
+              "manufacturer": {
+                "id": 1,
+                "url": "http://nbai-spike-netbox:8080/api/dcim/manufacturers/1/",
+                "display": "Spike Maker",
+                "name": "Spike Maker",
+                "slug": "spike-maker",
+                "description": ""
+              },
+              "model": "Spike Model",
+              "slug": "spike-model",
+              "description": "",
+              "device_count": 5
+            },
+            "role": {
+              "id": 1,
+              "url": "http://nbai-spike-netbox:8080/api/dcim/device-roles/1/",
+              "display": "Spike Role",
+              "name": "Spike Role",
+              "slug": "spike-role",
+              "description": "",
+              "device_count": 0,
+              "virtualmachine_count": 0,
+              "_depth": 0
+            },
+            "tenant": null,
+            "platform": null,
+            "serial": "external-new-serial",
+            "asset_tag": null,
+            "site": {
+              "id": 1,
+              "url": "http://nbai-spike-netbox:8080/api/dcim/sites/1/",
+              "display": "Spike Site",
+              "name": "Spike Site",
+              "slug": "spike-site",
+              "description": ""
+            },
+            "location": null,
+            "rack": null,
+            "position": null,
+            "face": null,
+            "latitude": null,
+            "longitude": null,
+            "parent_device": null,
+            "status": {
+              "value": "active",
+              "label": "Active"
+            },
+            "airflow": null,
+            "primary_ip": null,
+            "primary_ip4": null,
+            "primary_ip6": null,
+            "oob_ip": null,
+            "cluster": null,
+            "virtual_chassis": null,
+            "vc_position": null,
+            "vc_priority": null,
+            "description": "SDK recovery A",
+            "owner": null,
+            "comments": "",
+            "config_template": null,
+            "config_context": {},
+            "local_context_data": null,
+            "tags": [],
+            "custom_fields": {
+              "spike_flag": null
+            },
+            "created": "2026-09-28T13:16:40.108494Z",
+            "last_updated": "2026-09-28T13:29:58.664157Z",
+            "console_port_count": 0,
+            "console_server_port_count": 0,
+            "power_port_count": 0,
+            "power_outlet_count": 0,
+            "interface_count": 0,
+            "front_port_count": 0,
+            "rear_port_count": 0,
+            "device_bay_count": 0,
+            "module_bay_count": 0,
+            "inventory_item_count": 0
+          }
+        },
+        "isError": false
+      }
+    },
+    "seconds": 0.17202767199887603
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 4,
+      "method": "tools/call",
+      "params": {
+        "name": "patch",
+        "arguments": {
+          "group": "dcim",
+          "resource": "devices",
+          "payload": {
+            "description": "race-B",
+            "changelog_message": "nbai:07065d44-eadb-4f10-9670-2ec67f2d0e5b"
+          },
+          "id": 2
+        }
+      }
+    },
+    "response": {
+      "jsonrpc": "2.0",
+      "id": 4,
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"status\": 200,\n  \"headers\": {\n    \"Content-Type\": \"application/json\",\n    \"Etag\": \"W/\\\"2026-09-28T13:29:59.052832+00:00\\\"\",\n    \"Vary\": \"HX-Request, Accept-Language, Cookie, origin\",\n    \"Allow\": \"GET, PUT, PATCH, DELETE, HEAD, OPTIONS\",\n    \"x-request-id\": \"088dc0d5-76d5-45a3-af18-19ccf67f2095\",\n    \"api-version\": \"4.6\",\n    \"x-content-type-options\": \"nosniff\",\n    \"referrer-policy\": \"same-origin\",\n    \"cross-origin-opener-policy\": \"same-origin\",\n    \"x-frame-options\": \"SAMEORIGIN\",\n    \"Content-Length\": \"1760\",\n    \"Content-Language\": \"en\",\n    \"Server\": \"granian\",\n    \"Date\": \"Mon, 28 Sep 2026 13:29:59 GMT\"\n  },\n  \"body\": {\n    \"id\": 2,\n    \"url\": \"http://nbai-spike-netbox:8080/api/dcim/devices/2/\",\n    \"display_url\": \"http://nbai-spike-netbox:8080/dcim/devices/2/\",\n    \"display\": \"spike-sdk\",\n    \"name\": \"spike-sdk\",\n    \"device_type\": {\n      \"id\": 1,\n      \"url\": \"http://nbai-spike-netbox:8080/api/dcim/device-types/1/\",\n      \"display\": \"Spike Model\",\n      \"manufacturer\": {\n        \"id\": 1,\n        \"url\": \"http://nbai-spike-netbox:8080/api/dcim/manufacturers/1/\",\n        \"display\": \"Spike Maker\",\n        \"name\": \"Spike Maker\",\n        \"slug\": \"spike-maker\",\n        \"description\": \"\"\n      },\n      \"model\": \"Spike Model\",\n      \"slug\": \"spike-model\",\n      \"description\": \"\",\n      \"device_count\": 5\n    },\n    \"role\": {\n      \"id\": 1,\n      \"url\": \"http://nbai-spike-netbox:8080/api/dcim/device-roles/1/\",\n      \"display\": \"Spike Role\",\n      \"name\": \"Spike Role\",\n      \"slug\": \"spike-role\",\n      \"description\": \"\",\n      \"device_count\": 0,\n      \"virtualmachine_count\": 0,\n      \"_depth\": 0\n    },\n    \"tenant\": null,\n    \"platform\": null,\n    \"serial\": \"external-new-serial\",\n    \"asset_tag\": null,\n    \"site\": {\n      \"id\": 1,\n      \"url\": \"http://nbai-spike-netbox:8080/api/dcim/sites/1/\",\n      \"display\": \"Spike Site\",\n      \"name\": \"Spike Site\",\n      \"slug\": \"spike-site\",\n      \"description\": \"\"\n    },\n    \"location\": null,\n    \"rack\": null,\n    \"position\": null,\n    \"face\": null,\n    \"latitude\": null,\n    \"longitude\": null,\n    \"parent_device\": null,\n    \"status\": {\n      \"value\": \"active\",\n      \"label\": \"Active\"\n    },\n    \"airflow\": null,\n    \"primary_ip\": null,\n    \"primary_ip4\": null,\n    \"primary_ip6\": null,\n    \"oob_ip\": null,\n    \"cluster\": null,\n    \"virtual_chassis\": null,\n    \"vc_position\": null,\n    \"vc_priority\": null,\n    \"description\": \"race-B\",\n    \"owner\": null,\n    \"comments\": \"\",\n    \"config_template\": null,\n    \"config_context\": {},\n    \"local_context_data\": null,\n    \"tags\": [],\n    \"custom_fields\": {\n      \"spike_flag\": null\n    },\n    \"created\": \"2026-09-28T13:16:40.108494Z\",\n    \"last_updated\": \"2026-09-28T13:29:59.052832Z\",\n    \"console_port_count\": 0,\n    \"console_server_port_count\": 0,\n    \"power_port_count\": 0,\n    \"power_outlet_count\": 0,\n    \"interface_count\": 0,\n    \"front_port_count\": 0,\n    \"rear_port_count\": 0,\n    \"device_bay_count\": 0,\n    \"module_bay_count\": 0,\n    \"inventory_item_count\": 0\n  }\n}"
+          }
+        ],
+        "structuredContent": {
+          "status": 200,
+          "headers": {
+            "content-type": "application/json",
+            "etag": "W/\"2026-09-28T13:29:59.052832+00:00\"",
+            "vary": "HX-Request, Accept-Language, Cookie, origin",
+            "allow": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS",
+            "x-request-id": "088dc0d5-76d5-45a3-af18-19ccf67f2095",
+            "api-version": "4.6",
+            "x-content-type-options": "nosniff",
+            "referrer-policy": "same-origin",
+            "cross-origin-opener-policy": "same-origin",
+            "x-frame-options": "SAMEORIGIN",
+            "content-length": "1760",
+            "content-language": "en",
+            "server": "granian",
+            "date": "Mon, 28 Sep 2026 13:29:59 GMT"
+          },
+          "body": {
+            "id": 2,
+            "url": "http://nbai-spike-netbox:8080/api/dcim/devices/2/",
+            "display_url": "http://nbai-spike-netbox:8080/dcim/devices/2/",
+            "display": "spike-sdk",
+            "name": "spike-sdk",
+            "device_type": {
+              "id": 1,
+              "url": "http://nbai-spike-netbox:8080/api/dcim/device-types/1/",
+              "display": "Spike Model",
+              "manufacturer": {
+                "id": 1,
+                "url": "http://nbai-spike-netbox:8080/api/dcim/manufacturers/1/",
+                "display": "Spike Maker",
+                "name": "Spike Maker",
+                "slug": "spike-maker",
+                "description": ""
+              },
+              "model": "Spike Model",
+              "slug": "spike-model",
+              "description": "",
+              "device_count": 5
+            },
+            "role": {
+              "id": 1,
+              "url": "http://nbai-spike-netbox:8080/api/dcim/device-roles/1/",
+              "display": "Spike Role",
+              "name": "Spike Role",
+              "slug": "spike-role",
+              "description": "",
+              "device_count": 0,
+              "virtualmachine_count": 0,
+              "_depth": 0
+            },
+            "tenant": null,
+            "platform": null,
+            "serial": "external-new-serial",
+            "asset_tag": null,
+            "site": {
+              "id": 1,
+              "url": "http://nbai-spike-netbox:8080/api/dcim/sites/1/",
+              "display": "Spike Site",
+              "name": "Spike Site",
+              "slug": "spike-site",
+              "description": ""
+            },
+            "location": null,
+            "rack": null,
+            "position": null,
+            "face": null,
+            "latitude": null,
+            "longitude": null,
+            "parent_device": null,
+            "status": {
+              "value": "active",
+              "label": "Active"
+            },
+            "airflow": null,
+            "primary_ip": null,
+            "primary_ip4": null,
+            "primary_ip6": null,
+            "oob_ip": null,
+            "cluster": null,
+            "virtual_chassis": null,
+            "vc_position": null,
+            "vc_priority": null,
+            "description": "race-B",
+            "owner": null,
+            "comments": "",
+            "config_template": null,
+            "config_context": {},
+            "local_context_data": null,
+            "tags": [],
+            "custom_fields": {
+              "spike_flag": null
+            },
+            "created": "2026-09-28T13:16:40.108494Z",
+            "last_updated": "2026-09-28T13:29:59.052832Z",
+            "console_port_count": 0,
+            "console_server_port_count": 0,
+            "power_port_count": 0,
+            "power_outlet_count": 0,
+            "interface_count": 0,
+            "front_port_count": 0,
+            "rear_port_count": 0,
+            "device_bay_count": 0,
+            "module_bay_count": 0,
+            "inventory_item_count": 0
+          }
+        },
+        "isError": false
+      }
+    },
+    "seconds": 0.14457150300040666
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 5,
+      "method": "tools/call",
+      "params": {
+        "name": "patch",
+        "arguments": {
+          "group": "dcim",
+          "resource": "devices",
+          "payload": {
+            "description": "SDK recovery A",
+            "changelog_message": "nbai:06773d4e-c103-4613-9e57-c7d3ba71c417"
+          },
+          "id": 2,
+          "header": [
+            "If-Match: W/\"2026-09-28T13:29:59.052832+00:00\""
+          ]
+        }
+      }
+    },
+    "response": {
+      "jsonrpc": "2.0",
+      "id": 5,
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"status\": 412,\n  \"headers\": {\n    \"Content-Type\": \"application/json\",\n    \"Etag\": \"W/\\\"2026-09-28T13:29:59.673103+00:00\\\"\",\n    \"Vary\": \"HX-Request, Accept-Language, Cookie, origin\",\n    \"Allow\": \"GET, PUT, PATCH, DELETE, HEAD, OPTIONS\",\n    \"x-request-id\": \"8ef8de23-400f-483f-81f1-0ab947a219eb\",\n    \"api-version\": \"4.6\",\n    \"x-content-type-options\": \"nosniff\",\n    \"referrer-policy\": \"same-origin\",\n    \"cross-origin-opener-policy\": \"same-origin\",\n    \"x-frame-options\": \"SAMEORIGIN\",\n    \"Content-Length\": \"33\",\n    \"Content-Language\": \"en\",\n    \"Server\": \"granian\",\n    \"Date\": \"Mon, 28 Sep 2026 13:29:59 GMT\"\n  },\n  \"body\": {\n    \"detail\": \"Precondition failed.\"\n  }\n}"
+          }
+        ],
+        "structuredContent": {
+          "status": 412,
+          "headers": {
+            "content-type": "application/json",
+            "etag": "W/\"2026-09-28T13:29:59.673103+00:00\"",
+            "vary": "HX-Request, Accept-Language, Cookie, origin",
+            "allow": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS",
+            "x-request-id": "8ef8de23-400f-483f-81f1-0ab947a219eb",
+            "api-version": "4.6",
+            "x-content-type-options": "nosniff",
+            "referrer-policy": "same-origin",
+            "cross-origin-opener-policy": "same-origin",
+            "x-frame-options": "SAMEORIGIN",
+            "content-length": "33",
+            "content-language": "en",
+            "server": "granian",
+            "date": "Mon, 28 Sep 2026 13:29:59 GMT"
+          },
+          "body": {
+            "detail": "Precondition failed."
+          }
+        },
+        "isError": false
+      }
+    },
+    "seconds": 0.10689047199957713
+  }
+]

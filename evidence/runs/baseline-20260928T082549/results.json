@@ -1,0 +1,11 @@
+{
+  "tests": 8,
+  "success": false,
+  "failures": [],
+  "errors": [
+    [
+      "test_T04_structured_snapshot_values (__main__.Baseline.test_T04_structured_snapshot_values)",
+      "Traceback (most recent call last):\n  File \"/home/rcc-vstudio/working/netbox-write-research/lab/test_baseline.py\", line 38, in test_T04_structured_snapshot_values\n    change=self.api.all('core/object-changes/?request_id='+r['headers']['x-request-id'])[0]\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^\nIndexError: list index out of range\n"
+    ]
+  ]
+}

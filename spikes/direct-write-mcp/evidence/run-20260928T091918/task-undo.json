@@ -1,0 +1,70 @@
+{
+  "status": "undone",
+  "task_id": "7b2a037a-c048-430a-bde4-27e2bea88d0d",
+  "correction_task_id": "719a8dea-ac18-4e2c-8cdd-64ff56b40d9e",
+  "results": [
+    {
+      "status": "applied",
+      "original_operation_id": "542e4dc0-8228-4281-9ef9-dedd0eae288d",
+      "correction": {
+        "id": "6c07eec2-9574-4222-b361-9cb7482715a1",
+        "operation_key": "task-undo:542e4dc0-8228-4281-9ef9-dedd0eae288d:0",
+        "fingerprint": "38f3e4f33511f5219655881a952e294f042f4cf17a61e9bc0f12ee04e27bb74c",
+        "task_id": "719a8dea-ac18-4e2c-8cdd-64ff56b40d9e",
+        "device_id": 6,
+        "requested": {
+          "description": "B"
+        },
+        "before_values": {
+          "description": "C"
+        },
+        "after_values": {
+          "description": "B"
+        },
+        "before_etag": "W/\"2026-09-28T14:19:45.933908+00:00\"",
+        "state": "applied",
+        "request_id": "befdfdf2-37a6-46f6-99a2-370e39d17c36",
+        "native_id": 420,
+        "reverses": "542e4dc0-8228-4281-9ef9-dedd0eae288d",
+        "created": 1790605187.1257968,
+        "updated": 1790605187.501657,
+        "outcome": "applied",
+        "guidance": "Committed evidence verified; preview undo before correction."
+      },
+      "warning": null,
+      "external_effects": "Webhooks and downstream actions are not reversed."
+    },
+    {
+      "status": "applied",
+      "original_operation_id": "c5b08477-fe06-4fdd-959f-6e168f391e53",
+      "correction": {
+        "id": "b41c45a3-d462-4a6e-a603-164615ace0e5",
+        "operation_key": "task-undo:c5b08477-fe06-4fdd-959f-6e168f391e53:0",
+        "fingerprint": "bc805efb9ea098985990f7ff58d1e67ba75ef7a5f7e66ebc90db1cf0647b1d6b",
+        "task_id": "719a8dea-ac18-4e2c-8cdd-64ff56b40d9e",
+        "device_id": 6,
+        "requested": {
+          "description": "A"
+        },
+        "before_values": {
+          "description": "B"
+        },
+        "after_values": {
+          "description": "A"
+        },
+        "before_etag": "W/\"2026-09-28T14:19:47.232640+00:00\"",
+        "state": "applied",
+        "request_id": "b479d190-cfe5-4aa2-b7f0-b45444626aa6",
+        "native_id": 421,
+        "reverses": "c5b08477-fe06-4fdd-959f-6e168f391e53",
+        "created": 1790605188.4239252,
+        "updated": 1790605188.8069239,
+        "outcome": "applied",
+        "guidance": "Committed evidence verified; preview undo before correction."
+      },
+      "warning": null,
+      "external_effects": "Webhooks and downstream actions are not reversed."
+    }
+  ],
+  "atomic": false
+}

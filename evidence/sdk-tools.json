@@ -1,0 +1,1002 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "tools": [
+      {
+        "name": "list_groups",
+        "description": "List schema groups; live mode adds resources discovered from the configured instance.",
+        "inputSchema": {
+          "properties": {
+            "live": {
+              "default": false,
+              "title": "Live",
+              "type": "boolean"
+            },
+            "token": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Token"
+            }
+          },
+          "title": "list_groupsArguments",
+          "type": "object"
+        },
+        "outputSchema": {
+          "additionalProperties": true,
+          "title": "list_groupsDictOutput",
+          "type": "object"
+        }
+      },
+      {
+        "name": "list_resources",
+        "description": "List resources in one group using the shared CLI JSON contract.",
+        "inputSchema": {
+          "properties": {
+            "group": {
+              "title": "Group",
+              "type": "string"
+            },
+            "live": {
+              "default": false,
+              "title": "Live",
+              "type": "boolean"
+            },
+            "token": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Token"
+            }
+          },
+          "required": [
+            "group"
+          ],
+          "title": "list_resourcesArguments",
+          "type": "object"
+        },
+        "outputSchema": {
+          "additionalProperties": true,
+          "title": "list_resourcesDictOutput",
+          "type": "object"
+        }
+      },
+      {
+        "name": "describe_operation",
+        "description": "Describe a resource's operations and filter parameters.",
+        "inputSchema": {
+          "properties": {
+            "group": {
+              "title": "Group",
+              "type": "string"
+            },
+            "resource": {
+              "title": "Resource",
+              "type": "string"
+            },
+            "live": {
+              "default": false,
+              "title": "Live",
+              "type": "boolean"
+            },
+            "token": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Token"
+            }
+          },
+          "required": [
+            "group",
+            "resource"
+          ],
+          "title": "describe_operationArguments",
+          "type": "object"
+        },
+        "outputSchema": {
+          "additionalProperties": true,
+          "title": "describe_operationDictOutput",
+          "type": "object"
+        }
+      },
+      {
+        "name": "list",
+        "description": "List NetBox records, optionally following all pagination links.\n\nlive=True resolves the resource against the connected instance's\nschema (including runtime-discovered plugin resources) instead of\nthe server's bundled schema, matching describe_operation(live=True).\n",
+        "inputSchema": {
+          "properties": {
+            "group": {
+              "title": "Group",
+              "type": "string"
+            },
+            "resource": {
+              "title": "Resource",
+              "type": "string"
+            },
+            "query": {
+              "anyOf": [
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Query"
+            },
+            "all": {
+              "default": false,
+              "title": "All",
+              "type": "boolean"
+            },
+            "max_records": {
+              "default": 10000,
+              "title": "Max Records",
+              "type": "integer"
+            },
+            "header": {
+              "anyOf": [
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Header"
+            },
+            "live": {
+              "default": false,
+              "title": "Live",
+              "type": "boolean"
+            },
+            "token": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Token"
+            }
+          },
+          "required": [
+            "group",
+            "resource"
+          ],
+          "title": "list_recordsArguments",
+          "type": "object"
+        },
+        "outputSchema": {
+          "additionalProperties": true,
+          "title": "list_recordsDictOutput",
+          "type": "object"
+        }
+      },
+      {
+        "name": "get",
+        "description": "Get one NetBox record by positive integer ID.\n\nlive=True resolves the resource against the connected instance's\nschema (including runtime-discovered plugin resources) instead of\nthe server's bundled schema, matching describe_operation(live=True).\n",
+        "inputSchema": {
+          "properties": {
+            "group": {
+              "title": "Group",
+              "type": "string"
+            },
+            "resource": {
+              "title": "Resource",
+              "type": "string"
+            },
+            "id": {
+              "title": "Id",
+              "type": "integer"
+            },
+            "header": {
+              "anyOf": [
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Header"
+            },
+            "live": {
+              "default": false,
+              "title": "Live",
+              "type": "boolean"
+            },
+            "token": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Token"
+            }
+          },
+          "required": [
+            "group",
+            "resource",
+            "id"
+          ],
+          "title": "getArguments",
+          "type": "object"
+        },
+        "outputSchema": {
+          "additionalProperties": true,
+          "title": "getDictOutput",
+          "type": "object"
+        }
+      },
+      {
+        "name": "filters",
+        "description": "List local schema filter parameters without making an HTTP request.",
+        "inputSchema": {
+          "properties": {
+            "group": {
+              "title": "Group",
+              "type": "string"
+            },
+            "resource": {
+              "title": "Resource",
+              "type": "string"
+            }
+          },
+          "required": [
+            "group",
+            "resource"
+          ],
+          "title": "filtersArguments",
+          "type": "object"
+        },
+        "outputSchema": {
+          "additionalProperties": true,
+          "title": "filtersDictOutput",
+          "type": "object"
+        }
+      },
+      {
+        "name": "create",
+        "description": "Create a record. dry_run is a local preview, not server validation or proof of success.",
+        "inputSchema": {
+          "properties": {
+            "group": {
+              "title": "Group",
+              "type": "string"
+            },
+            "resource": {
+              "title": "Resource",
+              "type": "string"
+            },
+            "payload": {
+              "additionalProperties": true,
+              "title": "Payload",
+              "type": "object"
+            },
+            "dry_run": {
+              "default": false,
+              "title": "Dry Run",
+              "type": "boolean"
+            },
+            "header": {
+              "anyOf": [
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Header"
+            },
+            "token": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Token"
+            }
+          },
+          "required": [
+            "group",
+            "resource",
+            "payload"
+          ],
+          "title": "createArguments",
+          "type": "object"
+        },
+        "outputSchema": {
+          "additionalProperties": true,
+          "title": "createDictOutput",
+          "type": "object"
+        }
+      },
+      {
+        "name": "update",
+        "description": "Replace a record. dry_run is a local preview, not server validation or proof of success.",
+        "inputSchema": {
+          "properties": {
+            "group": {
+              "title": "Group",
+              "type": "string"
+            },
+            "resource": {
+              "title": "Resource",
+              "type": "string"
+            },
+            "id": {
+              "title": "Id",
+              "type": "integer"
+            },
+            "payload": {
+              "additionalProperties": true,
+              "title": "Payload",
+              "type": "object"
+            },
+            "dry_run": {
+              "default": false,
+              "title": "Dry Run",
+              "type": "boolean"
+            },
+            "header": {
+              "anyOf": [
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Header"
+            },
+            "token": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Token"
+            }
+          },
+          "required": [
+            "group",
+            "resource",
+            "id",
+            "payload"
+          ],
+          "title": "updateArguments",
+          "type": "object"
+        },
+        "outputSchema": {
+          "additionalProperties": true,
+          "title": "updateDictOutput",
+          "type": "object"
+        }
+      },
+      {
+        "name": "patch",
+        "description": "Patch a record. dry_run is a local preview, not server validation or proof of success.",
+        "inputSchema": {
+          "properties": {
+            "group": {
+              "title": "Group",
+              "type": "string"
+            },
+            "resource": {
+              "title": "Resource",
+              "type": "string"
+            },
+            "id": {
+              "title": "Id",
+              "type": "integer"
+            },
+            "payload": {
+              "additionalProperties": true,
+              "title": "Payload",
+              "type": "object"
+            },
+            "dry_run": {
+              "default": false,
+              "title": "Dry Run",
+              "type": "boolean"
+            },
+            "header": {
+              "anyOf": [
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Header"
+            },
+            "token": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Token"
+            }
+          },
+          "required": [
+            "group",
+            "resource",
+            "id",
+            "payload"
+          ],
+          "title": "patchArguments",
+          "type": "object"
+        },
+        "outputSchema": {
+          "additionalProperties": true,
+          "title": "patchDictOutput",
+          "type": "object"
+        }
+      },
+      {
+        "name": "delete",
+        "description": "Delete a record. dry_run is a local preview, not server validation or proof of success.",
+        "inputSchema": {
+          "properties": {
+            "group": {
+              "title": "Group",
+              "type": "string"
+            },
+            "resource": {
+              "title": "Resource",
+              "type": "string"
+            },
+            "id": {
+              "title": "Id",
+              "type": "integer"
+            },
+            "dry_run": {
+              "default": false,
+              "title": "Dry Run",
+              "type": "boolean"
+            },
+            "header": {
+              "anyOf": [
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Header"
+            },
+            "token": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Token"
+            }
+          },
+          "required": [
+            "group",
+            "resource",
+            "id"
+          ],
+          "title": "deleteArguments",
+          "type": "object"
+        },
+        "outputSchema": {
+          "additionalProperties": true,
+          "title": "deleteDictOutput",
+          "type": "object"
+        }
+      },
+      {
+        "name": "bulk_update",
+        "description": "Bulk replace records. dry_run is a local preview, not server validation or proof of success.",
+        "inputSchema": {
+          "properties": {
+            "group": {
+              "title": "Group",
+              "type": "string"
+            },
+            "resource": {
+              "title": "Resource",
+              "type": "string"
+            },
+            "payload": {
+              "items": {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              "title": "Payload",
+              "type": "array"
+            },
+            "dry_run": {
+              "default": false,
+              "title": "Dry Run",
+              "type": "boolean"
+            },
+            "header": {
+              "anyOf": [
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Header"
+            },
+            "token": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Token"
+            }
+          },
+          "required": [
+            "group",
+            "resource",
+            "payload"
+          ],
+          "title": "bulk_updateArguments",
+          "type": "object"
+        },
+        "outputSchema": {
+          "additionalProperties": true,
+          "title": "bulk_updateDictOutput",
+          "type": "object"
+        }
+      },
+      {
+        "name": "bulk_patch",
+        "description": "Bulk patch records. dry_run is a local preview, not server validation or proof of success.",
+        "inputSchema": {
+          "properties": {
+            "group": {
+              "title": "Group",
+              "type": "string"
+            },
+            "resource": {
+              "title": "Resource",
+              "type": "string"
+            },
+            "payload": {
+              "items": {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              "title": "Payload",
+              "type": "array"
+            },
+            "dry_run": {
+              "default": false,
+              "title": "Dry Run",
+              "type": "boolean"
+            },
+            "header": {
+              "anyOf": [
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Header"
+            },
+            "token": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Token"
+            }
+          },
+          "required": [
+            "group",
+            "resource",
+            "payload"
+          ],
+          "title": "bulk_patchArguments",
+          "type": "object"
+        },
+        "outputSchema": {
+          "additionalProperties": true,
+          "title": "bulk_patchDictOutput",
+          "type": "object"
+        }
+      },
+      {
+        "name": "bulk_delete",
+        "description": "Bulk delete records. dry_run is a local preview, not server validation or proof of success.",
+        "inputSchema": {
+          "properties": {
+            "group": {
+              "title": "Group",
+              "type": "string"
+            },
+            "resource": {
+              "title": "Resource",
+              "type": "string"
+            },
+            "payload": {
+              "items": {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              "title": "Payload",
+              "type": "array"
+            },
+            "dry_run": {
+              "default": false,
+              "title": "Dry Run",
+              "type": "boolean"
+            },
+            "header": {
+              "anyOf": [
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Header"
+            },
+            "token": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Token"
+            }
+          },
+          "required": [
+            "group",
+            "resource",
+            "payload"
+          ],
+          "title": "bulk_deleteArguments",
+          "type": "object"
+        },
+        "outputSchema": {
+          "additionalProperties": true,
+          "title": "bulk_deleteDictOutput",
+          "type": "object"
+        }
+      },
+      {
+        "name": "plugin_discover",
+        "description": "Discover live plugin resources and retain them in this server's schema index.",
+        "inputSchema": {
+          "properties": {
+            "plugin": {
+              "title": "Plugin",
+              "type": "string"
+            },
+            "token": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Token"
+            }
+          },
+          "required": [
+            "plugin"
+          ],
+          "title": "plugin_discoverArguments",
+          "type": "object"
+        },
+        "outputSchema": {
+          "additionalProperties": true,
+          "title": "plugin_discoverDictOutput",
+          "type": "object"
+        }
+      },
+      {
+        "name": "plugin_list_tools",
+        "description": "List validated semantic tools explicitly advertised by NetBox plugins.",
+        "inputSchema": {
+          "properties": {
+            "plugin": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Plugin"
+            },
+            "token": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Token"
+            }
+          },
+          "title": "plugin_list_toolsArguments",
+          "type": "object"
+        },
+        "outputSchema": {
+          "additionalProperties": true,
+          "title": "plugin_list_toolsDictOutput",
+          "type": "object"
+        }
+      },
+      {
+        "name": "plugin_call_tool",
+        "description": "Invoke an advertised plugin tool; preview writes with dry_run first.",
+        "inputSchema": {
+          "properties": {
+            "plugin": {
+              "title": "Plugin",
+              "type": "string"
+            },
+            "tool": {
+              "title": "Tool",
+              "type": "string"
+            },
+            "arguments": {
+              "anyOf": [
+                {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Arguments"
+            },
+            "dry_run": {
+              "default": false,
+              "title": "Dry Run",
+              "type": "boolean"
+            },
+            "header": {
+              "anyOf": [
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Header"
+            },
+            "token": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Token"
+            }
+          },
+          "required": [
+            "plugin",
+            "tool"
+          ],
+          "title": "plugin_call_toolArguments",
+          "type": "object"
+        },
+        "outputSchema": {
+          "additionalProperties": true,
+          "title": "plugin_call_toolDictOutput",
+          "type": "object"
+        }
+      },
+      {
+        "name": "call",
+        "description": "Call a relative /api/ path; only GET and HEAD are allowed until mutations are enabled.",
+        "inputSchema": {
+          "properties": {
+            "method": {
+              "title": "Method",
+              "type": "string"
+            },
+            "path": {
+              "title": "Path",
+              "type": "string"
+            },
+            "query": {
+              "anyOf": [
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Query"
+            },
+            "payload": {
+              "anyOf": [
+                {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                {
+                  "items": {},
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Payload"
+            },
+            "header": {
+              "anyOf": [
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Header"
+            },
+            "token": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Token"
+            }
+          },
+          "required": [
+            "method",
+            "path"
+          ],
+          "title": "callArguments",
+          "type": "object"
+        },
+        "outputSchema": {
+          "additionalProperties": true,
+          "title": "callDictOutput",
+          "type": "object"
+        }
+      }
+    ]
+  }
+}

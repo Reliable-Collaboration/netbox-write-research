@@ -1,0 +1,11 @@
+{
+  "tests": 8,
+  "success": false,
+  "failures": [],
+  "errors": [
+    [
+      "test_T11_actor_attribution (__main__.Baseline.test_T11_actor_attribution)",
+      "Traceback (most recent call last):\n  File \"/home/rcc-vstudio/working/netbox-write-research/lab/test_baseline.py\", line 65, in test_T11_actor_attribution\n    cb=self.api.all('core/object-changes/?request_id='+b['headers']['x-request-id'])[0]\n       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^\nIndexError: list index out of range\n"
+    ]
+  ]
+}

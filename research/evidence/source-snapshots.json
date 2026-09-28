@@ -1,0 +1,104 @@
+{
+  "retrieved": "2026-09-28",
+  "method": "GitHub API tarballs; static inspection only; upstream code was not executed",
+  "sources": [
+    {
+      "repository": "JamesonRGrieve/netbox-mcp",
+      "commit": "865eb2e4ac165bedca2cf7627c686b1de7aa35a3",
+      "source_url": "https://github.com/JamesonRGrieve/netbox-mcp/tree/865eb2e4ac165bedca2cf7627c686b1de7aa35a3",
+      "archive_sha256": "eefa770b84ac15e360af6d9b3439db01338c7efa5aa343649c45dbe8a1bb1305",
+      "inspected_directory": "/tmp/netbox-research-sources/JamesonRGrieve-netbox-mcp-865eb2e"
+    },
+    {
+      "repository": "ZenixSolutions/netbox-mcp-server",
+      "commit": "42d30025223dd525b1783d19f1fdf9d67f5168ba",
+      "source_url": "https://github.com/ZenixSolutions/netbox-mcp-server/tree/42d30025223dd525b1783d19f1fdf9d67f5168ba",
+      "archive_sha256": "ae0f773d6af9ee08f8d5d91870ac0132946f86606f6b02b2a6ff0fd55ca9e4ed",
+      "inspected_directory": "/tmp/netbox-research-sources/ZenixSolutions-netbox-mcp-server-42d3002"
+    },
+    {
+      "repository": "alexkiwi1/netbox-mcp-rw",
+      "commit": "96705f8ff24b96e98f6d82e6f4fde399e5ac57d9",
+      "source_url": "https://github.com/alexkiwi1/netbox-mcp-rw/tree/96705f8ff24b96e98f6d82e6f4fde399e5ac57d9",
+      "archive_sha256": "41a61eff5ea25593dd8ada5bf51ad3253b252a92ee23bcfea7b357c99bea9726",
+      "inspected_directory": "/tmp/netbox-research-sources/alexkiwi1-netbox-mcp-rw-96705f8"
+    },
+    {
+      "repository": "emersonfelipesp/netbox-sdk",
+      "commit": "b539b53eefbe289315fcbccf9bb34930bb09af37",
+      "source_url": "https://github.com/emersonfelipesp/netbox-sdk/tree/b539b53eefbe289315fcbccf9bb34930bb09af37",
+      "archive_sha256": "69fef77bb90e38d910d0ef29546b53cbbc67395706e8df21dd837642f62c0dba",
+      "inspected_directory": "/tmp/netbox-research-sources/emersonfelipesp-netbox-sdk-b539b53"
+    },
+    {
+      "repository": "excavador/netbox-mcp",
+      "commit": "a4f4cb6a235e19d0377245099782f2b0ec772ba6",
+      "source_url": "https://github.com/excavador/netbox-mcp/tree/a4f4cb6a235e19d0377245099782f2b0ec772ba6",
+      "archive_sha256": "17681f6d8d68245e326b32509682227117c1df15863f9576cf84704a5b69b410",
+      "inspected_directory": "/tmp/netbox-research-sources/excavador-netbox-mcp-a4f4cb6"
+    },
+    {
+      "repository": "freed-dev-llc/argus",
+      "commit": "089c9bec594993bb32cb00fc72bf4e36ad4a2590",
+      "source_url": "https://github.com/freed-dev-llc/argus/tree/089c9bec594993bb32cb00fc72bf4e36ad4a2590",
+      "archive_sha256": "fd0d1abf1da70ec5518483a8708f2a8593cbad2b67cc98dd598fe2e47164f5a0",
+      "inspected_directory": "/tmp/netbox-research-sources/freed-dev-llc-argus-089c9be"
+    },
+    {
+      "repository": "lance0/nbox",
+      "commit": "5dda6fc43e874af1c1cbef18a6f51bc337a6dab8",
+      "source_url": "https://github.com/lance0/nbox/tree/5dda6fc43e874af1c1cbef18a6f51bc337a6dab8",
+      "archive_sha256": "f11eedb85ede004bd991680f136bc3a52ed9a1ff354646de6a0f888c4deaabe4",
+      "inspected_directory": "/tmp/netbox-research-sources/lance0-nbox-5dda6fc"
+    },
+    {
+      "repository": "mhajder/netbox-mcp",
+      "commit": "81405c118c84d8b71a007afa6764400ba1d839d6",
+      "source_url": "https://github.com/mhajder/netbox-mcp/tree/81405c118c84d8b71a007afa6764400ba1d839d6",
+      "archive_sha256": "67c7e72a8c68fd627e8d5bbebf8229b77a0111e3b67f1b9e4c97e5c5f2383ca1",
+      "inspected_directory": "/tmp/netbox-research-sources/mhajder-netbox-mcp-81405c1"
+    },
+    {
+      "repository": "netboxlabs/diode-netbox-plugin",
+      "commit": "1dc3661b3aa446739f45fde0e6256a5b4b7bcfca",
+      "source_url": "https://github.com/netboxlabs/diode-netbox-plugin/tree/1dc3661b3aa446739f45fde0e6256a5b4b7bcfca",
+      "archive_sha256": "57c9f617d338cd3ea9581154997a32ae4a52251a39e9c2112a447254dd151d4a",
+      "inspected_directory": "/tmp/netbox-research-sources/netboxlabs-diode-netbox-plugin-1dc3661"
+    },
+    {
+      "repository": "netboxlabs/diode",
+      "commit": "054e7afbbc173f7ac70265ea699ff8fa1fbfe9f9",
+      "source_url": "https://github.com/netboxlabs/diode/tree/054e7afbbc173f7ac70265ea699ff8fa1fbfe9f9",
+      "archive_sha256": "833e746613ab8143da9cecea81ca140af755b90a8a6bd293ca75493e22fe9de0",
+      "inspected_directory": "/tmp/netbox-research-sources/netboxlabs-diode-054e7af"
+    },
+    {
+      "repository": "netboxlabs/netbox-mcp-server",
+      "commit": "8d02e9a4fe0dcaba9aab167b88504c842702b522",
+      "source_url": "https://github.com/netboxlabs/netbox-mcp-server/tree/8d02e9a4fe0dcaba9aab167b88504c842702b522",
+      "archive_sha256": "3c90aad48fc792e388131390eda884869bc41180fff511a3621706c1f739327d",
+      "inspected_directory": "/tmp/netbox-research-sources/netboxlabs-netbox-mcp-server-8d02e9a"
+    },
+    {
+      "repository": "phlpr/netbox_ai_navigator",
+      "commit": "1fac990f6753fddc70e2a9bd8d2c96f228eb26fd",
+      "source_url": "https://github.com/phlpr/netbox_ai_navigator/tree/1fac990f6753fddc70e2a9bd8d2c96f228eb26fd",
+      "archive_sha256": "699c5b70d473324b4bb1d75735f15ce9178da9d4d41b4a91d2ac06f60c3f129a",
+      "inspected_directory": "/tmp/netbox-research-sources/phlpr-netbox_ai_navigator-1fac990"
+    },
+    {
+      "repository": "skuldgerry/netbox-mcp",
+      "commit": "7850079d710b0379905ad9f1391656a091c84415",
+      "source_url": "https://github.com/skuldgerry/netbox-mcp/tree/7850079d710b0379905ad9f1391656a091c84415",
+      "archive_sha256": "a64a598390570261d530de1646b2df7a4e04fb2e79e24293d978e15d8a2dbded",
+      "inspected_directory": "/tmp/netbox-research-sources/skuldgerry-netbox-mcp-7850079"
+    },
+    {
+      "repository": "thomaschristory/netbox-mcp-server-extended",
+      "commit": "801beac3b30e324d3224f8f32a497da8a3d9e0ae",
+      "source_url": "https://github.com/thomaschristory/netbox-mcp-server-extended/tree/801beac3b30e324d3224f8f32a497da8a3d9e0ae",
+      "archive_sha256": "26c9ad0c02705948fe08c43ef9e0b5cc595efda228c122870c4f198bab88dd5f",
+      "inspected_directory": "/tmp/netbox-research-sources/thomaschristory-netbox-mcp-server-extended-801beac"
+    }
+  ]
+}

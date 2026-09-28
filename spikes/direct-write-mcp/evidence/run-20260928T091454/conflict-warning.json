@@ -1,0 +1,25 @@
+{
+  "status": "conflicted",
+  "operation_id": "fb3bf50c-23d4-4169-85a8-8a2ba1933c74",
+  "device_id": 6,
+  "native_id": 344,
+  "etag": "W/\"2026-09-28T14:15:03.152969+00:00\"",
+  "inverse": {
+    "description": "A"
+  },
+  "conflicts": [
+    {
+      "field": "description",
+      "reason": "Current value differs",
+      "expected": "B",
+      "current": "C"
+    },
+    {
+      "field": "description",
+      "reason": "Intervening field change (including ABA)",
+      "native_id": 345
+    }
+  ],
+  "warning": "Newer edits affect the fields being undone. Review the conflicts; no write will be made.",
+  "external_effects": "Webhooks and downstream actions are not reversed."
+}

@@ -1,0 +1,11 @@
+{
+  "baseline": "4.6.10",
+  "upgrade": "4.7.1",
+  "image_digest": "docker.io/netboxcommunity/netbox@sha256:59e3e5954d0243d8648f2fa7ba82cf7c7770aaeef392026cca8b21cd67411e74",
+  "backup_row_count": 149,
+  "original_snapshot_values_preserved": 149,
+  "snapshot_extensions": 1,
+  "scalar_recovery": "passed",
+  "native_history_loss_and_archive_restore": "passed",
+  "lineage": "upgrade_1790602153"
+}

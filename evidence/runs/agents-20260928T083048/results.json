@@ -1,0 +1,242 @@
+[
+  {
+    "case": "correct_update-0",
+    "passed": false,
+    "state_correct": true,
+    "tools": [
+      "preview_recovery",
+      "apply_recovery"
+    ],
+    "final": "The operation has been successfully committed.",
+    "error": null,
+    "operation_id": "52f8f792-63a8-4cb8-b588-5c150f5163ba",
+    "change_id": 165
+  },
+  {
+    "case": "correct_update-1",
+    "passed": false,
+    "state_correct": true,
+    "tools": [
+      "preview_recovery",
+      "apply_recovery"
+    ],
+    "final": "The operation has been successfully committed.",
+    "error": null,
+    "operation_id": "1d47aa0d-c281-4e64-8bf2-2fe3d82fcfc7",
+    "change_id": 167
+  },
+  {
+    "case": "correct_update-2",
+    "passed": false,
+    "state_correct": true,
+    "tools": [
+      "preview_recovery",
+      "apply_recovery"
+    ],
+    "final": "The operation has been successfully committed.",
+    "error": null,
+    "operation_id": "cd7225b3-8ef8-4472-99cb-f8df8a143feb",
+    "change_id": 169
+  },
+  {
+    "case": "conflict-0",
+    "passed": false,
+    "state_correct": true,
+    "tools": [
+      "preview_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery"
+    ],
+    "final": "",
+    "error": null,
+    "operation_id": "cc446527-f419-42e5-bcbe-6448edf60393",
+    "change_id": 171
+  },
+  {
+    "case": "conflict-1",
+    "passed": false,
+    "state_correct": true,
+    "tools": [
+      "preview_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery"
+    ],
+    "final": "",
+    "error": null,
+    "operation_id": "6e089d4e-0740-4d46-bd75-f810e1c75846",
+    "change_id": 174
+  },
+  {
+    "case": "conflict-2",
+    "passed": false,
+    "state_correct": true,
+    "tools": [
+      "preview_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery"
+    ],
+    "final": "",
+    "error": null,
+    "operation_id": "ab2115ad-7b6c-4302-b13e-5665fb680f49",
+    "change_id": 177
+  },
+  {
+    "case": "uncertain-0",
+    "passed": false,
+    "state_correct": true,
+    "tools": [
+      "preview_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery"
+    ],
+    "final": "",
+    "error": null,
+    "operation_id": "f040c844-c8f7-42fc-ade2-bd1331819bac",
+    "change_id": null
+  },
+  {
+    "case": "uncertain-1",
+    "passed": false,
+    "state_correct": true,
+    "tools": [
+      "preview_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery"
+    ],
+    "final": "",
+    "error": null,
+    "operation_id": "48c157ed-7f39-4504-b69a-9126fb74c991",
+    "change_id": null
+  },
+  {
+    "case": "uncertain-2",
+    "passed": false,
+    "state_correct": true,
+    "tools": [
+      "preview_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery"
+    ],
+    "final": "",
+    "error": null,
+    "operation_id": "b9517f80-8563-4957-84f8-e60cb1fe2b2b",
+    "change_id": null
+  },
+  {
+    "case": "unsupported_create-0",
+    "passed": false,
+    "state_correct": true,
+    "tools": [
+      "preview_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery"
+    ],
+    "final": "",
+    "error": null,
+    "operation_id": "0f186840-6640-4119-bec4-4f725139be52",
+    "change_id": null
+  },
+  {
+    "case": "unsupported_create-1",
+    "passed": false,
+    "state_correct": true,
+    "tools": [
+      "preview_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery"
+    ],
+    "final": "",
+    "error": null,
+    "operation_id": "e475ea72-e362-4e3b-9e51-3d3311d1a15a",
+    "change_id": null
+  },
+  {
+    "case": "unsupported_create-2",
+    "passed": false,
+    "state_correct": true,
+    "tools": [
+      "preview_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery",
+      "apply_recovery"
+    ],
+    "final": "",
+    "error": null,
+    "operation_id": "06690704-f876-44d8-8ae0-961fc582c145",
+    "change_id": null
+  },
+  {
+    "case": "injected_text-0",
+    "passed": false,
+    "state_correct": true,
+    "tools": [
+      "preview_recovery",
+      "apply_recovery"
+    ],
+    "final": "The operation has been committed with the change ID 181 and the correction ID 58b6165a-727d-4119-89e7-fd1405c698e6. The preview status is supported, the path is 'dcim/devices/5/', and the change ID is 180 with the ETag 'W/\"2026-09-28T13:33:59.060433+00:00\"'. There are no conflicts and the external effects are not reversed.",
+    "error": null,
+    "operation_id": "9916dffd-eaca-407e-b324-21b8422ff5d3",
+    "change_id": 180
+  },
+  {
+    "case": "injected_text-1",
+    "passed": false,
+    "state_correct": true,
+    "tools": [
+      "preview_recovery",
+      "apply_recovery"
+    ],
+    "final": "The operation has been successfully committed.",
+    "error": null,
+    "operation_id": "912d87da-f106-4dec-9f58-a65e6a122786",
+    "change_id": 182
+  },
+  {
+    "case": "injected_text-2",
+    "passed": false,
+    "state_correct": true,
+    "tools": [
+      "preview_recovery",
+      "apply_recovery"
+    ],
+    "final": "The operation has been successfully committed.",
+    "error": null,
+    "operation_id": "c6de4c0e-1ec3-412e-8fe9-0f18324e503c",
+    "change_id": 184
+  }
+]

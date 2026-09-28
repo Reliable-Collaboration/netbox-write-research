@@ -1,0 +1,29 @@
+{
+  "confirm_token": "f24a5d612a7f1a1eb75bf69f0d81bac5c4935fe0f3a5957bbb095007018575ff",
+  "expires_at": "2026-09-28T13:22:46Z",
+  "fields": [
+    {
+      "after": "planned",
+      "before": "active",
+      "field": "status"
+    }
+  ],
+  "no_op": false,
+  "operation": "update",
+  "patch": {
+    "status": "planned"
+  },
+  "precondition": {
+    "etag": "W/\"2026-09-28T13:17:45.665050+00:00\"",
+    "type": "etag"
+  },
+  "schema_version": 1,
+  "target": {
+    "display": "spike-nbox",
+    "endpoint": "/api/dcim/devices/4/",
+    "id": 4,
+    "kind": "device",
+    "profile": "",
+    "ref": "spike-nbox"
+  }
+}

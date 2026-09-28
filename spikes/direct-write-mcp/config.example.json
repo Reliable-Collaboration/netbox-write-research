@@ -1,0 +1,8 @@
+{
+  "netbox_url": "http://127.0.0.1:18780",
+  "token_file": "/absolute/path/to/private/netbox-token",
+  "journal": "/absolute/path/to/private/journal.sqlite",
+  "instance_id": "unique-instance-and-restore-lineage-uuid",
+  "actor": "direct-spike-agent",
+  "allowed_device_ids": [123]
+}

@@ -1,0 +1,7 @@
+{
+  "trials": 15,
+  "strict_passes": 0,
+  "expected_final_states": 15,
+  "finished_with_explanation": 10,
+  "scope": "Five scenarios, three seeds each. Small local 1.5B model; bounded lab tasks, not a broad model benchmark."
+}

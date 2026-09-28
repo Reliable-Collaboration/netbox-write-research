@@ -1,0 +1,294 @@
+{
+  "result": {
+    "tools": [
+      {
+        "name": "netbox_global_search",
+        "title": "Global NetBox Search",
+        "description": "**Finds a named thing when you do not know what type it is.** One call, across sites, racks, devices, interfaces, prefixes, IP addresses, VLANs and VRFs.\n\nUse this the moment a request contains a specific identifier \u2014 a hostname, a partial name, an IP or prefix, a VLAN name, a serial. \"What's the management IP for sw-core-01?\", \"where is rack R12?\", \"what is 10.0.4.7?\" all start here. It returns each hit's numeric id, which you hand straight to netbox_read (operation='get') or netbox_write.\n\nIt is the shortcut past the layers. Going netbox_discover -> netbox_describe -> netbox_read to look one named object up costs three calls and answers the same question this one does.\n\nUse netbox_discover instead when you need to know which object *types* exist, and netbox_read when you already know the type and want a filtered list.\n\nArgs:\n  - query (string, required)         the text to search for.\n  - limit_per_resource (number)      max hits per resource (default 5).\n  - resources (string[])             restrict to a subset of resource labels.\n  - response_format ('markdown' | 'json')\n\nReturns hits grouped by resource with per-resource totals and each hit's numeric id. A resource with no matches is reported as empty, not as an error.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200,
+              "description": "Text to search for (passed as NetBox's `q` parameter on every resource)."
+            },
+            "limit_per_resource": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 5,
+              "description": "Max hits to return per resource (1-50, default 5)."
+            },
+            "resources": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "sites",
+                  "racks",
+                  "devices",
+                  "interfaces",
+                  "prefixes",
+                  "ip_addresses",
+                  "vlans",
+                  "vrfs",
+                  "assets"
+                ]
+              },
+              "description": "If provided, restrict the search to these resource labels."
+            },
+            "response_format": {
+              "type": "string",
+              "enum": [
+                "markdown",
+                "json"
+              ],
+              "default": "markdown",
+              "description": "'markdown' (default) for a compact human-readable summary, 'json' for the full NetBox object. Prefer markdown unless you need a field the summary omits."
+            }
+          },
+          "required": [
+            "query"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": true
+        },
+        "execution": {
+          "taskSupport": "forbidden"
+        }
+      },
+      {
+        "name": "netbox_discover",
+        "title": "Discover NetBox Object Types",
+        "description": "Lists the NetBox object types this instance actually supports \u2014 devices, racks, prefixes, VLANs, tenants, circuits, plugin models \u2014 with the operations each one allows.\n\nNetBox is an infrastructure source of truth: it records sites, racks, hardware, interfaces, cabling, IP addresses and the relationships between them. Every other tool here is addressed by an `object_type` key.\n\nCall this when you do not know the key. You often will not need it:\n\n  - The user named a specific THING \u2014 a hostname, an IP, a VLAN name?\n    Call netbox_global_search. It finds the object across types in one call.\n  - You already know the type, or can name it from the convention below?\n    Call netbox_read directly. A wrong key comes back with near-misses, which\n    costs the same as calling this tool and usually less.\n  - About to WRITE, or need filter or field names? netbox_describe next.\n\nKeys are `<app>.<model>`, singular: `dcim.device`, `dcim.site`, `dcim.rack`, `dcim.interface`, `ipam.prefix`, `ipam.ipaddress`, `ipam.vlan`, `ipam.vrf`, `tenancy.tenant`, `virtualization.virtualmachine`. Plugins use `plugins.<plugin>.<model>` and are NOT guessable \u2014 use this tool for those.\n\nArgs:\n  - query (string, optional)  free-text filter over key, label and summary.\n  - app   (string, optional)  restrict to one app, e.g. 'dcim'.\n\nReturns one line per type: object_type, label, endpoint, and the operations it supports. An operation missing from that list is not offered as a single-object action and calling it will be refused.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200,
+              "description": "Free-text match against the object type key, label and summary, e.g. 'vlan', 'power', 'circuit'. Omit to list everything."
+            },
+            "app": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100,
+              "description": "Restrict to one NetBox app: dcim, ipam, virtualization, circuits, tenancy, vpn, wireless, extras, users, core, or 'plugins/<name>' for a plugin."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": true
+        },
+        "execution": {
+          "taskSupport": "forbidden"
+        }
+      },
+      {
+        "name": "netbox_describe",
+        "title": "Describe a NetBox Object Type",
+        "description": "Explains one NetBox object type: what you must supply, what you may supply, what NetBox computes for you, and what has to exist first.\n\nCall this AFTER netbox_discover (which gives you the object_type) and BEFORE netbox_read or netbox_write. It is generated from the connected instance's own API schema, so it describes that instance \u2014 including its plugins and custom fields \u2014 rather than a generic NetBox.\n\nWhat you get per operation:\n  - create / update  required fields, optional fields with types and exact enum values, the read-only fields you must NOT send, and 'depends on': the object types that must already exist (a device needs a site, a device type and a role).\n  - list             the filters this endpoint accepts, summarised \u2014 NetBox exposes hundreds of lookup variants per endpoint and the full set is not usable.\n  - get / delete     the arguments needed to address a single object.\n\nArgs:\n  - object_type (string, required)  a key from netbox_discover.\n  - operation   (string, required)  list | get | create | update | delete.\n\nIf you skip this and guess at fields, netbox_write will reject the call locally and hand you this same output \u2014 so calling it first is strictly cheaper.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "object_type": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200,
+              "description": "Object type key from netbox_discover, e.g. 'dcim.device'. Not a URL and not an endpoint path \u2014 only keys the registry returned are accepted."
+            },
+            "operation": {
+              "type": "string",
+              "enum": [
+                "list",
+                "get",
+                "create",
+                "update",
+                "delete"
+              ],
+              "description": "The operation you intend to perform. The answer differs per operation: 'list' returns filters, 'create' and 'update' return fields."
+            }
+          },
+          "required": [
+            "object_type",
+            "operation"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": true
+        },
+        "execution": {
+          "taskSupport": "forbidden"
+        }
+      },
+      {
+        "name": "netbox_read",
+        "title": "Read NetBox Objects",
+        "description": "Reads NetBox objects: one by id, or a filtered, paginated list. Never modifies anything.\n\n**If you know the object_type, call this directly.** Keys are `<app>.<model>`, singular \u2014 `dcim.device`, `ipam.prefix`, `ipam.ipaddress`, `dcim.site`. A wrong key is answered with near-misses, so guessing a plausible one costs no more than looking it up first. \"How many devices are there?\" is one call to this tool: list `dcim.device` and read the total.\n\nReach for another tool when:\n  - the user named a THING rather than a type (\"the switch sw-core-01\") \u2014\n    netbox_global_search finds it across types in one call;\n  - you need filter names you cannot guess, or are about to write \u2014\n    netbox_describe;\n  - the type is a plugin model, which is not guessable \u2014 netbox_discover.\n\nArgs:\n  - object_type (string, required)  e.g. 'ipam.prefix'.\n  - operation   (string, required)  'list' or 'get'.\n  - id          (number)            required for 'get'.\n  - filters     (object)            for 'list'; NetBox query-parameter names -> values.\n  - limit / offset (number)         pagination for 'list'.\n  - response_format ('markdown' | 'json')  use 'json' when chaining to another call.\n\nReturns Markdown by default, or JSON shaped { total, count, offset, limit, items, has_more, next_offset? }. The total is reported whatever the limit, so limit=1 is enough to count. Long responses are truncated and tell you the offset to resume from \u2014 paginate or filter rather than raising limit.\n\nA filter value is usually a slug or an id, not a display name: filter devices by site='dc1' (slug) or site_id=3, not site='DC 1'. An unknown filter name is rejected here with the valid ones listed, because NetBox itself would ignore it and return everything.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "object_type": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200,
+              "description": "Object type key from netbox_discover, e.g. 'dcim.device'. Not a path and not a URL: the endpoint is resolved from the registry."
+            },
+            "operation": {
+              "type": "string",
+              "enum": [
+                "list",
+                "get"
+              ],
+              "description": "'list' for a filtered collection, 'get' for one object by id."
+            },
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Numeric NetBox id. Required for 'get', ignored for 'list'."
+            },
+            "filters": {
+              "type": "object",
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": [
+                        "string",
+                        "number",
+                        "boolean"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "description": "Query filters for 'list', as NetBox query-parameter names, e.g. { site: 'dc1', status: 'active', q: 'sw-core' }. Call netbox_describe(object_type, 'list') for the accepted names. An array value repeats the parameter (OR semantics for most filters). A name this object type does not accept is rejected here rather than sent: NetBox silently ignores unknown parameters and would return the whole unfiltered collection."
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000,
+              "default": 50,
+              "description": "Page size for 'list' (1-1000, default 50)."
+            },
+            "offset": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "description": "Rows to skip for 'list'. Use next_offset from a previous response."
+            },
+            "response_format": {
+              "type": "string",
+              "enum": [
+                "markdown",
+                "json"
+              ],
+              "default": "markdown",
+              "description": "'markdown' (default) for a compact human-readable summary, 'json' for the full NetBox object. Prefer markdown unless you need a field the summary omits."
+            }
+          },
+          "required": [
+            "object_type",
+            "operation"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": true
+        },
+        "execution": {
+          "taskSupport": "forbidden"
+        }
+      },
+      {
+        "name": "netbox_write",
+        "title": "Create, Update or Delete a NetBox Object",
+        "description": "Creates, updates or deletes a NetBox object. This changes the source of truth for someone's network \u2014 treat it accordingly.\n\nCall netbox_discover first (for the object_type), then netbox_describe with the operation you intend (for the fields and prerequisites), then this. Skipping describe does not save a round-trip: this tool validates 'data' against the instance's schema before sending anything, and a rejection returns that same description.\n\nArgs:\n  - object_type (string, required)  key from netbox_discover.\n  - operation   (string, required)  'create' | 'update' | 'delete'.\n  - id          (number)            required for 'update' and 'delete'.\n  - data        (object)            field values; required for 'create' and 'update'.\n  - confirm     (string)            required for 'delete'.\n\nRules that are enforced, not advisory:\n  - References are ids. A device needs its site, device_type and role to exist already; create or look them up first (netbox_describe lists them under 'must exist first').\n  - 'update' is a partial write. Only the fields present in 'data' change; everything else is left alone.\n  - 'delete' requires 'confirm' to equal the object's current 'display' value. Read the object first (netbox_read with operation='get'), copy the 'display' value, and pass it. A mismatch refuses the delete and shows both values. Deletes cascade in NetBox \u2014 removing a site can remove its racks, devices and prefixes \u2014 and cannot be undone, so confirm with the user before calling.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "object_type": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200,
+              "description": "Object type key from netbox_discover, e.g. 'dcim.device'. Not a path and not a URL: the endpoint is resolved from the registry."
+            },
+            "operation": {
+              "type": "string",
+              "enum": [
+                "create",
+                "update",
+                "delete"
+              ],
+              "description": "'create' makes a new object, 'update' patches an existing one, 'delete' removes it permanently."
+            },
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Numeric NetBox id. Required for 'update' and 'delete'."
+            },
+            "data": {
+              "type": "object",
+              "additionalProperties": {},
+              "description": "Field values. Required for 'create' and 'update'. Use exactly the field names netbox_describe returned; unknown fields, read-only fields and bad enum values are rejected locally before any request is sent. For 'update', send only the fields you are changing."
+            },
+            "confirm": {
+              "type": "string",
+              "description": "Required for 'delete': the object's current 'display' value, exactly as netbox_read returned it. If it does not match, the delete is refused."
+            }
+          },
+          "required": [
+            "object_type",
+            "operation"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": true,
+          "idempotentHint": false,
+          "openWorldHint": true
+        },
+        "execution": {
+          "taskSupport": "forbidden"
+        }
+      }
+    ]
+  },
+  "jsonrpc": "2.0",
+  "id": 2
+}

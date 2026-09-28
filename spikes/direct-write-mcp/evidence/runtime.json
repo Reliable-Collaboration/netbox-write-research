@@ -1,0 +1,13 @@
+{
+  "recorded_at_utc": "2026-09-28T14:20:55.806674+00:00",
+  "python": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]",
+  "netbox": "4.6.10",
+  "netbox_image": "docker.io/netboxcommunity/netbox@sha256:5ee780bdc63b5a5f7ad5073e05e265f74d1a1c52ca0057facc9e4279fcfdb8cc",
+  "netbox_image_id": "23ffaca5cce9c7e14f74643bd7b6628676c34217892027afb14c9accec009d9c",
+  "podman": "podman version 5.7.0",
+  "actor": "direct-spike-agent",
+  "policy": "device description, serial, status only; optimistic concurrency",
+  "runtime_dependencies": "Python standard library only",
+  "upstream_mcp_dependency": false,
+  "external_paid_services": false
+}

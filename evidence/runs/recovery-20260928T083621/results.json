@@ -1,0 +1,11 @@
+{
+  "tests": 13,
+  "failures": [
+    [
+      "test_T05_response_lost_after_create (__main__.RecoveryTests.test_T05_response_lost_after_create)",
+      "Traceback (most recent call last):\n  File \"/home/rcc-vstudio/working/netbox-write-research/lab/test_recovery.py\", line 80, in test_T05_response_lost_after_create\n    self.assertEqual(r['status'],'uncertain'); self.assertEqual(server.result['status'],201)\n                                               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 400 != 201\n"
+    ]
+  ],
+  "errors": [],
+  "success": false
+}

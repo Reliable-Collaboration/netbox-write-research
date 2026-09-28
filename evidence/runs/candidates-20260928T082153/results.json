@@ -1,0 +1,563 @@
+{
+  "sdk": [
+    {
+      "case": "write",
+      "passed": true,
+      "response": {
+        "jsonrpc": "2.0",
+        "id": 3,
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "{\n  \"status\": 200,\n  \"headers\": {\n    \"Content-Type\": \"application/json\",\n    \"Etag\": \"W/\\\"2026-09-28T13:21:55.331436+00:00\\\"\",\n    \"Vary\": \"HX-Request, Accept-Language, Cookie, origin\",\n    \"Allow\": \"GET, PUT, PATCH, DELETE, HEAD, OPTIONS\",\n    \"x-request-id\": \"08335c7e-b14d-46cc-8e97-91a0da880e6f\",\n    \"api-version\": \"4.6\",\n    \"x-content-type-options\": \"nosniff\",\n    \"referrer-policy\": \"same-origin\",\n    \"cross-origin-opener-policy\": \"same-origin\",\n    \"x-frame-options\": \"SAMEORIGIN\",\n    \"Content-Length\": \"1723\",\n    \"Content-Language\": \"en\",\n    \"Server\": \"granian\",\n    \"Date\": \"Mon, 28 Sep 2026 13:21:55 GMT\"\n  },\n  \"body\": {\n    \"id\": 2,\n    \"url\": \"http://nbai-spike-netbox:8080/api/dcim/devices/2/\",\n    \"display_url\": \"http://nbai-spike-netbox:8080/dcim/devices/2/\",\n    \"display\": \"spike-sdk\",\n    \"name\": \"spike-sdk\",\n    \"device_type\": {\n      \"id\": 1,\n      \"url\": \"http://nbai-spike-netbox:8080/api/dcim/device-types/1/\",\n      \"display\": \"Spike Model\",\n      \"manufacturer\": {\n        \"id\": 1,\n        \"url\": \"http://nbai-spike-netbox:8080/api/dcim/manufacturers/1/\",\n        \"display\": \"Spike Maker\",\n        \"name\": \"Spike Maker\",\n        \"slug\": \"spike-maker\",\n        \"description\": \"\"\n      },\n      \"model\": \"Spike Model\",\n      \"slug\": \"spike-model\",\n      \"description\": \"\",\n      \"device_count\": 5\n    },\n    \"role\": {\n      \"id\": 1,\n      \"url\": \"http://nbai-spike-netbox:8080/api/dcim/device-roles/1/\",\n      \"display\": \"Spike Role\",\n      \"name\": \"Spike Role\",\n      \"slug\": \"spike-role\",\n      \"description\": \"\",\n      \"device_count\": 0,\n      \"virtualmachine_count\": 0,\n      \"_depth\": 0\n    },\n    \"tenant\": null,\n    \"platform\": null,\n    \"serial\": \"\",\n    \"asset_tag\": null,\n    \"site\": {\n      \"id\": 1,\n      \"url\": \"http://nbai-spike-netbox:8080/api/dcim/sites/1/\",\n      \"display\": \"Spike Site\",\n      \"name\": \"Spike Site\",\n      \"slug\": \"spike-site\",\n      \"description\": \"\"\n    },\n    \"location\": null,\n    \"rack\": null,\n    \"position\": null,\n    \"face\": null,\n    \"latitude\": null,\n    \"longitude\": null,\n    \"parent_device\": null,\n    \"status\": {\n      \"value\": \"active\",\n      \"label\": \"Active\"\n    },\n    \"airflow\": null,\n    \"primary_ip\": null,\n    \"primary_ip4\": null,\n    \"primary_ip6\": null,\n    \"oob_ip\": null,\n    \"cluster\": null,\n    \"virtual_chassis\": null,\n    \"vc_position\": null,\n    \"vc_priority\": null,\n    \"description\": \"MCP B\",\n    \"owner\": null,\n    \"comments\": \"\",\n    \"config_template\": null,\n    \"config_context\": {},\n    \"local_context_data\": null,\n    \"tags\": [],\n    \"custom_fields\": {},\n    \"created\": \"2026-09-28T13:16:40.108494Z\",\n    \"last_updated\": \"2026-09-28T13:21:55.331436Z\",\n    \"console_port_count\": 0,\n    \"console_server_port_count\": 0,\n    \"power_port_count\": 0,\n    \"power_outlet_count\": 0,\n    \"interface_count\": 0,\n    \"front_port_count\": 0,\n    \"rear_port_count\": 0,\n    \"device_bay_count\": 0,\n    \"module_bay_count\": 0,\n    \"inventory_item_count\": 0\n  }\n}"
+            }
+          ],
+          "structuredContent": {
+            "status": 200,
+            "headers": {
+              "Content-Type": "application/json",
+              "Etag": "W/\"2026-09-28T13:21:55.331436+00:00\"",
+              "Vary": "HX-Request, Accept-Language, Cookie, origin",
+              "Allow": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS",
+              "x-request-id": "08335c7e-b14d-46cc-8e97-91a0da880e6f",
+              "api-version": "4.6",
+              "x-content-type-options": "nosniff",
+              "referrer-policy": "same-origin",
+              "cross-origin-opener-policy": "same-origin",
+              "x-frame-options": "SAMEORIGIN",
+              "Content-Length": "1723",
+              "Content-Language": "en",
+              "Server": "granian",
+              "Date": "Mon, 28 Sep 2026 13:21:55 GMT"
+            },
+            "body": {
+              "id": 2,
+              "url": "http://nbai-spike-netbox:8080/api/dcim/devices/2/",
+              "display_url": "http://nbai-spike-netbox:8080/dcim/devices/2/",
+              "display": "spike-sdk",
+              "name": "spike-sdk",
+              "device_type": {
+                "id": 1,
+                "url": "http://nbai-spike-netbox:8080/api/dcim/device-types/1/",
+                "display": "Spike Model",
+                "manufacturer": {
+                  "id": 1,
+                  "url": "http://nbai-spike-netbox:8080/api/dcim/manufacturers/1/",
+                  "display": "Spike Maker",
+                  "name": "Spike Maker",
+                  "slug": "spike-maker",
+                  "description": ""
+                },
+                "model": "Spike Model",
+                "slug": "spike-model",
+                "description": "",
+                "device_count": 5
+              },
+              "role": {
+                "id": 1,
+                "url": "http://nbai-spike-netbox:8080/api/dcim/device-roles/1/",
+                "display": "Spike Role",
+                "name": "Spike Role",
+                "slug": "spike-role",
+                "description": "",
+                "device_count": 0,
+                "virtualmachine_count": 0,
+                "_depth": 0
+              },
+              "tenant": null,
+              "platform": null,
+              "serial": "",
+              "asset_tag": null,
+              "site": {
+                "id": 1,
+                "url": "http://nbai-spike-netbox:8080/api/dcim/sites/1/",
+                "display": "Spike Site",
+                "name": "Spike Site",
+                "slug": "spike-site",
+                "description": ""
+              },
+              "location": null,
+              "rack": null,
+              "position": null,
+              "face": null,
+              "latitude": null,
+              "longitude": null,
+              "parent_device": null,
+              "status": {
+                "value": "active",
+                "label": "Active"
+              },
+              "airflow": null,
+              "primary_ip": null,
+              "primary_ip4": null,
+              "primary_ip6": null,
+              "oob_ip": null,
+              "cluster": null,
+              "virtual_chassis": null,
+              "vc_position": null,
+              "vc_priority": null,
+              "description": "MCP B",
+              "owner": null,
+              "comments": "",
+              "config_template": null,
+              "config_context": {},
+              "local_context_data": null,
+              "tags": [],
+              "custom_fields": {},
+              "created": "2026-09-28T13:16:40.108494Z",
+              "last_updated": "2026-09-28T13:21:55.331436Z",
+              "console_port_count": 0,
+              "console_server_port_count": 0,
+              "power_port_count": 0,
+              "power_outlet_count": 0,
+              "interface_count": 0,
+              "front_port_count": 0,
+              "rear_port_count": 0,
+              "device_bay_count": 0,
+              "module_bay_count": 0,
+              "inventory_item_count": 0
+            }
+          },
+          "isError": false
+        }
+      }
+    },
+    {
+      "case": "stale_etag",
+      "passed": true,
+      "response": {
+        "jsonrpc": "2.0",
+        "id": 5,
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "{\n  \"status\": 412,\n  \"headers\": {\n    \"Content-Type\": \"application/json\",\n    \"Etag\": \"W/\\\"2026-09-28T13:21:55.331436+00:00\\\"\",\n    \"Vary\": \"HX-Request, Accept-Language, Cookie, origin\",\n    \"Allow\": \"GET, PUT, PATCH, DELETE, HEAD, OPTIONS\",\n    \"x-request-id\": \"a0790517-e56f-43ea-a076-92f9cfea840b\",\n    \"api-version\": \"4.6\",\n    \"x-content-type-options\": \"nosniff\",\n    \"referrer-policy\": \"same-origin\",\n    \"cross-origin-opener-policy\": \"same-origin\",\n    \"x-frame-options\": \"SAMEORIGIN\",\n    \"Content-Length\": \"33\",\n    \"Content-Language\": \"en\",\n    \"Server\": \"granian\",\n    \"Date\": \"Mon, 28 Sep 2026 13:21:55 GMT\"\n  },\n  \"body\": {\n    \"detail\": \"Precondition failed.\"\n  }\n}"
+            }
+          ],
+          "structuredContent": {
+            "status": 412,
+            "headers": {
+              "Content-Type": "application/json",
+              "Etag": "W/\"2026-09-28T13:21:55.331436+00:00\"",
+              "Vary": "HX-Request, Accept-Language, Cookie, origin",
+              "Allow": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS",
+              "x-request-id": "a0790517-e56f-43ea-a076-92f9cfea840b",
+              "api-version": "4.6",
+              "x-content-type-options": "nosniff",
+              "referrer-policy": "same-origin",
+              "cross-origin-opener-policy": "same-origin",
+              "x-frame-options": "SAMEORIGIN",
+              "Content-Length": "33",
+              "Content-Language": "en",
+              "Server": "granian",
+              "Date": "Mon, 28 Sep 2026 13:21:55 GMT"
+            },
+            "body": {
+              "detail": "Precondition failed."
+            }
+          },
+          "isError": false
+        }
+      }
+    },
+    {
+      "case": "invalid_status",
+      "passed": true,
+      "response": {
+        "jsonrpc": "2.0",
+        "id": 4,
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "{\n  \"status\": 400,\n  \"headers\": {\n    \"Content-Type\": \"application/json\",\n    \"Vary\": \"HX-Request, Accept-Language, Cookie, origin\",\n    \"Allow\": \"GET, PUT, PATCH, DELETE, HEAD, OPTIONS\",\n    \"x-request-id\": \"cd863d01-edd5-4de7-9fa2-d9a9d6ccb92e\",\n    \"api-version\": \"4.6\",\n    \"x-content-type-options\": \"nosniff\",\n    \"referrer-policy\": \"same-origin\",\n    \"cross-origin-opener-policy\": \"same-origin\",\n    \"x-frame-options\": \"SAMEORIGIN\",\n    \"Content-Length\": \"50\",\n    \"Content-Language\": \"en\",\n    \"Server\": \"granian\",\n    \"Date\": \"Mon, 28 Sep 2026 13:21:55 GMT\"\n  },\n  \"body\": {\n    \"status\": [\n      \"not-a-status is not a valid choice.\"\n    ]\n  }\n}"
+            }
+          ],
+          "structuredContent": {
+            "status": 400,
+            "headers": {
+              "Content-Type": "application/json",
+              "Vary": "HX-Request, Accept-Language, Cookie, origin",
+              "Allow": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS",
+              "x-request-id": "cd863d01-edd5-4de7-9fa2-d9a9d6ccb92e",
+              "api-version": "4.6",
+              "x-content-type-options": "nosniff",
+              "referrer-policy": "same-origin",
+              "cross-origin-opener-policy": "same-origin",
+              "x-frame-options": "SAMEORIGIN",
+              "Content-Length": "50",
+              "Content-Language": "en",
+              "Server": "granian",
+              "Date": "Mon, 28 Sep 2026 13:21:55 GMT"
+            },
+            "body": {
+              "status": [
+                "not-a-status is not a valid choice."
+              ]
+            }
+          },
+          "isError": false
+        }
+      }
+    },
+    {
+      "case": "create",
+      "passed": true,
+      "response": {
+        "jsonrpc": "2.0",
+        "id": 6,
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "{\n  \"status\": 201,\n  \"headers\": {\n    \"Content-Type\": \"application/json\",\n    \"Location\": \"http://nbai-spike-netbox:8080/api/dcim/sites/5/\",\n    \"Etag\": \"W/\\\"2026-09-28T13:21:55.862944+00:00\\\"\",\n    \"Vary\": \"HX-Request, Accept-Language, Cookie, origin\",\n    \"Allow\": \"GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS\",\n    \"x-request-id\": \"c27388a8-bb7c-4c54-ae80-857ced768e8f\",\n    \"api-version\": \"4.6\",\n    \"x-content-type-options\": \"nosniff\",\n    \"referrer-policy\": \"same-origin\",\n    \"cross-origin-opener-policy\": \"same-origin\",\n    \"x-frame-options\": \"SAMEORIGIN\",\n    \"Content-Length\": \"680\",\n    \"Content-Language\": \"en\",\n    \"Server\": \"granian\",\n    \"Date\": \"Mon, 28 Sep 2026 13:21:55 GMT\"\n  },\n  \"body\": {\n    \"id\": 5,\n    \"url\": \"http://nbai-spike-netbox:8080/api/dcim/sites/5/\",\n    \"display_url\": \"http://nbai-spike-netbox:8080/dcim/sites/5/\",\n    \"display\": \"spike-sdk-dbec77b6\",\n    \"name\": \"spike-sdk-dbec77b6\",\n    \"slug\": \"spike-sdk-dbec77b6\",\n    \"status\": {\n      \"value\": \"active\",\n      \"label\": \"Active\"\n    },\n    \"region\": null,\n    \"group\": null,\n    \"tenant\": null,\n    \"facility\": \"\",\n    \"time_zone\": null,\n    \"description\": \"\",\n    \"physical_address\": \"\",\n    \"shipping_address\": \"\",\n    \"latitude\": null,\n    \"longitude\": null,\n    \"owner\": null,\n    \"comments\": \"\",\n    \"asns\": [],\n    \"tags\": [],\n    \"custom_fields\": {},\n    \"created\": \"2026-09-28T13:21:55.862935Z\",\n    \"last_updated\": \"2026-09-28T13:21:55.862944Z\",\n    \"circuit_count\": 0,\n    \"device_count\": 0,\n    \"prefix_count\": 0,\n    \"rack_count\": 0,\n    \"virtualmachine_count\": 0,\n    \"vlan_count\": 0\n  }\n}"
+            }
+          ],
+          "structuredContent": {
+            "status": 201,
+            "headers": {
+              "Content-Type": "application/json",
+              "Location": "http://nbai-spike-netbox:8080/api/dcim/sites/5/",
+              "Etag": "W/\"2026-09-28T13:21:55.862944+00:00\"",
+              "Vary": "HX-Request, Accept-Language, Cookie, origin",
+              "Allow": "GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS",
+              "x-request-id": "c27388a8-bb7c-4c54-ae80-857ced768e8f",
+              "api-version": "4.6",
+              "x-content-type-options": "nosniff",
+              "referrer-policy": "same-origin",
+              "cross-origin-opener-policy": "same-origin",
+              "x-frame-options": "SAMEORIGIN",
+              "Content-Length": "680",
+              "Content-Language": "en",
+              "Server": "granian",
+              "Date": "Mon, 28 Sep 2026 13:21:55 GMT"
+            },
+            "body": {
+              "id": 5,
+              "url": "http://nbai-spike-netbox:8080/api/dcim/sites/5/",
+              "display_url": "http://nbai-spike-netbox:8080/dcim/sites/5/",
+              "display": "spike-sdk-dbec77b6",
+              "name": "spike-sdk-dbec77b6",
+              "slug": "spike-sdk-dbec77b6",
+              "status": {
+                "value": "active",
+                "label": "Active"
+              },
+              "region": null,
+              "group": null,
+              "tenant": null,
+              "facility": "",
+              "time_zone": null,
+              "description": "",
+              "physical_address": "",
+              "shipping_address": "",
+              "latitude": null,
+              "longitude": null,
+              "owner": null,
+              "comments": "",
+              "asns": [],
+              "tags": [],
+              "custom_fields": {},
+              "created": "2026-09-28T13:21:55.862935Z",
+              "last_updated": "2026-09-28T13:21:55.862944Z",
+              "circuit_count": 0,
+              "device_count": 0,
+              "prefix_count": 0,
+              "rack_count": 0,
+              "virtualmachine_count": 0,
+              "vlan_count": 0
+            }
+          },
+          "isError": false
+        }
+      }
+    },
+    {
+      "case": "delete",
+      "passed": true,
+      "response": {
+        "jsonrpc": "2.0",
+        "id": 7,
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "{\n  \"status\": 204,\n  \"headers\": {\n    \"Vary\": \"HX-Request, Accept-Language, Cookie, origin\",\n    \"Allow\": \"GET, PUT, PATCH, DELETE, HEAD, OPTIONS\",\n    \"x-request-id\": \"33a6f762-6eb6-495d-acf7-c88e32427398\",\n    \"api-version\": \"4.6\",\n    \"x-content-type-options\": \"nosniff\",\n    \"referrer-policy\": \"same-origin\",\n    \"cross-origin-opener-policy\": \"same-origin\",\n    \"x-frame-options\": \"SAMEORIGIN\",\n    \"Content-Length\": \"0\",\n    \"Content-Language\": \"en\",\n    \"Server\": \"granian\",\n    \"Date\": \"Mon, 28 Sep 2026 13:21:56 GMT\"\n  },\n  \"body\": \"\"\n}"
+            }
+          ],
+          "structuredContent": {
+            "status": 204,
+            "headers": {
+              "Vary": "HX-Request, Accept-Language, Cookie, origin",
+              "Allow": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS",
+              "x-request-id": "33a6f762-6eb6-495d-acf7-c88e32427398",
+              "api-version": "4.6",
+              "x-content-type-options": "nosniff",
+              "referrer-policy": "same-origin",
+              "cross-origin-opener-policy": "same-origin",
+              "x-frame-options": "SAMEORIGIN",
+              "Content-Length": "0",
+              "Content-Language": "en",
+              "Server": "granian",
+              "Date": "Mon, 28 Sep 2026 13:21:56 GMT"
+            },
+            "body": ""
+          },
+          "isError": false
+        }
+      }
+    }
+  ],
+  "sdk_variant": "patched",
+  "zenix": [
+    {
+      "case": "write",
+      "passed": true,
+      "response": {
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "Updated Device `spike-zenix` (id=3).\n\n## spike-zenix (id=3)\n- **display_url**: http://nbai-spike-netbox:8080/dcim/devices/3/\n- **name**: spike-zenix\n- **device_type**: Spike Model (id=1)\n- **role**: Spike Role (id=1)\n- **site**: Spike Site (id=1)\n- **status**: [object]\n- **description**: MCP B\n- **config_context**: [object]\n- **custom_fields**: [object]\n- **created**: 2026-09-28T13:16:40.261724Z\n- **last_updated**: 2026-09-28T13:21:57.333395Z\n- **console_port_count**: 0\n- **console_server_port_count**: 0\n- **power_port_count**: 0\n- **power_outlet_count**: 0\n- **interface_count**: 0\n- **front_port_count**: 0\n- **rear_port_count**: 0\n- **device_bay_count**: 0\n- **module_bay_count**: 0\n- **inventory_item_count**: 0"
+            }
+          ],
+          "structuredContent": {
+            "object_type": "dcim.device",
+            "operation": "update",
+            "item": {
+              "id": 3,
+              "url": "http://nbai-spike-netbox:8080/api/dcim/devices/3/",
+              "display_url": "http://nbai-spike-netbox:8080/dcim/devices/3/",
+              "display": "spike-zenix",
+              "name": "spike-zenix",
+              "device_type": {
+                "id": 1,
+                "url": "http://nbai-spike-netbox:8080/api/dcim/device-types/1/",
+                "display": "Spike Model",
+                "manufacturer": {
+                  "id": 1,
+                  "url": "http://nbai-spike-netbox:8080/api/dcim/manufacturers/1/",
+                  "display": "Spike Maker",
+                  "name": "Spike Maker",
+                  "slug": "spike-maker",
+                  "description": ""
+                },
+                "model": "Spike Model",
+                "slug": "spike-model",
+                "description": "",
+                "device_count": 5
+              },
+              "role": {
+                "id": 1,
+                "url": "http://nbai-spike-netbox:8080/api/dcim/device-roles/1/",
+                "display": "Spike Role",
+                "name": "Spike Role",
+                "slug": "spike-role",
+                "description": "",
+                "device_count": 0,
+                "virtualmachine_count": 0,
+                "_depth": 0
+              },
+              "tenant": null,
+              "platform": null,
+              "serial": "",
+              "asset_tag": null,
+              "site": {
+                "id": 1,
+                "url": "http://nbai-spike-netbox:8080/api/dcim/sites/1/",
+                "display": "Spike Site",
+                "name": "Spike Site",
+                "slug": "spike-site",
+                "description": ""
+              },
+              "location": null,
+              "rack": null,
+              "position": null,
+              "face": null,
+              "latitude": null,
+              "longitude": null,
+              "parent_device": null,
+              "status": {
+                "value": "active",
+                "label": "Active"
+              },
+              "airflow": null,
+              "primary_ip": null,
+              "primary_ip4": null,
+              "primary_ip6": null,
+              "oob_ip": null,
+              "cluster": null,
+              "virtual_chassis": null,
+              "vc_position": null,
+              "vc_priority": null,
+              "description": "MCP B",
+              "owner": null,
+              "comments": "",
+              "config_template": null,
+              "config_context": {},
+              "local_context_data": null,
+              "tags": [],
+              "custom_fields": {},
+              "created": "2026-09-28T13:16:40.261724Z",
+              "last_updated": "2026-09-28T13:21:57.333395Z",
+              "console_port_count": 0,
+              "console_server_port_count": 0,
+              "power_port_count": 0,
+              "power_outlet_count": 0,
+              "interface_count": 0,
+              "front_port_count": 0,
+              "rear_port_count": 0,
+              "device_bay_count": 0,
+              "module_bay_count": 0,
+              "inventory_item_count": 0
+            }
+          }
+        },
+        "jsonrpc": "2.0",
+        "id": 3
+      }
+    },
+    {
+      "case": "invalid_status",
+      "passed": true,
+      "response": {
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "Error: 'update' rejected locally \u2014 nothing was sent to NetBox.\n  - Field `status` must be one of: offline, active, planned, staged, failed, inventory, decommissioning. Received the string \"not-a-status\".\n\n---\nThis is what `dcim.device` accepts for `update` (the same output netbox_describe returns). Fix the call from this and try again:\n\n# Device (`dcim.device`) \u2014 operation `update`\n\nDevice objects (dcim/devices).\n\nEndpoint: `dcim/devices`. Supported operations: list, get, create, update, delete.\n\n## Must exist first\nThese object types are referenced by this one; create or look them up before writing:\n- `dcim.devicerole`\n- `dcim.devicetype`\n- `dcim.location`\n- `dcim.platform`\n- `dcim.rack`\n- `dcim.site`\n- `dcim.virtualchassis`\n- `extras.configtemplate`\n- `extras.tag`\n- `ipam.ipaddress`\n- `tenancy.tenant`\n- `users.owner`\n- `virtualization.cluster`\n\n## Required fields\n_(none \u2014 every field is optional)_\n\n_Update is a partial write: send only the fields you are changing. The fields above are required by `create`, not by `update`._\n\n## Optional fields\n- `name` (string, nullable)\n- `device_type` (integer, reference to dcim.devicetype (pass its numeric id)) \u2014 references dcim.devicetype; accepts a numeric ID (preferred) or a nested object\n- `role` (integer, reference to dcim.devicerole (pass its numeric id)) \u2014 references dcim.devicerole; accepts a numeric ID (preferred) or a nested object\n- `tenant` (integer, reference to tenancy.tenant (pass its numeric id), nullable) \u2014 references tenancy.tenant; accepts a numeric ID (preferred) or a nested object\n- `platform` (integer, reference to dcim.platform (pass its numeric id), nullable) \u2014 references dcim.platform; accepts a numeric ID (preferred) or a nested object\n- `serial` (string) \u2014 Chassis serial number, assigned by the manufacturer\n- `asset_tag` (string, nullable) \u2014 A unique tag used to identify this device\n- `site` (integer, reference to dcim.site (pass its numeric id)) \u2014 references dcim.site; accepts a numeric ID (preferred) or a nested object\n- `location` (integer, reference to dcim.location (pass its numeric id), nullable) \u2014 references dcim.location; accepts a numeric ID (preferred) or a nested object\n- `rack` (integer, reference to dcim.rack (pass its numeric id), nullable) \u2014 references dcim.rack; accepts a numeric ID (preferred) or a nested object\n- `position` (number, nullable) \u2014 Position (U)\n- `face` (string, one of: front | rear | , nullable) \u2014 * `front` - Front * `rear` - Rear\n- `latitude` (number, nullable) \u2014 GPS coordinate in decimal format (xx.yyyyyy)\n- `longitude` (number, nullable) \u2014 GPS coordinate in decimal format (xx.yyyyyy)\n- `status` (string, one of: offline | active | planned | staged | failed | inventory | decommissioning) \u2014 * `offline` - Offline * `active` - Active * `planned` - Planned * `staged` - Staged * `failed` - Failed * `inventory` - Inventory * `decommissioning` - Decommissioning\n- `airflow` (string, one of: front-to-rear | rear-to-front | left-to-right | right-to-left | side-to-rear | rear-to-side | bottom-to-top | top-to-bottom | passive | mixed | , nullable) \u2014 * `front-to-rear` - Front to rear * `rear-to-front` - Rear to front * `left-to-right` - Left to right * `right-to-left` - Right to left * `side-to-rear` - Side to rear * `rear-to-side` - Rear to side\u2026\n- `primary_ip4` (integer, reference to ipam.ipaddress (pass its numeric id), nullable) \u2014 references ipam.ipaddress; accepts a numeric ID (preferred) or a nested object\n- `primary_ip6` (integer, reference to ipam.ipaddress (pass its numeric id), nullable) \u2014 references ipam.ipaddress; accepts a numeric ID (preferred) or a nested object\n- `oob_ip` (integer, reference to ipam.ipaddress (pass its numeric id), nullable) \u2014 references ipam.ipaddress; accepts a numeric ID (preferred) or a nested object\n- `cluster` (integer, reference to virtualization.cluster (pass its numeric id), nullable) \u2014 references virtualization.cluster; accepts a numeric ID (preferred) or a nested object\n- `virtual_chassis` (integer, reference to dcim.virtualchassis (pass its numeric id), nullable) \u2014 references dcim.virtualchassis; accepts a numeric ID (preferred) or a nested object\n- `vc_position` (integer, nullable)\n- `vc_priority` (integer, nullable) \u2014 Virtual chassis master election priority\n- `description` (string)\n- `owner` (integer, reference to users.owner (pass its numeric id), nullable) \u2014 references users.owner; accepts a numeric ID (preferred) or a nested object\n- `comments` (string)\n- `config_template` (integer, reference to extras.configtemplate (pass its numeric id), nullable) \u2014 references extras.configtemplate; accepts a numeric ID (preferred) or a nested object\n- `local_context_data` (unknown, nullable) \u2014 Local config context data takes precedence over source contexts in the final rendered config context\n- `tags` (array, reference to extras.tag (pass its numeric id)) \u2014 references many extras.tag; accepts a list of numeric IDs (preferred) or a nested object\n- `custom_fields` (object)\n\n## Notes\n- PATCH dcim/devices/{id}/ is partial: send only the fields you are changing.\n- Related objects are referenced by numeric ID. Create or look up the referenced object first and pass its id.\n- Choice fields take a bare value string on write. A GET returns them as {\"value\", \"label\"} \u2014 send the value, not the object.\n- Read-only, returned by GET but never accepted on write: id, url, display_url, display, parent_device, primary_ip, config_context, created, last_updated, console_port_count, console_server_port_count, power_port_count, +7 more."
+            }
+          ],
+          "isError": true
+        },
+        "jsonrpc": "2.0",
+        "id": 4
+      }
+    },
+    {
+      "case": "create",
+      "passed": true,
+      "response": {
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "Created Site `spike-zenix-bd2f815f` (id=6).\n\n## spike-zenix-bd2f815f (id=6)\n- **display_url**: http://nbai-spike-netbox:8080/dcim/sites/6/\n- **name**: spike-zenix-bd2f815f\n- **slug**: spike-zenix-bd2f815f\n- **status**: [object]\n- **custom_fields**: [object]\n- **created**: 2026-09-28T13:21:57.577919Z\n- **last_updated**: 2026-09-28T13:21:57.577929Z\n- **circuit_count**: 0\n- **device_count**: 0\n- **prefix_count**: 0\n- **rack_count**: 0\n- **virtualmachine_count**: 0\n- **vlan_count**: 0"
+            }
+          ],
+          "structuredContent": {
+            "object_type": "dcim.site",
+            "operation": "create",
+            "item": {
+              "id": 6,
+              "url": "http://nbai-spike-netbox:8080/api/dcim/sites/6/",
+              "display_url": "http://nbai-spike-netbox:8080/dcim/sites/6/",
+              "display": "spike-zenix-bd2f815f",
+              "name": "spike-zenix-bd2f815f",
+              "slug": "spike-zenix-bd2f815f",
+              "status": {
+                "value": "active",
+                "label": "Active"
+              },
+              "region": null,
+              "group": null,
+              "tenant": null,
+              "facility": "",
+              "time_zone": null,
+              "description": "",
+              "physical_address": "",
+              "shipping_address": "",
+              "latitude": null,
+              "longitude": null,
+              "owner": null,
+              "comments": "",
+              "asns": [],
+              "tags": [],
+              "custom_fields": {},
+              "created": "2026-09-28T13:21:57.577919Z",
+              "last_updated": "2026-09-28T13:21:57.577929Z",
+              "circuit_count": 0,
+              "device_count": 0,
+              "prefix_count": 0,
+              "rack_count": 0,
+              "virtualmachine_count": 0,
+              "vlan_count": 0
+            }
+          }
+        },
+        "jsonrpc": "2.0",
+        "id": 5
+      }
+    },
+    {
+      "case": "delete",
+      "passed": true,
+      "response": {
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "Deleted Site \"spike-zenix-bd2f815f\" (dcim.site id=6). Objects that depended on it may have been removed with it."
+            }
+          ],
+          "structuredContent": {
+            "object_type": "dcim.site",
+            "operation": "delete",
+            "id": 6,
+            "display": "spike-zenix-bd2f815f",
+            "deleted": true
+          }
+        },
+        "jsonrpc": "2.0",
+        "id": 6
+      }
+    }
+  ],
+  "zenix_variant": "upstream",
+  "nbox": [
+    {
+      "case": "write",
+      "passed": true,
+      "response": {
+        "jsonrpc": "2.0",
+        "id": 4,
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "{\"applied\":true,\"etag\":\"W/\\\"2026-09-28T13:21:58.862938+00:00\\\"\",\"fields\":[{\"after\":\"planned\",\"before\":\"active\",\"field\":\"status\"}],\"message\":\"applied: device spike-nbox (status)\",\"no_op\":false,\"operation\":\"update\",\"schema_version\":1,\"status\":200,\"target\":{\"display\":\"spike-nbox\",\"endpoint\":\"/api/dcim/devices/4/\",\"id\":4,\"kind\":\"device\",\"profile\":\"\",\"ref\":\"spike-nbox\"}}"
+            }
+          ],
+          "structuredContent": {
+            "applied": true,
+            "etag": "W/\"2026-09-28T13:21:58.862938+00:00\"",
+            "fields": [
+              {
+                "after": "planned",
+                "before": "active",
+                "field": "status"
+              }
+            ],
+            "message": "applied: device spike-nbox (status)",
+            "no_op": false,
+            "operation": "update",
+            "schema_version": 1,
+            "status": 200,
+            "target": {
+              "display": "spike-nbox",
+              "endpoint": "/api/dcim/devices/4/",
+              "id": 4,
+              "kind": "device",
+              "profile": "",
+              "ref": "spike-nbox"
+            }
+          },
+          "isError": false
+        }
+      }
+    }
+  ],
+  "nbox_variant": "upstream"
+}

@@ -1,0 +1,22 @@
+{
+  "at_utc": "2026-09-28T14:22:52.189060+00:00",
+  "acceptance_run": "run-20260928T091918",
+  "tests_passed": 30,
+  "tests_total": 30,
+  "json_parsing": "passed",
+  "markdown_links": "passed",
+  "credential_scan": "passed",
+  "verified_export_checksums": 80,
+  "source_sha256": {
+    "run.py": "bd95d663ac6d61bacd8d8850458dff05df70a7b5f080cd327de5492d9bf82301",
+    "setup_lab.py": "e4957d064011f1d4a3c357adad056a2b5c7629d1c1a60466d612ed9f738a71d4",
+    "demo.py": "a2341cb40f8e3ab6ac1afdd86dcd4595c70eaafa0c235254f315e2b87ccd30e2",
+    "tests/mcp_client.py": "8dfbaa8a33f2cf767465fd70ae0e3f34b3e350133287913eb70605a248c975c4",
+    "tests/test_live.py": "cb638c4ada154c82a7dbadcdfddcc8e600d0eb33686ab51dae7fd9ba18d61c31",
+    "direct_mcp/service.py": "dc668c47e027095bd36344e301278ee3e643ee2dafe8363f9dfa5ca963c447cb",
+    "direct_mcp/api.py": "74c4a0ae672ca5fe6b0f02e574c36df56ad28a03a149584b6ca39f45d273d7f6",
+    "direct_mcp/__init__.py": "4e170fe2628a20d822c338e6f5aa0af810964fcba91213911a28721f57cdbb07",
+    "direct_mcp/store.py": "25786428b441d3753d5d5ad6bcc461a1e74c43163c0e7249b962c45ef566dd08",
+    "direct_mcp/server.py": "7556af2c1e1746bdcff1908a61144254f687b452b1907d959a691f46c9feb7eb"
+  }
+}

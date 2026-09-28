@@ -1,0 +1,9 @@
+🧬 loaded config '/etc/netbox/config/configuration.py'
+🧬 loaded config '/etc/netbox/config/extra.py'
+🧬 loaded config '/etc/netbox/config/logging.py'
+🧬 loaded config '/etc/netbox/config/plugins.py'
+158 objects imported automatically (use -v 2 for details).
+
+RETENTION=0
+/opt/netbox/netbox/netbox/settings.py:278: FutureWarning: LOGIN_REQUIRED is deprecated and will be removed in NetBox v5.0. This parameter can be removed from your configuration file.
+  warnings.warn(

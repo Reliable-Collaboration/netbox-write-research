@@ -1,0 +1,21 @@
+{
+  "sdk": {
+    "repository": "emersonfelipesp/netbox-sdk",
+    "commit": "b539b53eefbe289315fcbccf9bb34930bb09af37",
+    "archive_sha256": "69fef77bb90e38d910d0ef29546b53cbbc67395706e8df21dd837642f62c0dba",
+    "build_exit": 0
+  },
+  "zenix": {
+    "repository": "ZenixSolutions/netbox-mcp-server",
+    "commit": "42d30025223dd525b1783d19f1fdf9d67f5168ba",
+    "archive_sha256": "ae0f773d6af9ee08f8d5d91870ac0132946f86606f6b02b2a6ff0fd55ca9e4ed",
+    "build_exit": 0
+  },
+  "nbox": {
+    "release": "v0.14.1",
+    "commit": "214608d8ce573e554af4e887383d90ac9c2628f9",
+    "url": "https://github.com/lance0/nbox/releases/download/v0.14.1/nbox-x86_64-unknown-linux-musl.tar.gz",
+    "archive_sha256": "a3f5fb9e97ed001d3d4ef5807f5ea36f5dcd9271dd6e74c2afb42ba56c3d5e28",
+    "note": "Release binary differs from research master snapshot; no upstream source modifications."
+  }
+}

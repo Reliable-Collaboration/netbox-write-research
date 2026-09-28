@@ -1,0 +1,36 @@
+[
+  {
+    "id": 5,
+    "field": "postchange_data",
+    "before": {
+      "name": "Spike Role",
+      "slug": "spike-role",
+      "tags": [],
+      "color": "2196f3",
+      "owner": null,
+      "parent": null,
+      "vm_role": true,
+      "comments": "",
+      "description": "",
+      "custom_fields": {},
+      "config_template": null
+    },
+    "after": {
+      "lft": 1,
+      "name": "Spike Role",
+      "rght": 2,
+      "slug": "spike-role",
+      "tags": [],
+      "color": "2196f3",
+      "level": 0,
+      "owner": null,
+      "parent": null,
+      "tree_id": 1,
+      "vm_role": true,
+      "comments": "",
+      "description": "",
+      "custom_fields": {},
+      "config_template": null
+    }
+  }
+]

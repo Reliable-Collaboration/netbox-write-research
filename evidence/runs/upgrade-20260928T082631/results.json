@@ -1,0 +1,6 @@
+{
+  "success": false,
+  "stage": "exact snapshot equality",
+  "error": "One device-role snapshot gained MPTT fields during upgrade; see evidence/upgrade-snapshot-differences.json and the subsequent drill.",
+  "recorded_after_failure": true
+}

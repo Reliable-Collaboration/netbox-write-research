@@ -1,0 +1,1 @@
+{"changes":[],"events":[{"body":"{\"error\":\"archive unavailable\"}","created":1790602592.368971,"kind":"archive_failed","operation":null,"seq":1}],"lineage":"spike-4.6.10-initial","operations":[],"schema_version":1,"tasks":[{"created":1790602592.3684375,"id":"3af7141b-3acc-44e1-b766-488ccfe18c54","purpose":"test_T10_fail_closed_archive_outage"}]}

@@ -1,0 +1,65 @@
+--- a/netbox_mcp/app.py
++++ b/netbox_mcp/app.py
+@@ -215,7 +215,7 @@
+         token: str | None = None,
+     ) -> dict[str, Any]:
+         """Create a record. dry_run is a local preview, not server validation or proof of success."""
+-        return await active.create(**locals())
++        return await active.create(**{k: v for k, v in locals().items() if k != "active"})
+ 
+     @server.tool()
+     async def update(
+@@ -228,7 +228,7 @@
+         token: str | None = None,
+     ) -> dict[str, Any]:
+         """Replace a record. dry_run is a local preview, not server validation or proof of success."""
+-        return await active.update(**locals())
++        return await active.update(**{k: v for k, v in locals().items() if k != "active"})
+ 
+     @server.tool()
+     async def patch(
+@@ -241,7 +241,7 @@
+         token: str | None = None,
+     ) -> dict[str, Any]:
+         """Patch a record. dry_run is a local preview, not server validation or proof of success."""
+-        return await active.patch(**locals())
++        return await active.patch(**{k: v for k, v in locals().items() if k != "active"})
+ 
+     @server.tool()
+     async def delete(
+@@ -253,7 +253,7 @@
+         token: str | None = None,
+     ) -> dict[str, Any]:
+         """Delete a record. dry_run is a local preview, not server validation or proof of success."""
+-        return await active.delete(**locals())
++        return await active.delete(**{k: v for k, v in locals().items() if k != "active"})
+ 
+     @server.tool()
+     async def bulk_update(
+@@ -265,7 +265,7 @@
+         token: str | None = None,
+     ) -> dict[str, Any]:
+         """Bulk replace records. dry_run is a local preview, not server validation or proof of success."""
+-        return await active.bulk_update(**locals())
++        return await active.bulk_update(**{k: v for k, v in locals().items() if k != "active"})
+ 
+     @server.tool()
+     async def bulk_patch(
+@@ -277,7 +277,7 @@
+         token: str | None = None,
+     ) -> dict[str, Any]:
+         """Bulk patch records. dry_run is a local preview, not server validation or proof of success."""
+-        return await active.bulk_patch(**locals())
++        return await active.bulk_patch(**{k: v for k, v in locals().items() if k != "active"})
+ 
+     @server.tool()
+     async def bulk_delete(
+@@ -289,7 +289,7 @@
+         token: str | None = None,
+     ) -> dict[str, Any]:
+         """Bulk delete records. dry_run is a local preview, not server validation or proof of success."""
+-        return await active.bulk_delete(**locals())
++        return await active.bulk_delete(**{k: v for k, v in locals().items() if k != "active"})
+ 
+     @server.tool()
+     async def plugin_discover(plugin: str, token: str | None = None) -> dict[str, Any]:

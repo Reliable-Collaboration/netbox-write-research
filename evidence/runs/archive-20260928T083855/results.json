@@ -1,0 +1,8 @@
+{
+  "late_record_recovered": true,
+  "reordered_replay_deduplicated": true,
+  "interrupted_export_retained_prior_evidence": true,
+  "native_history_loss_detected": true,
+  "offline_export_readable": true,
+  "records": 260
+}

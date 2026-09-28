@@ -1,0 +1,2407 @@
+[
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "method": "initialize",
+      "params": {
+        "protocolVersion": "2024-11-05",
+        "capabilities": {},
+        "clientInfo": {
+          "name": "nbai-spike",
+          "version": "0.1"
+        }
+      }
+    },
+    "response": {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "result": {
+        "protocolVersion": "2024-11-05",
+        "capabilities": {
+          "prompts": {},
+          "resources": {},
+          "tools": {}
+        },
+        "serverInfo": {
+          "name": "rmcp",
+          "version": "1.8.0"
+        },
+        "instructions": "Read-only NetBox lookups: search, devices, IPs, prefixes, VLANs, sites, racks, circuits, journals, tags, and the change-history (audit log). Use nbox_search to find an object's reference, then nbox_get to fetch it; nbox_history for what changed and nbox_journal for operator notes. Objects are also exposed as nbox://{kind}/{ref} resources (same view as nbox_get). Curated investigation prompts (IP utilization audit, cable path trace, stale-prefix sweep, object change review) are available via prompts/list. Local writes are enabled: nbox_plan_write reviews the before/after diff + confirm token, then nbox_apply_write mutates NetBox under the active profile token; forged or replayed plans are rejected."
+      }
+    },
+    "seconds": 0.006857697999294032
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 2,
+      "method": "tools/list",
+      "params": {}
+    },
+    "response": {
+      "jsonrpc": "2.0",
+      "id": 2,
+      "result": {
+        "tools": [
+          {
+            "name": "nbox_apply_write",
+            "description": "Apply a previously planned write. Pass back the MutationPlan from nbox_plan_write; its confirm_token looks up the plan this server stored at plan time and applies THAT (the plan contents you submit are not trusted \u2014 a forged or edited plan, one issued for a different actor, or a replay is rejected). Same gating as nbox_plan_write: local stdio uses --local-writes / [serve].local_writes and the active profile token; shared HTTP/OIDC uses --allow-writes, the caller's nbox:write scope, and a [serve.vault] entry for the caller's OIDC sub.",
+            "inputSchema": {
+              "$defs": {
+                "FieldChange": {
+                  "description": "One field in scope for the change, with its before/after values for review.\nThis IS the redacted, stable field diff: only the scoped fields appear, in\ndeclaration order \u2014 never the full object, never unrelated fields\n(ADR-0001 \u00a71, \u00a78). Values are the shaped values the operator reviews, not\nraw wire JSON.",
+                  "properties": {
+                    "after": true,
+                    "before": true,
+                    "field": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "field",
+                    "before",
+                    "after"
+                  ],
+                  "type": "object"
+                },
+                "MutationPlan": {
+                  "description": "A validated, ready-to-review write plan (ADR-0001 \u00a71). Built from a live\nobject + an intent; applied only after explicit confirmation.",
+                  "properties": {
+                    "changelog_message": {
+                      "description": "Opt-in NetBox changelog message, validated to \u2264\n[`CHANGELOG_MESSAGE_MAX`] characters.",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "confirm_token": {
+                      "description": "Opaque guard that the caller is applying the same scoped plan it\nreviewed \u2014 NOT an authorization credential (ADR-0001 \u00a75).",
+                      "type": "string"
+                    },
+                    "count": {
+                      "description": "How many resources to allocate. `1` for a single allocation (the\ndefault \u2014 omitted from JSON so existing plans are byte-identical).\n`>1` triggers N sequential POSTs at apply time. Bound into the\nconfirmation token so a `count=3` plan cannot be replayed as `count=5`.",
+                      "format": "uint32",
+                      "minimum": 0,
+                      "type": "integer"
+                    },
+                    "errors": {
+                      "description": "Hard validation failures that block the write (the planner fails closed).\nA plan with errors must not be applied.",
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "expires_at": {
+                      "description": "When the plan expires (ISO 8601 UTC, `YYYY-MM-DDTHH:MM:SSZ`). Apply\nrefuses past this time.",
+                      "type": "string"
+                    },
+                    "fields": {
+                      "description": "The scoped field changes (the reviewable diff).",
+                      "items": {
+                        "$ref": "#/$defs/FieldChange"
+                      },
+                      "type": "array"
+                    },
+                    "no_op": {
+                      "default": false,
+                      "description": "True when the patch body is empty \u2014 the current values already match.",
+                      "type": "boolean"
+                    },
+                    "operation": {
+                      "$ref": "#/$defs/Operation"
+                    },
+                    "patch": {
+                      "description": "The minimal REST `PATCH` body for the object fields in scope. Empty\n(`{}`) when [`no_op`](Self::no_op) \u2014 applying a no-op sends no `PATCH`."
+                    },
+                    "precondition": {
+                      "$ref": "#/$defs/Precondition"
+                    },
+                    "schema_version": {
+                      "format": "uint32",
+                      "minimum": 0,
+                      "type": "integer"
+                    },
+                    "target": {
+                      "$ref": "#/$defs/PlanTarget"
+                    },
+                    "warnings": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "schema_version",
+                    "operation",
+                    "target",
+                    "precondition",
+                    "fields",
+                    "patch",
+                    "confirm_token",
+                    "expires_at"
+                  ],
+                  "type": "object"
+                },
+                "Operation": {
+                  "description": "The operation a plan performs. `update` (`PATCH`) and `allocate` (`POST` to a\nserver allocation endpoint, e.g. a prefix's `available-ips`) are the v1 verbs;\ncreate/delete are reserved for later releases (ADR-0001 \u00a71, \u00a76).",
+                  "oneOf": [
+                    {
+                      "const": "update",
+                      "description": "A partial update (`PATCH` against the object detail endpoint).",
+                      "type": "string"
+                    },
+                    {
+                      "const": "allocate",
+                      "description": "A server-side allocation (`POST` to an allocation endpoint that hands out\nthe next free resource, e.g. `\u2026/prefixes/{id}/available-ips/`). Creates a\nnew object; the server picks the value and guards against races.",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "PlanTarget": {
+                  "description": "Identity of the write target, captured so the plan is self-describing and\nthe audit event can record it without re-deriving.",
+                  "properties": {
+                    "display": {
+                      "description": "A human-friendly label (NetBox `display` when present, else the ref).",
+                      "type": "string"
+                    },
+                    "endpoint": {
+                      "description": "The REST detail endpoint patched on apply (e.g. `/api/dcim/interfaces/42/`).",
+                      "type": "string"
+                    },
+                    "id": {
+                      "description": "The resolved NetBox object id.",
+                      "format": "uint64",
+                      "minimum": 0,
+                      "type": "integer"
+                    },
+                    "kind": {
+                      "description": "Object kind (e.g. `interface`).",
+                      "type": "string"
+                    },
+                    "profile": {
+                      "description": "The active profile name, bound into the confirmation token.",
+                      "type": "string"
+                    },
+                    "ref": {
+                      "description": "The user-facing reference (e.g. `edge01/xe-0/0/1`).",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "ref",
+                    "id",
+                    "display",
+                    "endpoint",
+                    "profile"
+                  ],
+                  "type": "object"
+                },
+                "Precondition": {
+                  "description": "The optimistic-concurrency precondition recorded at plan time and checked at\napply (ADR-0001 \u00a73). An update on 4.6+ carries an `ETag` (sent as `If-Match`;\na stale object yields `412`); older releases fall back to `last_updated` plus\na normalized before-hash, checked by a read-before-write at apply time. An\nallocation has no client precondition \u2014 the server endpoint is race-safe.\nExactly one variant is populated; it is folded into the confirmation token.",
+                  "oneOf": [
+                    {
+                      "description": "NetBox 4.6+ returns an `ETag` on the detail response; the apply sends\n`If-Match: <etag>` and a stale object yields `412 Precondition Failed`.",
+                      "properties": {
+                        "etag": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "const": "etag",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "etag"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "description": "Pre-4.6 fallback: the object's `last_updated` timestamp plus a\nbefore-hash over the in-scope fields. At apply, nbox re-reads the object\nand refuses if either changed \u2014 a conservative read-before-write check.",
+                      "properties": {
+                        "before_hash": {
+                          "type": "string"
+                        },
+                        "last_updated": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "type": {
+                          "const": "last_updated",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "before_hash"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "description": "No client-side precondition. Used by `allocate`: the server allocation\nendpoint (e.g. `available-ips`) is inherently race-safe \u2014 NetBox never\nhands out the same resource twice \u2014 so there is no prior object to guard.",
+                      "properties": {
+                        "type": {
+                          "const": "none",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "type"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                }
+              },
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "properties": {
+                "plan": {
+                  "$ref": "#/$defs/MutationPlan",
+                  "description": "The `MutationPlan` returned by `nbox_plan_write`. Only its `confirm_token`\nis used \u2014 to look up the plan this server issued and stored at plan time;\nthat stored plan is what executes. The rest of the JSON is not trusted, so\na forged or edited plan has no matching stored entry and is rejected."
+                }
+              },
+              "required": [
+                "plan"
+              ],
+              "type": "object"
+            },
+            "outputSchema": {
+              "$defs": {
+                "FieldChange": {
+                  "description": "One field in scope for the change, with its before/after values for review.\nThis IS the redacted, stable field diff: only the scoped fields appear, in\ndeclaration order \u2014 never the full object, never unrelated fields\n(ADR-0001 \u00a71, \u00a78). Values are the shaped values the operator reviews, not\nraw wire JSON.",
+                  "properties": {
+                    "after": true,
+                    "before": true,
+                    "field": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "field",
+                    "before",
+                    "after"
+                  ],
+                  "type": "object"
+                },
+                "Operation": {
+                  "description": "The operation a plan performs. `update` (`PATCH`) and `allocate` (`POST` to a\nserver allocation endpoint, e.g. a prefix's `available-ips`) are the v1 verbs;\ncreate/delete are reserved for later releases (ADR-0001 \u00a71, \u00a76).",
+                  "oneOf": [
+                    {
+                      "const": "update",
+                      "description": "A partial update (`PATCH` against the object detail endpoint).",
+                      "type": "string"
+                    },
+                    {
+                      "const": "allocate",
+                      "description": "A server-side allocation (`POST` to an allocation endpoint that hands out\nthe next free resource, e.g. `\u2026/prefixes/{id}/available-ips/`). Creates a\nnew object; the server picks the value and guards against races.",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "PlanTarget": {
+                  "description": "Identity of the write target, captured so the plan is self-describing and\nthe audit event can record it without re-deriving.",
+                  "properties": {
+                    "display": {
+                      "description": "A human-friendly label (NetBox `display` when present, else the ref).",
+                      "type": "string"
+                    },
+                    "endpoint": {
+                      "description": "The REST detail endpoint patched on apply (e.g. `/api/dcim/interfaces/42/`).",
+                      "type": "string"
+                    },
+                    "id": {
+                      "description": "The resolved NetBox object id.",
+                      "format": "uint64",
+                      "minimum": 0,
+                      "type": "integer"
+                    },
+                    "kind": {
+                      "description": "Object kind (e.g. `interface`).",
+                      "type": "string"
+                    },
+                    "profile": {
+                      "description": "The active profile name, bound into the confirmation token.",
+                      "type": "string"
+                    },
+                    "ref": {
+                      "description": "The user-facing reference (e.g. `edge01/xe-0/0/1`).",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "ref",
+                    "id",
+                    "display",
+                    "endpoint",
+                    "profile"
+                  ],
+                  "type": "object"
+                }
+              },
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "properties": {
+                "applied": {
+                  "description": "True when the `PATCH` was sent and NetBox accepted it.",
+                  "type": "boolean"
+                },
+                "etag": {
+                  "description": "The new `ETag` when NetBox returned one on the `PATCH` response.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "fields": {
+                  "description": "The field changes that were applied (before/after as reviewed).",
+                  "items": {
+                    "$ref": "#/$defs/FieldChange"
+                  },
+                  "type": "array"
+                },
+                "message": {
+                  "description": "The human-readable outcome line per ADR-0001 \u00a78.",
+                  "type": "string"
+                },
+                "no_op": {
+                  "default": false,
+                  "description": "True when the plan was a no-op (no `PATCH` sent).",
+                  "type": "boolean"
+                },
+                "object": {
+                  "description": "The affected object's JSON view, when the operation produced one to return\n\u2014 i.e. an `allocate` carries the **created** object (the reserved IP's\nview) so scripts get its address/id/status without a follow-up read. An\n`update` omits it (the field diff is the result), so existing update\nreceipts are byte-identical and `schema_version` stays 1.\nA multi-IP allocation (`count > 1`) carries a JSON **array** of the\ncreated IP views here; a single allocation carries the one created view."
+                },
+                "operation": {
+                  "$ref": "#/$defs/Operation"
+                },
+                "request_id": {
+                  "description": "The NetBox object-change request id, when a receipt lookup finds one\n(deferred in v1 \u2014 the field exists per the audit allow-list).",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "schema_version": {
+                  "format": "uint32",
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "status": {
+                  "description": "The HTTP status of the `PATCH` (`0` when no request was made \u2014 no-op).",
+                  "format": "uint16",
+                  "maximum": 65535,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "target": {
+                  "$ref": "#/$defs/PlanTarget"
+                }
+              },
+              "required": [
+                "schema_version",
+                "operation",
+                "target",
+                "fields",
+                "applied",
+                "status",
+                "message"
+              ],
+              "type": "object"
+            },
+            "annotations": {
+              "readOnlyHint": false
+            }
+          },
+          {
+            "name": "nbox_cache_clear",
+            "description": "Clear nbox's local read cache so the next lookups fetch fresh from NetBox. Use this after data changed in NetBox out-of-band and you need the current state before the cache TTL expires. Safe and read-only with respect to NetBox \u2014 it only drops cached copies held in this server process.",
+            "inputSchema": {
+              "properties": {},
+              "type": "object"
+            },
+            "outputSchema": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "properties": {
+                "status": {
+                  "description": "Human-readable confirmation, e.g. \"cache cleared\".",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "status"
+              ],
+              "type": "object"
+            },
+            "annotations": {
+              "readOnlyHint": true,
+              "idempotentHint": true
+            }
+          },
+          {
+            "name": "nbox_get",
+            "description": "Look up a single object and its context. `kind` is one of: device, ip, prefix, vlan, site, rack, rack_group, circuit, virtual_circuit, aggregate, asn, ip_range, tenant, contact, provider, vm, vm_type, cluster, vrf, route_target, mac, interface. `ref` is the natural reference for that kind (name/slug/ID; CIDR for prefix/aggregate; address for ip; VID or name for vlan; AS number for asn; slug/name/ID for tenant; name/ID for contact; slug/name/ID for provider; name/ID for vm and cluster; slug/name/ID for rack_group and vm_type; `<device>/<name>` for interface, verbatim after the device since names may contain slashes; CID or ID for virtual_circuit). On an ambiguous reference the error lists the candidates: pass `vrf` for an ip/prefix in several VRFs, or `site`/`group` for a VLAN VID present at several sites.",
+            "inputSchema": {
+              "$defs": {
+                "GetKind": {
+                  "description": "The object kinds `nbox_get` (and `nbox_journal`) can resolve.",
+                  "oneOf": [
+                    {
+                      "enum": [
+                        "device",
+                        "prefix",
+                        "vlan",
+                        "site",
+                        "rack",
+                        "circuit",
+                        "aggregate",
+                        "asn",
+                        "ip_range",
+                        "tenant",
+                        "contact",
+                        "provider",
+                        "vm",
+                        "cluster",
+                        "vrf",
+                        "route_target"
+                      ],
+                      "type": "string"
+                    },
+                    {
+                      "const": "ip",
+                      "description": "IP address. Accepts both `ip` and `ip_address` \u2014 the latter is what\n`nbox_search` returns as a result `kind`, so an agent can chain\nsearch \u2192 get (and `nbox://ip_address/\u2026`) without translating. (Search uses\n`ObjectKind::IpAddress` = `\"ip_address\"`; every other kind already matches\nbetween the two enums, so this is the only alias needed.)",
+                      "type": "string"
+                    },
+                    {
+                      "const": "rack_group",
+                      "description": "A rack group. The `ref` is the slug, name, or numeric ID.",
+                      "type": "string"
+                    },
+                    {
+                      "const": "virtual_circuit",
+                      "description": "A virtual circuit (NetBox 4.2+). The `ref` is the CID or numeric ID. A\nlogical overlay between two or more device interfaces \u2014 multi-point (no\nA/Z sides) and virtual (no cables), so its terminations are a flat list of\ninterface refs, not a cable-path diagram.",
+                      "type": "string"
+                    },
+                    {
+                      "const": "vm_type",
+                      "description": "A virtual machine type (NetBox 4.6+). The `ref` is the slug, name, or\nnumeric ID.",
+                      "type": "string"
+                    },
+                    {
+                      "const": "mac",
+                      "description": "A MAC address (NetBox 4.2+). Reverse-resolves a MAC to the interface(s)/\ndevice(s) that carry it. The `ref` is the MAC string (any common form is\nnormalized); a non-MAC is `invalid_params`, >1 interface carrying it is\nambiguous.",
+                      "type": "string"
+                    },
+                    {
+                      "const": "interface",
+                      "description": "An interface. The `ref` is `<device>/<name>` (e.g. `edge01/xe-0/0/1`),\nverbatim after the device since names may contain slashes. Interfaces have\nno single-string ref, so they aren't journalable via the `name`-only\nresolver \u2014 this kind resolves the interface id from the device+name.",
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "properties": {
+                "fields": {
+                  "default": null,
+                  "description": "Keep only these top-level keys in the returned object (unknown keys are\nsilently ignored). Omit to return the full object. A token-economy lever\nfor agents that only need a slice of a fat view model.",
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": [
+                    "array",
+                    "null"
+                  ]
+                },
+                "group": {
+                  "description": "Disambiguate by VLAN group (name or slug) when a VID exists in several.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "kind": {
+                  "$ref": "#/$defs/GetKind",
+                  "description": "What kind of object to fetch."
+                },
+                "ref": {
+                  "description": "The reference: a name/slug/ID for named objects; a CIDR for prefix and\naggregate; an address for ip; a VID or name for vlan; a start address or\nID for ip_range; the AS number for asn.",
+                  "type": "string"
+                },
+                "site": {
+                  "description": "Disambiguate by site (name or slug) when a VLAN VID exists at several\nsites.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "vrf": {
+                  "description": "Disambiguate by VRF (name, slug, or RD) when an ip/prefix exists in\nseveral VRFs.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "kind",
+                "ref"
+              ],
+              "type": "object"
+            },
+            "outputSchema": {
+              "type": "object"
+            },
+            "annotations": {
+              "readOnlyHint": true
+            }
+          },
+          {
+            "name": "nbox_get_interface",
+            "description": "Show one interface on a device: its config, assigned IP addresses, and the cable-path trace (what it connects to). Resolve the device by name, slug, or ID.",
+            "inputSchema": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "properties": {
+                "device": {
+                  "description": "Device name, slug, or numeric ID.",
+                  "type": "string"
+                },
+                "interface": {
+                  "description": "Interface name, e.g. `eth0` or `GigabitEthernet0/1`.",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "device",
+                "interface"
+              ],
+              "type": "object"
+            },
+            "outputSchema": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "properties": {
+                "cable": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "connected_to": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "custom_fields": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "description": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "device": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "enabled": {
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "ip_addresses": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "mac_address": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "mode": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "mtu": {
+                  "format": "uint32",
+                  "minimum": 0,
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "name": {
+                  "type": "string"
+                },
+                "owner": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "tagged_vlans": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "tags": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "trace": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "type": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "untagged_vlan": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "name",
+                "tagged_vlans",
+                "connected_to",
+                "ip_addresses",
+                "trace",
+                "tags",
+                "custom_fields"
+              ],
+              "type": "object"
+            },
+            "annotations": {
+              "readOnlyHint": true
+            }
+          },
+          {
+            "name": "nbox_history",
+            "description": "Return the change history (system audit log: create/update/delete, who and when) for an object, newest first. Distinct from nbox_journal (operator notes): this is the system-recorded audit trail from /api/core/object-changes/. `kind` and `ref` follow nbox_get; supported kinds are device, ip, prefix, vlan, site, rack, rack_group, circuit, virtual_circuit, aggregate, asn, ip_range, tenant, contact, provider, vm, vm_type, cluster, vrf, route_target, interface (as `<device>/<name>`). Each row includes the top-level fields that changed (pre vs post); pass `diff=true` (pair with a small `limit`, e.g. 1) to include the full before/after JSON payloads per row.",
+            "inputSchema": {
+              "$defs": {
+                "GetKind": {
+                  "description": "The object kinds `nbox_get` (and `nbox_journal`) can resolve.",
+                  "oneOf": [
+                    {
+                      "enum": [
+                        "device",
+                        "prefix",
+                        "vlan",
+                        "site",
+                        "rack",
+                        "circuit",
+                        "aggregate",
+                        "asn",
+                        "ip_range",
+                        "tenant",
+                        "contact",
+                        "provider",
+                        "vm",
+                        "cluster",
+                        "vrf",
+                        "route_target"
+                      ],
+                      "type": "string"
+                    },
+                    {
+                      "const": "ip",
+                      "description": "IP address. Accepts both `ip` and `ip_address` \u2014 the latter is what\n`nbox_search` returns as a result `kind`, so an agent can chain\nsearch \u2192 get (and `nbox://ip_address/\u2026`) without translating. (Search uses\n`ObjectKind::IpAddress` = `\"ip_address\"`; every other kind already matches\nbetween the two enums, so this is the only alias needed.)",
+                      "type": "string"
+                    },
+                    {
+                      "const": "rack_group",
+                      "description": "A rack group. The `ref` is the slug, name, or numeric ID.",
+                      "type": "string"
+                    },
+                    {
+                      "const": "virtual_circuit",
+                      "description": "A virtual circuit (NetBox 4.2+). The `ref` is the CID or numeric ID. A\nlogical overlay between two or more device interfaces \u2014 multi-point (no\nA/Z sides) and virtual (no cables), so its terminations are a flat list of\ninterface refs, not a cable-path diagram.",
+                      "type": "string"
+                    },
+                    {
+                      "const": "vm_type",
+                      "description": "A virtual machine type (NetBox 4.6+). The `ref` is the slug, name, or\nnumeric ID.",
+                      "type": "string"
+                    },
+                    {
+                      "const": "mac",
+                      "description": "A MAC address (NetBox 4.2+). Reverse-resolves a MAC to the interface(s)/\ndevice(s) that carry it. The `ref` is the MAC string (any common form is\nnormalized); a non-MAC is `invalid_params`, >1 interface carrying it is\nambiguous.",
+                      "type": "string"
+                    },
+                    {
+                      "const": "interface",
+                      "description": "An interface. The `ref` is `<device>/<name>` (e.g. `edge01/xe-0/0/1`),\nverbatim after the device since names may contain slashes. Interfaces have\nno single-string ref, so they aren't journalable via the `name`-only\nresolver \u2014 this kind resolves the interface id from the device+name.",
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "properties": {
+                "diff": {
+                  "description": "Include the full before/after change payload on each row. The payloads\nare kilobytes each, so pair with a small `limit` (e.g. 1) to inspect one\nchange in full; defaults to `false` (compact rows, no payloads).",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "kind": {
+                  "$ref": "#/$defs/GetKind",
+                  "description": "What kind of object to fetch the audit log for."
+                },
+                "limit": {
+                  "description": "Maximum number of entries (newest first). Defaults to 20.",
+                  "format": "uint",
+                  "minimum": 0,
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "ref": {
+                  "description": "The object reference (same forms as `nbox_get`).",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "kind",
+                "ref"
+              ],
+              "type": "object"
+            },
+            "outputSchema": {
+              "$defs": {
+                "HistoryRow": {
+                  "description": "One audit-log entry, flattened for display. Surfaces *what changed* (the\ntop-level field names whose values differ between `prechange_data` and\n`postchange_data`) without dumping the full before/after JSON (which can be\nkilobytes per row). The full before/after payloads are included only when\n`diff` is requested (`nbox history --diff` / `nbox_history` with `diff=true`),\nso the default list stays compact; they are omitted (not null) otherwise.",
+                  "properties": {
+                    "action": {
+                      "description": "`create` / `update` / `delete` (the Choice value).",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "action_label": {
+                      "description": "The human label for the action (`Created` / `Updated` / `Deleted`).",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "after": {
+                      "description": "The full post-change object state (JSON). Only populated when `diff` is\nrequested; absent for a `delete` (no resulting state)."
+                    },
+                    "before": {
+                      "description": "The full pre-change object state (JSON). Only populated when `diff` is\nrequested; absent for a `create` (no prior state)."
+                    },
+                    "fields_changed": {
+                      "description": "Top-level field names whose values changed (pre \u2260 post). Empty for a\nbare `create`/`delete` or when the payload is absent.",
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "message": {
+                      "description": "A free-text message (often empty).",
+                      "type": "string"
+                    },
+                    "object": {
+                      "description": "The object's human label at change time.",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "request_id": {
+                      "description": "Groups changes from one atomic request (a shared UUID).",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "time": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "user": {
+                      "description": "Who made the change (the flat `user_name`).",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message",
+                    "fields_changed"
+                  ],
+                  "type": "object"
+                }
+              },
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "properties": {
+                "entries": {
+                  "items": {
+                    "$ref": "#/$defs/HistoryRow"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "entries"
+              ],
+              "type": "object"
+            },
+            "annotations": {
+              "readOnlyHint": true
+            }
+          },
+          {
+            "name": "nbox_journal",
+            "description": "Return recent journal entries (operator notes) for an object, newest first. `kind` and `ref` follow nbox_get; supported kinds are device, ip, prefix, vlan, site, rack, rack_group, circuit, virtual_circuit, aggregate, asn, ip_range, tenant, contact, provider, vm, vm_type, cluster, vrf, route_target, interface (as `<device>/<name>`).",
+            "inputSchema": {
+              "$defs": {
+                "GetKind": {
+                  "description": "The object kinds `nbox_get` (and `nbox_journal`) can resolve.",
+                  "oneOf": [
+                    {
+                      "enum": [
+                        "device",
+                        "prefix",
+                        "vlan",
+                        "site",
+                        "rack",
+                        "circuit",
+                        "aggregate",
+                        "asn",
+                        "ip_range",
+                        "tenant",
+                        "contact",
+                        "provider",
+                        "vm",
+                        "cluster",
+                        "vrf",
+                        "route_target"
+                      ],
+                      "type": "string"
+                    },
+                    {
+                      "const": "ip",
+                      "description": "IP address. Accepts both `ip` and `ip_address` \u2014 the latter is what\n`nbox_search` returns as a result `kind`, so an agent can chain\nsearch \u2192 get (and `nbox://ip_address/\u2026`) without translating. (Search uses\n`ObjectKind::IpAddress` = `\"ip_address\"`; every other kind already matches\nbetween the two enums, so this is the only alias needed.)",
+                      "type": "string"
+                    },
+                    {
+                      "const": "rack_group",
+                      "description": "A rack group. The `ref` is the slug, name, or numeric ID.",
+                      "type": "string"
+                    },
+                    {
+                      "const": "virtual_circuit",
+                      "description": "A virtual circuit (NetBox 4.2+). The `ref` is the CID or numeric ID. A\nlogical overlay between two or more device interfaces \u2014 multi-point (no\nA/Z sides) and virtual (no cables), so its terminations are a flat list of\ninterface refs, not a cable-path diagram.",
+                      "type": "string"
+                    },
+                    {
+                      "const": "vm_type",
+                      "description": "A virtual machine type (NetBox 4.6+). The `ref` is the slug, name, or\nnumeric ID.",
+                      "type": "string"
+                    },
+                    {
+                      "const": "mac",
+                      "description": "A MAC address (NetBox 4.2+). Reverse-resolves a MAC to the interface(s)/\ndevice(s) that carry it. The `ref` is the MAC string (any common form is\nnormalized); a non-MAC is `invalid_params`, >1 interface carrying it is\nambiguous.",
+                      "type": "string"
+                    },
+                    {
+                      "const": "interface",
+                      "description": "An interface. The `ref` is `<device>/<name>` (e.g. `edge01/xe-0/0/1`),\nverbatim after the device since names may contain slashes. Interfaces have\nno single-string ref, so they aren't journalable via the `name`-only\nresolver \u2014 this kind resolves the interface id from the device+name.",
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "properties": {
+                "kind": {
+                  "$ref": "#/$defs/GetKind",
+                  "description": "What kind of object the entries are attached to."
+                },
+                "limit": {
+                  "description": "Maximum number of entries (newest first). Defaults to 20.",
+                  "format": "uint",
+                  "minimum": 0,
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "ref": {
+                  "description": "The object reference (same forms as `nbox_get`).",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "kind",
+                "ref"
+              ],
+              "type": "object"
+            },
+            "outputSchema": {
+              "$defs": {
+                "JournalEntryRow": {
+                  "description": "One journal entry, flattened for display.",
+                  "properties": {
+                    "author": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "comments": {
+                      "type": "string"
+                    },
+                    "created": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "kind": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "comments"
+                  ],
+                  "type": "object"
+                }
+              },
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "properties": {
+                "entries": {
+                  "items": {
+                    "$ref": "#/$defs/JournalEntryRow"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "entries"
+              ],
+              "type": "object"
+            },
+            "annotations": {
+              "readOnlyHint": true
+            }
+          },
+          {
+            "name": "nbox_list_tags",
+            "description": "List the tags defined in NetBox (name, slug, color, usage count). Useful for discovering valid `tag` filter values for nbox_search.",
+            "inputSchema": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "properties": {
+                "limit": {
+                  "description": "Maximum number of tags to list. Defaults to 200.",
+                  "format": "uint",
+                  "minimum": 0,
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                }
+              },
+              "type": "object"
+            },
+            "outputSchema": {
+              "$defs": {
+                "TagRow": {
+                  "description": "One tag row.",
+                  "properties": {
+                    "color": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "count": {
+                      "format": "uint64",
+                      "minimum": 0,
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "slug": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "slug"
+                  ],
+                  "type": "object"
+                }
+              },
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "properties": {
+                "tags": {
+                  "items": {
+                    "$ref": "#/$defs/TagRow"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "tags"
+              ],
+              "type": "object"
+            },
+            "annotations": {
+              "readOnlyHint": true
+            }
+          },
+          {
+            "name": "nbox_next_ip",
+            "description": "Return the next available IP address(es) within a prefix (read-only \u2014 nothing is reserved). Pass `count` for several; `vrf` to disambiguate a prefix present in multiple VRFs.",
+            "inputSchema": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "properties": {
+                "count": {
+                  "description": "How many available addresses to return. Defaults to 1.",
+                  "format": "uint",
+                  "minimum": 0,
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "prefix": {
+                  "description": "The prefix (CIDR) to allocate from.",
+                  "type": "string"
+                },
+                "vrf": {
+                  "description": "Disambiguate the prefix by VRF (name, slug, or RD).",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "prefix"
+              ],
+              "type": "object"
+            },
+            "outputSchema": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "properties": {
+                "available": {
+                  "description": "The available addresses or free child prefixes, as CIDR strings.",
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "prefix": {
+                  "description": "The prefix (CIDR) the allocation was computed from.",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "prefix",
+                "available"
+              ],
+              "type": "object"
+            },
+            "annotations": {
+              "readOnlyHint": true
+            }
+          },
+          {
+            "name": "nbox_next_prefix",
+            "description": "Return available (free) child prefixes within a prefix. With `length` (e.g. 26) returns the first free block of that size; without it, lists all free blocks. Pass `vrf` to disambiguate. Read-only \u2014 nothing is reserved.",
+            "inputSchema": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "properties": {
+                "length": {
+                  "description": "Desired new prefix length, e.g. 26 \u2014 returns the first free block of that\nsize. Omit to list all available free blocks.",
+                  "format": "uint8",
+                  "maximum": 255,
+                  "minimum": 0,
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "prefix": {
+                  "description": "The parent prefix (CIDR) to allocate from.",
+                  "type": "string"
+                },
+                "vrf": {
+                  "description": "Disambiguate the prefix by VRF (name, slug, or RD).",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "prefix"
+              ],
+              "type": "object"
+            },
+            "outputSchema": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "properties": {
+                "available": {
+                  "description": "The available addresses or free child prefixes, as CIDR strings.",
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "prefix": {
+                  "description": "The prefix (CIDR) the allocation was computed from.",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "prefix",
+                "available"
+              ],
+              "type": "object"
+            },
+            "annotations": {
+              "readOnlyHint": true
+            }
+          },
+          {
+            "name": "nbox_plan_write",
+            "description": "Plan a NetBox write operation (interface description, device status, IP/prefix/IP-range reserve, tag add/remove). Builds a MutationPlan with a before/after diff and a confirm token, without mutating. Review the plan, then call nbox_apply_write to execute. Execution is gated: local stdio servers need --local-writes / [serve].local_writes and use the active profile token; shared HTTP/OIDC servers need --allow-writes, the caller's nbox:write scope, and a [serve.vault] mapping for the caller's OIDC sub.",
+            "inputSchema": {
+              "$defs": {
+                "WriteOperation": {
+                  "description": "Which write operation to plan. Each variant carries the operation's\nparameters \u2014 the same parameters the CLI's `--dry-run` path accepts.",
+                  "oneOf": [
+                    {
+                      "description": "Set an interface's description (a `PATCH`).",
+                      "properties": {
+                        "description": {
+                          "description": "The new description. Empty string clears it.",
+                          "type": "string"
+                        },
+                        "device": {
+                          "description": "The device name or slug.",
+                          "type": "string"
+                        },
+                        "interface": {
+                          "description": "The interface name (verbatim \u2014 names may contain slashes).",
+                          "type": "string"
+                        },
+                        "kind": {
+                          "const": "interface_description",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "kind",
+                        "device",
+                        "interface",
+                        "description"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "description": "Set a device's status (a `PATCH`).",
+                      "properties": {
+                        "device": {
+                          "description": "The device name, slug, or ID.",
+                          "type": "string"
+                        },
+                        "kind": {
+                          "const": "device_status",
+                          "type": "string"
+                        },
+                        "status": {
+                          "description": "The new status (validated live from NetBox's choices).",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "kind",
+                        "device",
+                        "status"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "description": "Reserve the next available IP in a prefix (an `allocate` POST).",
+                      "properties": {
+                        "count": {
+                          "default": null,
+                          "description": "How many IPs to reserve (default 1).",
+                          "format": "uint32",
+                          "minimum": 0,
+                          "type": [
+                            "integer",
+                            "null"
+                          ]
+                        },
+                        "description": {
+                          "default": null,
+                          "description": "Optional description for the new IP.",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "dns_name": {
+                          "default": null,
+                          "description": "Optional DNS name for the new IP.",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "kind": {
+                          "const": "ip_reserve",
+                          "type": "string"
+                        },
+                        "prefix": {
+                          "description": "The parent prefix CIDR (e.g. `10.0.0.0/24`).",
+                          "type": "string"
+                        },
+                        "vrf": {
+                          "default": null,
+                          "description": "Optional VRF reference (name, RD, or ID) to scope the prefix.",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "kind",
+                        "prefix"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "description": "Reserve the next available child prefix (an `allocate` POST).",
+                      "properties": {
+                        "description": {
+                          "default": null,
+                          "description": "Optional description for the new prefix.",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "kind": {
+                          "const": "prefix_reserve",
+                          "type": "string"
+                        },
+                        "length": {
+                          "default": null,
+                          "description": "Request a specific child prefix length (e.g. 26 for a /26).",
+                          "format": "uint8",
+                          "maximum": 255,
+                          "minimum": 0,
+                          "type": [
+                            "integer",
+                            "null"
+                          ]
+                        },
+                        "prefix": {
+                          "description": "The parent prefix CIDR.",
+                          "type": "string"
+                        },
+                        "vrf": {
+                          "default": null,
+                          "description": "Optional VRF reference.",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "kind",
+                        "prefix"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "description": "Reserve the next available IP in an IP range (an `allocate` POST).",
+                      "properties": {
+                        "count": {
+                          "default": null,
+                          "description": "How many IPs to reserve (default 1).",
+                          "format": "uint32",
+                          "minimum": 0,
+                          "type": [
+                            "integer",
+                            "null"
+                          ]
+                        },
+                        "description": {
+                          "default": null,
+                          "description": "Optional description for the new IP.",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "dns_name": {
+                          "default": null,
+                          "description": "Optional DNS name for the new IP.",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "kind": {
+                          "const": "ip_range_reserve",
+                          "type": "string"
+                        },
+                        "range": {
+                          "description": "The IP range start address or ID.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "kind",
+                        "range"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "description": "Add a tag to an object (a `PATCH` to the `tags` array).",
+                      "properties": {
+                        "kind": {
+                          "const": "tag_add",
+                          "type": "string"
+                        },
+                        "object_ref": {
+                          "description": "The object reference (name/slug/ID; CIDR for prefix; address for ip).",
+                          "type": "string"
+                        },
+                        "object_type": {
+                          "description": "The object type (same kinds as `nbox_get`: device, ip, prefix, \u2026).",
+                          "type": "string"
+                        },
+                        "tag": {
+                          "description": "The tag to add (id, name, or slug).",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "kind",
+                        "object_type",
+                        "object_ref",
+                        "tag"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "description": "Remove a tag from an object (a `PATCH` to the `tags` array).",
+                      "properties": {
+                        "kind": {
+                          "const": "tag_remove",
+                          "type": "string"
+                        },
+                        "object_ref": {
+                          "description": "The object reference.",
+                          "type": "string"
+                        },
+                        "object_type": {
+                          "description": "The object type.",
+                          "type": "string"
+                        },
+                        "tag": {
+                          "description": "The tag to remove (id, name, or slug).",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "kind",
+                        "object_type",
+                        "object_ref",
+                        "tag"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                }
+              },
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "properties": {
+                "operation": {
+                  "$ref": "#/$defs/WriteOperation",
+                  "description": "The write operation to plan."
+                }
+              },
+              "required": [
+                "operation"
+              ],
+              "type": "object"
+            },
+            "outputSchema": {
+              "$defs": {
+                "FieldChange": {
+                  "description": "One field in scope for the change, with its before/after values for review.\nThis IS the redacted, stable field diff: only the scoped fields appear, in\ndeclaration order \u2014 never the full object, never unrelated fields\n(ADR-0001 \u00a71, \u00a78). Values are the shaped values the operator reviews, not\nraw wire JSON.",
+                  "properties": {
+                    "after": true,
+                    "before": true,
+                    "field": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "field",
+                    "before",
+                    "after"
+                  ],
+                  "type": "object"
+                },
+                "Operation": {
+                  "description": "The operation a plan performs. `update` (`PATCH`) and `allocate` (`POST` to a\nserver allocation endpoint, e.g. a prefix's `available-ips`) are the v1 verbs;\ncreate/delete are reserved for later releases (ADR-0001 \u00a71, \u00a76).",
+                  "oneOf": [
+                    {
+                      "const": "update",
+                      "description": "A partial update (`PATCH` against the object detail endpoint).",
+                      "type": "string"
+                    },
+                    {
+                      "const": "allocate",
+                      "description": "A server-side allocation (`POST` to an allocation endpoint that hands out\nthe next free resource, e.g. `\u2026/prefixes/{id}/available-ips/`). Creates a\nnew object; the server picks the value and guards against races.",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "PlanTarget": {
+                  "description": "Identity of the write target, captured so the plan is self-describing and\nthe audit event can record it without re-deriving.",
+                  "properties": {
+                    "display": {
+                      "description": "A human-friendly label (NetBox `display` when present, else the ref).",
+                      "type": "string"
+                    },
+                    "endpoint": {
+                      "description": "The REST detail endpoint patched on apply (e.g. `/api/dcim/interfaces/42/`).",
+                      "type": "string"
+                    },
+                    "id": {
+                      "description": "The resolved NetBox object id.",
+                      "format": "uint64",
+                      "minimum": 0,
+                      "type": "integer"
+                    },
+                    "kind": {
+                      "description": "Object kind (e.g. `interface`).",
+                      "type": "string"
+                    },
+                    "profile": {
+                      "description": "The active profile name, bound into the confirmation token.",
+                      "type": "string"
+                    },
+                    "ref": {
+                      "description": "The user-facing reference (e.g. `edge01/xe-0/0/1`).",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "ref",
+                    "id",
+                    "display",
+                    "endpoint",
+                    "profile"
+                  ],
+                  "type": "object"
+                },
+                "Precondition": {
+                  "description": "The optimistic-concurrency precondition recorded at plan time and checked at\napply (ADR-0001 \u00a73). An update on 4.6+ carries an `ETag` (sent as `If-Match`;\na stale object yields `412`); older releases fall back to `last_updated` plus\na normalized before-hash, checked by a read-before-write at apply time. An\nallocation has no client precondition \u2014 the server endpoint is race-safe.\nExactly one variant is populated; it is folded into the confirmation token.",
+                  "oneOf": [
+                    {
+                      "description": "NetBox 4.6+ returns an `ETag` on the detail response; the apply sends\n`If-Match: <etag>` and a stale object yields `412 Precondition Failed`.",
+                      "properties": {
+                        "etag": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "const": "etag",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "etag"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "description": "Pre-4.6 fallback: the object's `last_updated` timestamp plus a\nbefore-hash over the in-scope fields. At apply, nbox re-reads the object\nand refuses if either changed \u2014 a conservative read-before-write check.",
+                      "properties": {
+                        "before_hash": {
+                          "type": "string"
+                        },
+                        "last_updated": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "type": {
+                          "const": "last_updated",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "before_hash"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "description": "No client-side precondition. Used by `allocate`: the server allocation\nendpoint (e.g. `available-ips`) is inherently race-safe \u2014 NetBox never\nhands out the same resource twice \u2014 so there is no prior object to guard.",
+                      "properties": {
+                        "type": {
+                          "const": "none",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "type"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                }
+              },
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "properties": {
+                "changelog_message": {
+                  "description": "Opt-in NetBox changelog message, validated to \u2264\n[`CHANGELOG_MESSAGE_MAX`] characters.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "confirm_token": {
+                  "description": "Opaque guard that the caller is applying the same scoped plan it\nreviewed \u2014 NOT an authorization credential (ADR-0001 \u00a75).",
+                  "type": "string"
+                },
+                "count": {
+                  "description": "How many resources to allocate. `1` for a single allocation (the\ndefault \u2014 omitted from JSON so existing plans are byte-identical).\n`>1` triggers N sequential POSTs at apply time. Bound into the\nconfirmation token so a `count=3` plan cannot be replayed as `count=5`.",
+                  "format": "uint32",
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "errors": {
+                  "description": "Hard validation failures that block the write (the planner fails closed).\nA plan with errors must not be applied.",
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "expires_at": {
+                  "description": "When the plan expires (ISO 8601 UTC, `YYYY-MM-DDTHH:MM:SSZ`). Apply\nrefuses past this time.",
+                  "type": "string"
+                },
+                "fields": {
+                  "description": "The scoped field changes (the reviewable diff).",
+                  "items": {
+                    "$ref": "#/$defs/FieldChange"
+                  },
+                  "type": "array"
+                },
+                "no_op": {
+                  "default": false,
+                  "description": "True when the patch body is empty \u2014 the current values already match.",
+                  "type": "boolean"
+                },
+                "operation": {
+                  "$ref": "#/$defs/Operation"
+                },
+                "patch": {
+                  "description": "The minimal REST `PATCH` body for the object fields in scope. Empty\n(`{}`) when [`no_op`](Self::no_op) \u2014 applying a no-op sends no `PATCH`."
+                },
+                "precondition": {
+                  "$ref": "#/$defs/Precondition"
+                },
+                "schema_version": {
+                  "format": "uint32",
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "target": {
+                  "$ref": "#/$defs/PlanTarget"
+                },
+                "warnings": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "schema_version",
+                "operation",
+                "target",
+                "precondition",
+                "fields",
+                "patch",
+                "confirm_token",
+                "expires_at"
+              ],
+              "type": "object"
+            },
+            "annotations": {
+              "readOnlyHint": false
+            }
+          },
+          {
+            "name": "nbox_search",
+            "description": "Search across devices, sites, racks, rack groups, IP addresses, prefixes, VLANs, circuits, virtual circuits, aggregates, ASNs, IP ranges, tenants, contacts, providers, virtual machines, virtual machine types, clusters, VRFs, and route targets by free text. Returns ranked hits with kind, display name, and URL. Use this to find an object's exact reference before nbox_get. Optional filters narrow by status/site/tenant/role/tag/owner; vrf (id|rd|name) narrows IP and prefix results. Pass `fields` (e.g. [\"kind\",\"display\"]) to keep only those top-level keys per hit and trim tokens.",
+            "inputSchema": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "properties": {
+                "fields": {
+                  "default": null,
+                  "description": "Keep only these top-level keys in each search hit (applied per hit;\nunknown keys are silently ignored). Omit to return the full hit shape. A\ntoken-economy lever for agents that only need, e.g. `[\"kind\",\"display\"]`.",
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": [
+                    "array",
+                    "null"
+                  ]
+                },
+                "limit": {
+                  "description": "Maximum number of results to return. Defaults to 25.",
+                  "format": "uint",
+                  "minimum": 0,
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "location": {
+                  "description": "Filter by location (slug, name, or id). Prefixes are matched on location\nscope. Mutually exclusive with site/region/site_group.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "owner": {
+                  "description": "Filter by owner (NetBox 4.5+) \u2014 a user, by name (username). Requires a\n4.5+ NetBox; on older releases the filter is silently ignored.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "owner_group": {
+                  "description": "Filter by owner group (NetBox 4.5+) \u2014 by name. See `owner`.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "query": {
+                  "description": "Free-text query (matches names, addresses, serials, descriptions, \u2026).",
+                  "type": "string"
+                },
+                "region": {
+                  "description": "Filter by region (slug, name, or id). Prefixes are matched on region\nscope. Mutually exclusive with site/site_group/location.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "role": {
+                  "description": "Filter by role slug.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "site": {
+                  "description": "Filter by site (slug, name, or id). Prefixes are matched on site scope.\nMutually exclusive with region/site_group/location.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "site_group": {
+                  "description": "Filter by site group (slug, name, or id). Prefixes are matched on\nsite-group scope. Mutually exclusive with site/region/location.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "status": {
+                  "description": "Filter by status, e.g. `active`.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "tag": {
+                  "description": "Filter by tag slug.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "tenant": {
+                  "description": "Filter by tenant slug.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "vrf": {
+                  "description": "Filter by VRF (id, RD, or name). Applies to IP and prefix results; other\nobject kinds carry no VRF and are unaffected.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "query"
+              ],
+              "type": "object"
+            },
+            "outputSchema": {
+              "type": "object"
+            },
+            "annotations": {
+              "readOnlyHint": true
+            }
+          },
+          {
+            "name": "nbox_status",
+            "description": "Show NetBox connection, active backend, versions, and a token-validity preflight (the authenticated user). Use to confirm reachability and a valid token before other lookups.",
+            "inputSchema": {
+              "properties": {},
+              "type": "object"
+            },
+            "outputSchema": {
+              "$defs": {
+                "ApiRouting": {
+                  "description": "Configured-vs-effective backend routing for every surface (`status.api`).",
+                  "properties": {
+                    "route_target": {
+                      "$ref": "#/$defs/SurfaceRouting"
+                    },
+                    "search": {
+                      "$ref": "#/$defs/SurfaceRouting"
+                    },
+                    "vrf": {
+                      "$ref": "#/$defs/SurfaceRouting"
+                    }
+                  },
+                  "required": [
+                    "search",
+                    "vrf",
+                    "route_target"
+                  ],
+                  "type": "object"
+                },
+                "AuthCheck": {
+                  "description": "The outcome of a credential preflight ([`NetBoxClient::authentication_check`]).\nSurfaced as the `token` field of `nbox status` / MCP `nbox_status`, giving an\noperator/agent an unambiguous \"is this token valid?\" answer.",
+                  "oneOf": [
+                    {
+                      "description": "The token authenticated; carries the identity it resolved to.",
+                      "properties": {
+                        "display": {
+                          "description": "The user's display name (`username`, or `\"username (full name)\"`),\nwhen NetBox reports one distinct from the username.",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "status": {
+                          "const": "valid",
+                          "type": "string"
+                        },
+                        "username": {
+                          "description": "The authenticated user's username.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "status",
+                        "username"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "description": "The token was rejected (HTTP 401/403). Carries the server's reason.",
+                      "properties": {
+                        "reason": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "const": "invalid",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "status",
+                        "reason"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "description": "The preflight couldn't run: the endpoint is absent (NetBox < 4.5) or\nerrored for a non-auth reason. The token is left unverified, not guessed.",
+                      "properties": {
+                        "reason": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "const": "unverified",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "status",
+                        "reason"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                },
+                "BackendPreference": {
+                  "description": "Which NetBox read backend a profile should prefer.\n\nREST remains the default and full-coverage backend. GraphQL is opt-in and may\nfall back to REST for operations NetBox does not expose through GraphQL.",
+                  "enum": [
+                    "rest",
+                    "graphql"
+                  ],
+                  "type": "string"
+                },
+                "GraphqlBackendCapabilities": {
+                  "description": "GraphQL capability summary (surface-aware).",
+                  "properties": {
+                    "available": {
+                      "description": "Whether the introspection probe succeeded.",
+                      "type": "boolean"
+                    },
+                    "error": {
+                      "description": "Probe error, when GraphQL was probed but unavailable.",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "probed": {
+                      "description": "Whether this report attempted GraphQL introspection (only when a surface\nprefers GraphQL \u2014 a pure-REST profile keeps `status` cheap).",
+                      "type": "boolean"
+                    },
+                    "surfaces": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/$defs/GraphqlSurfaces"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "Per-surface GraphQL support, when the probe succeeded."
+                    }
+                  },
+                  "required": [
+                    "probed",
+                    "available"
+                  ],
+                  "type": "object"
+                },
+                "GraphqlSurfaces": {
+                  "description": "Per-surface GraphQL support.",
+                  "properties": {
+                    "route_target": {
+                      "$ref": "#/$defs/SurfaceSupport"
+                    },
+                    "search": {
+                      "$ref": "#/$defs/SurfaceSupport"
+                    },
+                    "vrf": {
+                      "$ref": "#/$defs/SurfaceSupport"
+                    }
+                  },
+                  "required": [
+                    "search",
+                    "vrf",
+                    "route_target"
+                  ],
+                  "type": "object"
+                },
+                "NetBoxCapabilities": {
+                  "description": "Capabilities for the currently connected NetBox instance/profile.",
+                  "properties": {
+                    "graphql": {
+                      "$ref": "#/$defs/GraphqlBackendCapabilities",
+                      "description": "GraphQL capability summary. Probed only when a surface prefers GraphQL."
+                    },
+                    "rest": {
+                      "$ref": "#/$defs/RestCapabilities",
+                      "description": "REST behavior nbox relies on."
+                    },
+                    "version": {
+                      "$ref": "#/$defs/VersionCapabilities",
+                      "description": "Version compatibility facts from `/api/status/`."
+                    }
+                  },
+                  "required": [
+                    "version",
+                    "rest",
+                    "graphql"
+                  ],
+                  "type": "object"
+                },
+                "RestCapabilities": {
+                  "description": "REST behavior nbox treats as foundational.",
+                  "properties": {
+                    "available": {
+                      "description": "REST is always the canonical backend and remains available after status succeeds.",
+                      "type": "boolean"
+                    },
+                    "detail": {
+                      "description": "Detail/view lookups use REST.",
+                      "type": "boolean"
+                    },
+                    "exclude_config_context": {
+                      "description": "Whether device/VM list calls exclude config context by default.",
+                      "type": "boolean"
+                    },
+                    "page_size": {
+                      "description": "Effective page size after profile clamping.",
+                      "format": "uint",
+                      "minimum": 0,
+                      "type": "integer"
+                    },
+                    "search": {
+                      "description": "Search fan-out can use REST.",
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "available",
+                    "search",
+                    "detail",
+                    "page_size",
+                    "exclude_config_context"
+                  ],
+                  "type": "object"
+                },
+                "SurfaceRouting": {
+                  "description": "One surface's routing: what was configured, what is effective, and (on a\nfallback) why they differ.",
+                  "properties": {
+                    "configured": {
+                      "$ref": "#/$defs/BackendPreference",
+                      "description": "The configured preference (`rest`/`graphql`)."
+                    },
+                    "effective": {
+                      "description": "The effective backend after capability resolution (`rest`/`graphql`).",
+                      "type": "string"
+                    },
+                    "reason": {
+                      "description": "Why the effective backend differs from the configured one, if it does.",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "configured",
+                    "effective"
+                  ],
+                  "type": "object"
+                },
+                "SurfaceSupport": {
+                  "description": "Whether a GraphQL surface is usable, recommended, and what (if anything) the\nschema is missing for it. Version is a hint; the schema probe is truth.",
+                  "properties": {
+                    "missing": {
+                      "description": "Schema pieces nbox expects for full support that were not found.",
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "recommended": {
+                      "description": "Whether GraphQL is the recommended backend for this surface (full coverage).",
+                      "type": "boolean"
+                    },
+                    "supported": {
+                      "description": "Whether nbox can run this surface over GraphQL at all.",
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "supported",
+                    "recommended",
+                    "missing"
+                  ],
+                  "type": "object"
+                },
+                "VersionCapabilities": {
+                  "description": "NetBox version support facts.",
+                  "properties": {
+                    "compatible": {
+                      "description": "Whether the reported version meets the floor.",
+                      "type": "boolean"
+                    },
+                    "minimum_supported": {
+                      "description": "Minimum NetBox version this build supports.",
+                      "type": "string"
+                    },
+                    "netbox": {
+                      "description": "Reported NetBox version.",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "netbox",
+                    "minimum_supported",
+                    "compatible"
+                  ],
+                  "type": "object"
+                }
+              },
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "properties": {
+                "api": {
+                  "$ref": "#/$defs/ApiRouting",
+                  "description": "Configured-vs-effective per-surface backend routing (`search`/`vrf`)."
+                },
+                "capabilities": {
+                  "$ref": "#/$defs/NetBoxCapabilities",
+                  "description": "Backend/version capability summary for this connected profile."
+                },
+                "django_version": {
+                  "description": "The Django framework version NetBox runs on (`null` if unreported).",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "netbox_url": {
+                  "description": "The NetBox base URL the server is connected to.",
+                  "type": "string"
+                },
+                "netbox_version": {
+                  "description": "The NetBox application version.",
+                  "type": "string"
+                },
+                "python_version": {
+                  "description": "The Python runtime version NetBox runs on (`null` if unreported).",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "token": {
+                  "$ref": "#/$defs/AuthCheck",
+                  "description": "Credential preflight (`/api/authentication-check/`, NetBox 4.5+): whether\nthe active profile's token authenticated, and the identity it resolved to.\n`unverified` when the endpoint is absent (NetBox < 4.5) or the probe could\nnot run \u2014 distinct from `invalid`, which means the token was rejected."
+                }
+              },
+              "required": [
+                "netbox_url",
+                "api",
+                "netbox_version",
+                "capabilities",
+                "token"
+              ],
+              "type": "object"
+            },
+            "annotations": {
+              "readOnlyHint": true
+            }
+          },
+          {
+            "name": "nbox_tagged",
+            "description": "List objects carrying a tag, across all kinds (NetBox 4.3+). The tag resolves by id, exact name, or exact slug. Returns each object's kind, object_type, id, display, and url, plus the resolved tag. Use this for \"what has tag X\"; use nbox_search with the `tag` filter to narrow a free-text search to tagged hits.",
+            "inputSchema": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "properties": {
+                "limit": {
+                  "description": "Maximum number of tagged objects to return. Defaults to 200.",
+                  "format": "uint",
+                  "minimum": 0,
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "tag": {
+                  "description": "Tag reference: numeric id, exact name (e.g. `prod:us-east`), or exact slug.",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "tag"
+              ],
+              "type": "object"
+            },
+            "outputSchema": {
+              "$defs": {
+                "ResolvedTag": {
+                  "description": "The resolved tag a `nbox tagged` result set is for.",
+                  "properties": {
+                    "id": {
+                      "format": "uint64",
+                      "minimum": 0,
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "slug": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "slug"
+                  ],
+                  "type": "object"
+                },
+                "TaggedObjectView": {
+                  "description": "One object carrying a tag, flattened from the polymorphic\n[`TaggedObject`] wire row. The `kind` label and dotted `object_type` let a\nhuman scan and an agent branch without re-parsing `display`.",
+                  "properties": {
+                    "display": {
+                      "description": "The tagged object's display label (its name, or NetBox's `display`).",
+                      "type": "string"
+                    },
+                    "id": {
+                      "description": "The tagged object's numeric id.",
+                      "format": "uint64",
+                      "minimum": 0,
+                      "type": "integer"
+                    },
+                    "kind": {
+                      "description": "Friendly kind label nbox uses elsewhere (`device`, `ip`, `rack`, \u2026) for\nknown content types; the dotted type's last segment for an unknown one\n(so a cable/service still renders instead of being dropped).",
+                      "type": "string"
+                    },
+                    "object_type": {
+                      "description": "The dotted content type of the tagged object (`dcim.device`,\n`ipam.ipaddress`, \u2026) \u2014 structured, for agents.",
+                      "type": "string"
+                    },
+                    "url": {
+                      "description": "The tagged object's API URL.",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "object_type",
+                    "id",
+                    "display",
+                    "url"
+                  ],
+                  "type": "object"
+                }
+              },
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "properties": {
+                "results": {
+                  "description": "Objects carrying the tag, across kinds.",
+                  "items": {
+                    "$ref": "#/$defs/TaggedObjectView"
+                  },
+                  "type": "array"
+                },
+                "tag": {
+                  "$ref": "#/$defs/ResolvedTag",
+                  "description": "The tag these objects carry (the resolved reference)."
+                }
+              },
+              "required": [
+                "tag",
+                "results"
+              ],
+              "type": "object"
+            },
+            "annotations": {
+              "readOnlyHint": true
+            }
+          }
+        ]
+      }
+    },
+    "seconds": 0.0014039489997230703
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 3,
+      "method": "tools/call",
+      "params": {
+        "name": "nbox_plan_write",
+        "arguments": {
+          "operation": {
+            "kind": "device_status",
+            "device": "spike-nbox",
+            "status": "planned"
+          }
+        }
+      }
+    },
+    "response": {
+      "jsonrpc": "2.0",
+      "id": 3,
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"confirm_token\":\"3fc44e09584c46db96d7d0ac5fe3ab53fa1b4b12c9ef7164eab7ce582c5fb169\",\"expires_at\":\"2026-09-28T13:41:39Z\",\"fields\":[{\"after\":\"planned\",\"before\":\"active\",\"field\":\"status\"}],\"no_op\":false,\"operation\":\"update\",\"patch\":{\"status\":\"planned\"},\"precondition\":{\"etag\":\"W/\\\"2026-09-28T13:36:39.141696+00:00\\\"\",\"type\":\"etag\"},\"schema_version\":1,\"target\":{\"display\":\"spike-nbox\",\"endpoint\":\"/api/dcim/devices/4/\",\"id\":4,\"kind\":\"device\",\"profile\":\"\",\"ref\":\"spike-nbox\"}}"
+          }
+        ],
+        "structuredContent": {
+          "confirm_token": "3fc44e09584c46db96d7d0ac5fe3ab53fa1b4b12c9ef7164eab7ce582c5fb169",
+          "expires_at": "2026-09-28T13:41:39Z",
+          "fields": [
+            {
+              "after": "planned",
+              "before": "active",
+              "field": "status"
+            }
+          ],
+          "no_op": false,
+          "operation": "update",
+          "patch": {
+            "status": "planned"
+          },
+          "precondition": {
+            "etag": "W/\"2026-09-28T13:36:39.141696+00:00\"",
+            "type": "etag"
+          },
+          "schema_version": 1,
+          "target": {
+            "display": "spike-nbox",
+            "endpoint": "/api/dcim/devices/4/",
+            "id": 4,
+            "kind": "device",
+            "profile": "",
+            "ref": "spike-nbox"
+          }
+        },
+        "isError": false
+      }
+    },
+    "seconds": 0.48648636899997655
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 4,
+      "method": "tools/call",
+      "params": {
+        "name": "nbox_apply_write",
+        "arguments": {
+          "plan": {
+            "confirm_token": "3fc44e09584c46db96d7d0ac5fe3ab53fa1b4b12c9ef7164eab7ce582c5fb169",
+            "expires_at": "2026-09-28T13:41:39Z",
+            "fields": [
+              {
+                "after": "planned",
+                "before": "active",
+                "field": "status"
+              }
+            ],
+            "no_op": false,
+            "operation": "update",
+            "patch": {
+              "status": "planned"
+            },
+            "precondition": {
+              "etag": "W/\"2026-09-28T13:36:39.141696+00:00\"",
+              "type": "etag"
+            },
+            "schema_version": 1,
+            "target": {
+              "display": "spike-nbox",
+              "endpoint": "/api/dcim/devices/4/",
+              "id": 4,
+              "kind": "device",
+              "profile": "",
+              "ref": "spike-nbox"
+            }
+          }
+        }
+      }
+    },
+    "response": {
+      "jsonrpc": "2.0",
+      "id": 4,
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"applied\":true,\"etag\":\"W/\\\"2026-09-28T13:36:39.900950+00:00\\\"\",\"fields\":[{\"after\":\"planned\",\"before\":\"active\",\"field\":\"status\"}],\"message\":\"applied: device spike-nbox (status)\",\"no_op\":false,\"operation\":\"update\",\"schema_version\":1,\"status\":200,\"target\":{\"display\":\"spike-nbox\",\"endpoint\":\"/api/dcim/devices/4/\",\"id\":4,\"kind\":\"device\",\"profile\":\"\",\"ref\":\"spike-nbox\"}}"
+          }
+        ],
+        "structuredContent": {
+          "applied": true,
+          "etag": "W/\"2026-09-28T13:36:39.900950+00:00\"",
+          "fields": [
+            {
+              "after": "planned",
+              "before": "active",
+              "field": "status"
+            }
+          ],
+          "message": "applied: device spike-nbox (status)",
+          "no_op": false,
+          "operation": "update",
+          "schema_version": 1,
+          "status": 200,
+          "target": {
+            "display": "spike-nbox",
+            "endpoint": "/api/dcim/devices/4/",
+            "id": 4,
+            "kind": "device",
+            "profile": "",
+            "ref": "spike-nbox"
+          }
+        },
+        "isError": false
+      }
+    },
+    "seconds": 0.14007298900105525
+  }
+]

@@ -1,0 +1,334 @@
+[
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "method": "initialize",
+      "params": {
+        "protocolVersion": "2024-11-05",
+        "capabilities": {},
+        "clientInfo": {
+          "name": "nbai-spike",
+          "version": "0.1"
+        }
+      }
+    },
+    "response": {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "result": {
+        "protocolVersion": "2024-11-05",
+        "capabilities": {
+          "prompts": {},
+          "resources": {},
+          "tools": {}
+        },
+        "serverInfo": {
+          "name": "rmcp",
+          "version": "1.8.0"
+        },
+        "instructions": "Read-only NetBox lookups: search, devices, IPs, prefixes, VLANs, sites, racks, circuits, journals, tags, and the change-history (audit log). Use nbox_search to find an object's reference, then nbox_get to fetch it; nbox_history for what changed and nbox_journal for operator notes. Objects are also exposed as nbox://{kind}/{ref} resources (same view as nbox_get). Curated investigation prompts (IP utilization audit, cable path trace, stale-prefix sweep, object change review) are available via prompts/list. Local writes are enabled: nbox_plan_write reviews the before/after diff + confirm token, then nbox_apply_write mutates NetBox under the active profile token; forged or replayed plans are rejected."
+      }
+    },
+    "seconds": 0.0074361979986861115
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 2,
+      "method": "tools/call",
+      "params": {
+        "name": "nbox_plan_write",
+        "arguments": {
+          "operation": {
+            "kind": "device_status",
+            "device": "spike-nbox",
+            "status": "planned"
+          }
+        }
+      }
+    },
+    "response": {
+      "jsonrpc": "2.0",
+      "id": 2,
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"confirm_token\":\"027a7cc03d7f28cd6009a526a84c77cd58b489cb1d417a3f6fa5b8bd0d16fba3\",\"expires_at\":\"2026-09-28T13:45:04Z\",\"fields\":[{\"after\":\"planned\",\"before\":\"active\",\"field\":\"status\"}],\"no_op\":false,\"operation\":\"update\",\"patch\":{\"status\":\"planned\"},\"precondition\":{\"etag\":\"W/\\\"2026-09-28T13:40:04.114329+00:00\\\"\",\"type\":\"etag\"},\"schema_version\":1,\"target\":{\"display\":\"spike-nbox\",\"endpoint\":\"/api/dcim/devices/4/\",\"id\":4,\"kind\":\"device\",\"profile\":\"\",\"ref\":\"spike-nbox\"}}"
+          }
+        ],
+        "structuredContent": {
+          "confirm_token": "027a7cc03d7f28cd6009a526a84c77cd58b489cb1d417a3f6fa5b8bd0d16fba3",
+          "expires_at": "2026-09-28T13:45:04Z",
+          "fields": [
+            {
+              "after": "planned",
+              "before": "active",
+              "field": "status"
+            }
+          ],
+          "no_op": false,
+          "operation": "update",
+          "patch": {
+            "status": "planned"
+          },
+          "precondition": {
+            "etag": "W/\"2026-09-28T13:40:04.114329+00:00\"",
+            "type": "etag"
+          },
+          "schema_version": 1,
+          "target": {
+            "display": "spike-nbox",
+            "endpoint": "/api/dcim/devices/4/",
+            "id": 4,
+            "kind": "device",
+            "profile": "",
+            "ref": "spike-nbox"
+          }
+        },
+        "isError": false
+      }
+    },
+    "seconds": 0.2507438499997079
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 3,
+      "method": "tools/call",
+      "params": {
+        "name": "nbox_apply_write",
+        "arguments": {
+          "plan": {
+            "confirm_token": "027a7cc03d7f28cd6009a526a84c77cd58b489cb1d417a3f6fa5b8bd0d16fba3",
+            "expires_at": "2026-09-28T13:45:04Z",
+            "fields": [
+              {
+                "after": "planned",
+                "before": "active",
+                "field": "status"
+              }
+            ],
+            "no_op": false,
+            "operation": "update",
+            "patch": {
+              "status": "planned"
+            },
+            "precondition": {
+              "etag": "W/\"2026-09-28T13:40:04.114329+00:00\"",
+              "type": "etag"
+            },
+            "schema_version": 1,
+            "target": {
+              "display": "spike-nbox",
+              "endpoint": "/api/dcim/devices/4/",
+              "id": 4,
+              "kind": "device",
+              "profile": "",
+              "ref": "spike-nbox"
+            }
+          }
+        }
+      }
+    },
+    "response": {
+      "jsonrpc": "2.0",
+      "id": 3,
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"applied\":true,\"etag\":\"W/\\\"2026-09-28T13:40:04.669760+00:00\\\"\",\"fields\":[{\"after\":\"planned\",\"before\":\"active\",\"field\":\"status\"}],\"message\":\"applied: device spike-nbox (status)\",\"no_op\":false,\"operation\":\"update\",\"schema_version\":1,\"status\":200,\"target\":{\"display\":\"spike-nbox\",\"endpoint\":\"/api/dcim/devices/4/\",\"id\":4,\"kind\":\"device\",\"profile\":\"\",\"ref\":\"spike-nbox\"}}"
+          }
+        ],
+        "structuredContent": {
+          "applied": true,
+          "etag": "W/\"2026-09-28T13:40:04.669760+00:00\"",
+          "fields": [
+            {
+              "after": "planned",
+              "before": "active",
+              "field": "status"
+            }
+          ],
+          "message": "applied: device spike-nbox (status)",
+          "no_op": false,
+          "operation": "update",
+          "schema_version": 1,
+          "status": 200,
+          "target": {
+            "display": "spike-nbox",
+            "endpoint": "/api/dcim/devices/4/",
+            "id": 4,
+            "kind": "device",
+            "profile": "",
+            "ref": "spike-nbox"
+          }
+        },
+        "isError": false
+      }
+    },
+    "seconds": 0.29894817599961243
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 4,
+      "method": "tools/call",
+      "params": {
+        "name": "nbox_apply_write",
+        "arguments": {
+          "plan": {
+            "confirm_token": "027a7cc03d7f28cd6009a526a84c77cd58b489cb1d417a3f6fa5b8bd0d16fba3",
+            "expires_at": "2026-09-28T13:45:04Z",
+            "fields": [
+              {
+                "after": "planned",
+                "before": "active",
+                "field": "status"
+              }
+            ],
+            "no_op": false,
+            "operation": "update",
+            "patch": {
+              "status": "planned"
+            },
+            "precondition": {
+              "etag": "W/\"2026-09-28T13:40:04.114329+00:00\"",
+              "type": "etag"
+            },
+            "schema_version": 1,
+            "target": {
+              "display": "spike-nbox",
+              "endpoint": "/api/dcim/devices/4/",
+              "id": 4,
+              "kind": "device",
+              "profile": "",
+              "ref": "spike-nbox"
+            }
+          }
+        }
+      }
+    },
+    "response": {
+      "jsonrpc": "2.0",
+      "id": 4,
+      "error": {
+        "code": -32602,
+        "message": "no write plan matches this confirm_token on this server \u2014 it was never issued here, was already applied, or aged out. Call nbox_plan_write again and apply the plan it returns."
+      }
+    },
+    "seconds": 0.000325648999933037
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 5,
+      "method": "tools/call",
+      "params": {
+        "name": "nbox_plan_write",
+        "arguments": {
+          "operation": {
+            "kind": "device_status",
+            "device": "spike-nbox",
+            "status": "planned"
+          }
+        }
+      }
+    },
+    "response": {
+      "jsonrpc": "2.0",
+      "id": 5,
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"confirm_token\":\"767349ec783b58979552e95aa7f23d69b00cf493f0068353c648af99f9786c2c\",\"expires_at\":\"2026-09-28T13:45:05Z\",\"fields\":[{\"after\":\"planned\",\"before\":\"active\",\"field\":\"status\"}],\"no_op\":false,\"operation\":\"update\",\"patch\":{\"status\":\"planned\"},\"precondition\":{\"etag\":\"W/\\\"2026-09-28T13:40:05.017650+00:00\\\"\",\"type\":\"etag\"},\"schema_version\":1,\"target\":{\"display\":\"spike-nbox\",\"endpoint\":\"/api/dcim/devices/4/\",\"id\":4,\"kind\":\"device\",\"profile\":\"\",\"ref\":\"spike-nbox\"}}"
+          }
+        ],
+        "structuredContent": {
+          "confirm_token": "767349ec783b58979552e95aa7f23d69b00cf493f0068353c648af99f9786c2c",
+          "expires_at": "2026-09-28T13:45:05Z",
+          "fields": [
+            {
+              "after": "planned",
+              "before": "active",
+              "field": "status"
+            }
+          ],
+          "no_op": false,
+          "operation": "update",
+          "patch": {
+            "status": "planned"
+          },
+          "precondition": {
+            "etag": "W/\"2026-09-28T13:40:05.017650+00:00\"",
+            "type": "etag"
+          },
+          "schema_version": 1,
+          "target": {
+            "display": "spike-nbox",
+            "endpoint": "/api/dcim/devices/4/",
+            "id": 4,
+            "kind": "device",
+            "profile": "",
+            "ref": "spike-nbox"
+          }
+        },
+        "isError": false
+      }
+    },
+    "seconds": 0.33598974099913903
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 6,
+      "method": "tools/call",
+      "params": {
+        "name": "nbox_apply_write",
+        "arguments": {
+          "plan": {
+            "confirm_token": "767349ec783b58979552e95aa7f23d69b00cf493f0068353c648af99f9786c2c",
+            "expires_at": "2026-09-28T13:45:05Z",
+            "fields": [
+              {
+                "after": "planned",
+                "before": "active",
+                "field": "status"
+              }
+            ],
+            "no_op": false,
+            "operation": "update",
+            "patch": {
+              "status": "planned"
+            },
+            "precondition": {
+              "etag": "W/\"2026-09-28T13:40:05.017650+00:00\"",
+              "type": "etag"
+            },
+            "schema_version": 1,
+            "target": {
+              "display": "spike-nbox",
+              "endpoint": "/api/dcim/devices/4/",
+              "id": 4,
+              "kind": "device",
+              "profile": "",
+              "ref": "spike-nbox"
+            }
+          }
+        }
+      }
+    },
+    "response": {
+      "jsonrpc": "2.0",
+      "id": 6,
+      "error": {
+        "code": -32603,
+        "message": "not applied: object changed in NetBox; re-run dry-run"
+      }
+    },
+    "seconds": 0.11371741200127872
+  }
+]

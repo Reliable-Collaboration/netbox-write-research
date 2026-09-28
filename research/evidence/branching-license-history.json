@@ -1,0 +1,166 @@
+[
+  {
+    "sha": "859e1ef5a5dde063aa6af9d21c9140e963fcafad",
+    "node_id": "C_kwDOMYm0idoAKDg1OWUxZWY1YTVkZGUwNjNhYTZhZjlkMjFjOTE0MGU5NjNmY2FmYWQ",
+    "commit": {
+      "author": {
+        "name": "Jeremy Stretch",
+        "email": "jstretch@netboxlabs.com",
+        "date": "2025-06-02T17:45:45Z"
+      },
+      "committer": {
+        "name": "Jeremy Stretch",
+        "email": "jstretch@netboxlabs.com",
+        "date": "2025-06-02T18:14:03Z"
+      },
+      "message": "Update to NetBox Limited Use License",
+      "tree": {
+        "sha": "dfb129601a8fd6242d5a9efb3ab79bdf695d4a1f",
+        "url": "https://api.github.com/repos/netboxlabs/netbox-branching/git/trees/dfb129601a8fd6242d5a9efb3ab79bdf695d4a1f"
+      },
+      "url": "https://api.github.com/repos/netboxlabs/netbox-branching/git/commits/859e1ef5a5dde063aa6af9d21c9140e963fcafad",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/netboxlabs/netbox-branching/commits/859e1ef5a5dde063aa6af9d21c9140e963fcafad",
+    "html_url": "https://github.com/netboxlabs/netbox-branching/commit/859e1ef5a5dde063aa6af9d21c9140e963fcafad",
+    "comments_url": "https://api.github.com/repos/netboxlabs/netbox-branching/commits/859e1ef5a5dde063aa6af9d21c9140e963fcafad/comments",
+    "author": {
+      "login": "jeremystretch",
+      "id": 13487278,
+      "node_id": "MDQ6VXNlcjEzNDg3Mjc4",
+      "avatar_url": "https://avatars.githubusercontent.com/u/13487278?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jeremystretch",
+      "html_url": "https://github.com/jeremystretch",
+      "followers_url": "https://api.github.com/users/jeremystretch/followers",
+      "following_url": "https://api.github.com/users/jeremystretch/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jeremystretch/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jeremystretch/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jeremystretch/subscriptions",
+      "organizations_url": "https://api.github.com/users/jeremystretch/orgs",
+      "repos_url": "https://api.github.com/users/jeremystretch/repos",
+      "events_url": "https://api.github.com/users/jeremystretch/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jeremystretch/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "committer": {
+      "login": "jeremystretch",
+      "id": 13487278,
+      "node_id": "MDQ6VXNlcjEzNDg3Mjc4",
+      "avatar_url": "https://avatars.githubusercontent.com/u/13487278?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jeremystretch",
+      "html_url": "https://github.com/jeremystretch",
+      "followers_url": "https://api.github.com/users/jeremystretch/followers",
+      "following_url": "https://api.github.com/users/jeremystretch/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jeremystretch/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jeremystretch/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jeremystretch/subscriptions",
+      "organizations_url": "https://api.github.com/users/jeremystretch/orgs",
+      "repos_url": "https://api.github.com/users/jeremystretch/repos",
+      "events_url": "https://api.github.com/users/jeremystretch/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jeremystretch/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "parents": [
+      {
+        "sha": "59553602d4ff0cb8906b5d52d57224af4e5a82b6",
+        "url": "https://api.github.com/repos/netboxlabs/netbox-branching/commits/59553602d4ff0cb8906b5d52d57224af4e5a82b6",
+        "html_url": "https://github.com/netboxlabs/netbox-branching/commit/59553602d4ff0cb8906b5d52d57224af4e5a82b6"
+      }
+    ]
+  },
+  {
+    "sha": "d96a6a977463a6af9ba84f9736fee532d73e98f8",
+    "node_id": "C_kwDOMYm0idoAKGQ5NmE2YTk3NzQ2M2E2YWY5YmE4NGY5NzM2ZmVlNTMyZDczZTk4Zjg",
+    "commit": {
+      "author": {
+        "name": "Jeremy Stretch",
+        "email": "jstretch@netboxlabs.com",
+        "date": "2024-07-19T16:59:37Z"
+      },
+      "committer": {
+        "name": "Jeremy Stretch",
+        "email": "jstretch@netboxlabs.com",
+        "date": "2024-07-19T16:59:37Z"
+      },
+      "message": "Add license, docs skeleton, and GitHub issue templates",
+      "tree": {
+        "sha": "23acf5e9105a1376a3f86b90768a29ffbb8b7cd1",
+        "url": "https://api.github.com/repos/netboxlabs/netbox-branching/git/trees/23acf5e9105a1376a3f86b90768a29ffbb8b7cd1"
+      },
+      "url": "https://api.github.com/repos/netboxlabs/netbox-branching/git/commits/d96a6a977463a6af9ba84f9736fee532d73e98f8",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/netboxlabs/netbox-branching/commits/d96a6a977463a6af9ba84f9736fee532d73e98f8",
+    "html_url": "https://github.com/netboxlabs/netbox-branching/commit/d96a6a977463a6af9ba84f9736fee532d73e98f8",
+    "comments_url": "https://api.github.com/repos/netboxlabs/netbox-branching/commits/d96a6a977463a6af9ba84f9736fee532d73e98f8/comments",
+    "author": {
+      "login": "jeremystretch",
+      "id": 13487278,
+      "node_id": "MDQ6VXNlcjEzNDg3Mjc4",
+      "avatar_url": "https://avatars.githubusercontent.com/u/13487278?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jeremystretch",
+      "html_url": "https://github.com/jeremystretch",
+      "followers_url": "https://api.github.com/users/jeremystretch/followers",
+      "following_url": "https://api.github.com/users/jeremystretch/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jeremystretch/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jeremystretch/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jeremystretch/subscriptions",
+      "organizations_url": "https://api.github.com/users/jeremystretch/orgs",
+      "repos_url": "https://api.github.com/users/jeremystretch/repos",
+      "events_url": "https://api.github.com/users/jeremystretch/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jeremystretch/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "committer": {
+      "login": "jeremystretch",
+      "id": 13487278,
+      "node_id": "MDQ6VXNlcjEzNDg3Mjc4",
+      "avatar_url": "https://avatars.githubusercontent.com/u/13487278?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jeremystretch",
+      "html_url": "https://github.com/jeremystretch",
+      "followers_url": "https://api.github.com/users/jeremystretch/followers",
+      "following_url": "https://api.github.com/users/jeremystretch/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jeremystretch/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jeremystretch/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jeremystretch/subscriptions",
+      "organizations_url": "https://api.github.com/users/jeremystretch/orgs",
+      "repos_url": "https://api.github.com/users/jeremystretch/repos",
+      "events_url": "https://api.github.com/users/jeremystretch/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jeremystretch/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "parents": [
+      {
+        "sha": "f2347f6d9ca6f07a680b2acb83d2e5b55201295a",
+        "url": "https://api.github.com/repos/netboxlabs/netbox-branching/commits/f2347f6d9ca6f07a680b2acb83d2e5b55201295a",
+        "html_url": "https://github.com/netboxlabs/netbox-branching/commit/f2347f6d9ca6f07a680b2acb83d2e5b55201295a"
+      }
+    ]
+  }
+]

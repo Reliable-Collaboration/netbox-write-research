@@ -1,0 +1,40 @@
+{
+  "verified_at_utc": "2026-09-28T13:44:18.613210+00:00",
+  "markdown_local_links": "passed",
+  "json_parsing": "passed",
+  "generated_credentials_absent_from_artifacts": "passed",
+  "export_checksums": "passed",
+  "code_sha256": {
+    "lab/agent_eval.py": "04d802aef0afc7803621b137b7bdf0ba64bf25beb9d9bd22a1bc7cebe977d2e4",
+    "lab/api.py": "2831c8f2bbedbf0419af2eb98bf9e4872b63380a7407934263d100a64359d6fb",
+    "lab/build_candidates.py": "a68b1644a63f23e7b35b47d60f11672aa1a7c2dd648abdbb1e1aab2300e82435",
+    "lab/capture.py": "ab0fb386002ddfd7cb66bdec67563e3e47d6db2f93ee007413097edd62fafcee",
+    "lab/compare.py": "e5176ac1183f134ecd7e96594ff1100029d751876d24afd8ce2b382b782e3520",
+    "lab/identities.py": "d33da3f44634c62e98df7c4b5a3bdc9e7852a4a566551d6aa798655f3ef2005f",
+    "lab/journal_cli.py": "8f7ec2639f60a49d4ca4688a898ea35d8910c3c7a8f10f379bd837c3a1a63176",
+    "lab/lab.py": "819ff1316862afca80ca202115e46c821b0620d092420aa70467bc3b5f717681",
+    "lab/license_inventory.py": "921833fda31ae5d3c636324d218f8bc0b27807cdca54bbe0d086716cb46e681f",
+    "lab/mcp_client.py": "e77e1a100ca2c2059f4bce02b5da49ca5cc4069624101de71b1e1fe22085cd96",
+    "lab/model.py": "a5479c544b642faac617a81874a195d7052db86690a4f58a77c57f18b7a891aa",
+    "lab/recovery.py": "55f028429e1a5375f6371a8d6ebeea93d71fe5f9f85263a6d0095c2784efabd6",
+    "lab/recovery_mcp.py": "c5998d948de81e7b424797bd9444ee758279f01812ce64186cb375cf1d5d5a60",
+    "lab/sdk_bridge.py": "f08b3145c77e7fe85afcce259297f00643f44a51a4f4d04d34a12cd2859cd685",
+    "lab/seed.py": "950e3d1913b7e7ee0ba2eb860dc90f1a3eb5640044a6327b327b8ffe5ace075e",
+    "lab/test_archive.py": "8d3cade5a9e4023a7566db03b3c00f9ca20c8c9e7a75f582ab1daa53da3d447f",
+    "lab/test_baseline.py": "bfbec295a8b883beb45b95ce7f77315db3d220ed57f969b8d10aa4a1e624006b",
+    "lab/test_nbox.py": "9c38a63a29e822033845ca84209bd231dc9c9805f0dcc9697191fdec0a6c0e26",
+    "lab/test_recovery.py": "333c5be62f781c326c31a65d0c7f028cc3d33fb15a22fe3928c345f10d1c41b8",
+    "lab/test_sdk_recovery.py": "c9d13e9f998d8dcb5aef6c4c07171ab75347a1e4c7942d1aebd0b1b1217c61d1",
+    "lab/upgrade.py": "6c2c3e3eea20d2d8568a063e1867ca7a4bdb151fa6173e98de5b43ca692e7b58"
+  },
+  "final_runs": {
+    "baseline": "baseline-20260928T082817",
+    "recovery": "recovery-20260928T083739",
+    "candidates": "candidates-20260928T083633",
+    "sdk_recovery": "sdk-recovery-20260928T083640",
+    "archive": "archive-20260928T083855",
+    "nbox": "nbox-20260928T084003",
+    "upgrade": "upgrade-20260928T082913",
+    "agents": "agents-20260928T083816"
+  }
+}
