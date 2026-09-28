@@ -79,3 +79,27 @@ Build journal
 - Agent-facing server performs NetBox REST writes directly; no writable upstream MCP server is required.
 - User approved optimistic concurrency with a warning to a person for intervening changes. Implemented that contract with durable preimages, conditional writes, field-aware conflicts, idempotent corrections, and resumable task compensation.
 - Final acceptance: 30/30 live contract tests passed. See the spike's RESULTS.md and JOURNAL.md for details and limits.
+
+## Deletion recovery: deeper source and live investigation (2026-09-28)
+
+The user asked us to begin with accidental human deletion and investigate core
+NetBox and prior tools before choosing a restoration contract or building a plugin.
+Inspected pinned NetBox 4.7.1 source, Wikimedia Revert, netbox-history,
+django-reversion, and restricted Branching as comparative prior art only.
+
+Key correction: stock REST POST assigns a new ID, but NetBox core already exposes
+an internal deserialize_object(model, data, pk=...) helper. Original-ID restoration
+is feasible inside NetBox; we should not require the user to accept ID remapping
+before examining this route. It is not exposed as a stock recovery REST endpoint.
+
+Built a rollback-only 4.7.1 probe using real NetBox views, serializers, signals and
+PostgreSQL. Eight initial assertions passed; expanded to 14, all passed. Demonstrated
+same-ID restoration, tags, new audit events, interface/IP cascade plus surviving
+device update, cable child restoration, hierarchy triggers, and custom-field values.
+Also reproduced hazards: a bare deserializer can overwrite an occupied ID, missing
+tags can be silently discarded, and restoring a cable parent alone is incomplete.
+The ordinary API history representation omits some raw snapshot data (created was
+observed); graph recovery cannot assume API JSON is a complete database backup.
+
+Tests remain research experiments: every transaction rolls back, permissions and
+concurrent recovery were not qualified. No production recovery endpoint was added.

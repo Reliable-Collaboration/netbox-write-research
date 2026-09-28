@@ -1,0 +1,74 @@
+{
+  "errors": 0,
+  "failures": 0,
+  "observations": [
+    {
+      "case": "REST explicit id",
+      "new_id": 26,
+      "original_id": 25
+    },
+    {
+      "case": "raw versus API history",
+      "omitted_keys": [
+        "created"
+      ]
+    },
+    {
+      "case": "server-side restore",
+      "new_audit_record": true,
+      "same_id": true,
+      "tags": true
+    },
+    {
+      "case": "bare deserializer collision",
+      "overwrites_existing_row": true
+    },
+    {
+      "bare_helper_silently_omits": true,
+      "case": "missing historical tag",
+      "prototype_blocks": true
+    },
+    {
+      "case": "interface cascade",
+      "request_changes": [
+        {
+          "action": "delete",
+          "model": "ipaddress"
+        },
+        {
+          "action": "update",
+          "model": "device"
+        },
+        {
+          "action": "delete",
+          "model": "interface"
+        }
+      ],
+      "restored_ids": true,
+      "surviving_device_requires_separate_correction": true
+    },
+    {
+      "case": "device template side effects",
+      "fresh_api_create_generates_components": true,
+      "same_id_restore_generates_components": false
+    },
+    {
+      "case": "cable restore",
+      "parent_only_is_incomplete": true,
+      "separate_child_restore_reconnects_interfaces": true,
+      "termination_records_available": 2
+    },
+    {
+      "case": "hierarchical region",
+      "original_id_and_path_restored": true
+    },
+    {
+      "case": "custom field JSON",
+      "false_zero_empty_null_preserved": true
+    }
+  ],
+  "tests": 14,
+  "date": "2026-09-28",
+  "target": "NetBox 4.7.1 / netbox-docker 5.1.1",
+  "method": "Django test client, real NetBox serializers/middleware/signals and PostgreSQL; each test transaction rolled back; no concurrency or power-loss qualification"
+}

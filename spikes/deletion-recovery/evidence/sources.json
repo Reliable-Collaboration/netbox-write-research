@@ -1,0 +1,32 @@
+[
+  {
+    "repo": "https://github.com/netbox-community/netbox",
+    "commit": "abccf4e03650fecd366e676b392729320258c49e",
+    "license": "Apache-2.0",
+    "use": "Source inspection"
+  },
+  {
+    "repo": "https://github.com/wikimedia/operations-software-netbox-extras",
+    "commit": "3887a7014907cd10325e14ae697efc721e9f3e96",
+    "license": "Apache-2.0",
+    "use": "Source inspection"
+  },
+  {
+    "repo": "https://github.com/netboxlabs/netbox-branching",
+    "commit": "7f68f81b7670f3a357ff5b6373059cc4fe9eb36c",
+    "license": "NetBox Limited Use License 1.0; excluded",
+    "use": "Source inspection only; no restricted code copied or installed"
+  },
+  {
+    "repo": "https://github.com/averyhabbott/netbox-history",
+    "commit": "41a54cbd046f10b3061f0d23dc71b8c8f049c9af",
+    "license": "GPL-3.0-or-later",
+    "use": "Source inspection"
+  },
+  {
+    "repo": "https://github.com/etianen/django-reversion",
+    "commit": "cc6d5b96c683a4a637321e00db8649728ce26e3c",
+    "license": "BSD-3-Clause",
+    "use": "Source inspection"
+  }
+]
